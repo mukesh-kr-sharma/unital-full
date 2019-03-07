@@ -1,0 +1,24 @@
+{
+  "name": "unital",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "gulp"
+  },
+  "author": "Mukesh",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^4.2.1",
+    "font-awesome": "^4.7.0",
+    "gulp-scss": "^1.4.0",
+    "jquery": "^3.3.1",
+    "jquery.marquee": "^1.5.0",
+    "popper.js": "^1.14.6"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.26.3",
+    "gulp": "^3.9.1",
+    "gulp-sass": "^4.0.2"
+  }
+}

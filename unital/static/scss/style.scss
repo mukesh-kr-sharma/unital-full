@@ -1,0 +1,121 @@
+@import '../../../node_modules/bootstrap/scss/bootstrap.scss';
+$primary-color: #008ed6;
+$color-2: rgb(58, 74, 178);
+$color-3:#343a40;
+$color-4: #dadada;
+$home-height: 768px;
+body {
+    min-width: 496px;
+}
+.separator-5 {
+    height: 50px;
+}
+.display-5 {
+    font-size: 2.5rem;
+    font-weight: 300;
+    line-height: 1.2;
+}
+#navbar {
+    border-bottom: $primary-color 5px solid;
+    background-color: black;
+    opacity: 0.9;
+}
+.font-quicksand {
+    font-family: 'Quicksand', sans-serif;
+}
+#header {
+    background-image: url("../img/homepage.jpeg");
+    min-height: $home-height;
+    background-size: cover;
+    background-attachment: fixed;
+    #dark-overlay {
+        background-color: rgba(0, 0, 0, 0.7);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        min-height: $home-height;
+    }
+    .container{
+        margin-top: 150px;
+        padding-bottom: 20px;
+    }
+}
+#colleges {
+    * {
+        border-radius: 0;
+    }
+    #accordion {
+        @extend .border-bottom;
+        .card {
+            &:nth-of-type(even) {
+                border-right: $color-4 2px solid;
+                border-left: $color-4 2px solid;
+                .card-header {
+                    background-color: $color-4;
+                    .btn-link {
+                        color: $color-3;
+                    }
+                }
+                .card-body {
+                    background-color: #fff;
+                }
+                // REORDER
+                .col-lg-8 {
+                    @extend .order-lg-2;
+                }
+                .col-lg-4 {
+                    @extend .order-lg-1;
+                }
+            }
+            &:nth-of-type(odd) {
+                .card-header {
+                    background-color: $color-3;
+                    .btn-link {
+                        color: #fff;
+                    }
+                }
+                .card-body {
+                    background-color: #f8f9fa;
+                }
+            }    
+        }
+    }
+}
+#notice-board {
+    margin: 0;
+    background-color: #e8e8df;
+    ul {
+        min-height: 400px;
+        max-height: 500px;
+        overflow: hidden;
+        padding: 40px;
+        border: 5px $color-3 solid;
+        border-radius: 10px;
+        background-color: #01a25c;
+        color: #fff;
+        li {
+            @extend .lead;
+            @extend .text-center;
+            @extend .py-2;
+        }
+    }
+}
+
+
+#clg-body {
+    background-color: #f2f2f2;
+}
+
+#clg-navbar {
+    border-top: $color-2 5px solid;
+}
+
+#clg-notice-board {
+    margin: 0;
+    ul {
+        min-height: 200px;
+        max-height: 400px;
+        overflow: hidden;
+    }
+}
