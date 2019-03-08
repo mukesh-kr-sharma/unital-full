@@ -117,7 +117,8 @@
             <div class="separator-5"></div>
             <ul class="list-unstyled marquee">
                 {% for notice in notice_list %}
-                <li>{{ notice.title }}</li>
+                <li class="shadow-sm rounded py-0" style="cursor: pointer;">{{ notice.title }}</li>
+                <hr class="bg-light my-1">
                 {% endfor %}
             </ul>
             <div class="separator-5"></div>
