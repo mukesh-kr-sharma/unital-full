@@ -12,3 +12,6 @@ class HomePageView(TemplateView):
         context['notice_list'] = Notice.objects.order_by('-pub_date', '-id')[0:10]
         context['college_list'] = CollegeList.objects.all()
         return context
+
+class AdminDashboardView(TemplateView):
+    template_name = 'unital/admin_dashboard.html'
