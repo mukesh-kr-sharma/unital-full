@@ -6,6 +6,10 @@ Admin Dashboard
     <div class="container">
         {% if user.is_authenticated %}
             <h2>Hello {{ user.username }}</h2>
+            {{ user.first_name }}
+            {{ user.last_name }}
+            {{ user.email }}
+            {{ user.is_faculty}}
         {% endif %}
 
         <a href="{% url 'admin_logout'%}" class="btn btn-secondary">Logout</a>
