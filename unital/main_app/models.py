@@ -1,42 +1,75 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils import timezone
-from django.conf import settings
 
-# from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-# from .forms import UserCreationForm
-
-
-# class UserAdmin(BaseUserAdmin):
-#     add_form = UserCreationForm
-#     add_fieldsets = (
-#         (None, {
-#             'classes': ('wide',),
-#             'fields': ('email', 'first_name', 'last_name', 'is_bot_flag', 'password1', 'password2')}
-#          ),
-#     )
+class Choices():
+    GENDER_CHOICES = (
+        ('M', 'Male'),
+        ('F', 'Female'),
+    )
+    DEPARTMENT_CHOICES = (
+        ('CAPP', 'Computer Application'),
+        ('IT', 'Information Technology')
+    )
+    PROGRAMME_CHOICES = (
+        ('UG', 'Undergraduate'),
+        ('PG', 'Postgraduate')
+    )
 
 class User(AbstractUser):
     is_admin = models.BooleanField(default=False)
     is_faculty = models.BooleanField(default=False)
     is_student = models.BooleanField(default=False)
-    # https://ruddra.com/posts/django-custom-user-migration-mid-phase-project/
+    gender = models.CharField(max_length=1, choices=Choices.GENDER_CHOICES, null=True)
+    phone_no = models.CharField(max_length=10, null=True)
+    address = models.TextField(null=True)
+    dob = models.DateField(null=True)
 
-# Create your models here.
-class Admin(models.Model):
-    def imgUploadPath(self):
-        return 'profile_pics/'+str(self.user.id)
-
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    access_to = models.CharField(max_length=150, default="None")
+class Admin(models.Model, Choices):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     profile_pic = models.ImageField(upload_to='admin/profile_pics/')
+    user.is_admin = True
+    def __str__(self):
+        return self.user.username
+
+
+class College(models.Model):
+    clg_name = models.CharField(max_length=100)
+    clg_u_name = models.CharField(max_length=100, unique=True)
+    desc = models.TextField()
+    clg_pic = models.ImageField(
+        upload_to='college_list/home_pics/', default='college_list/home_pics/default.jpeg')
+
+    def __str__(self):
+        return self.clg_u_name
+
+class Department(models.Model, Choices):
+    name = models.CharField(max_length=50, choices=Choices.DEPARTMENT_CHOICES, default='CAPP')
+
+class Faculty(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='faculty')
+    user.is_faculty = True
+    college = models.ForeignKey(College, on_delete=models.CASCADE, related_name='faculty')
+    profile_pic = models.ImageField(upload_to='faculty/profile_pics/')
+    dept = models.ForeignKey(Department, on_delete=models.CASCADE, related_name="faculty")
 
     def __str__(self):
         return self.user.username
 
+class Exam(models.Model):
+    organisor = models.ForeignKey(Faculty, on_delete=models.CASCADE, related_name='exam')
+    instructions = models.TextField()
+
+
+class Student(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    exam = models.ForeignKey(Exam, on_delete=models.CASCADE, related_name='student')
+    user.is_student = True
+    dept = models.ForeignKey(Department, on_delete=models.CASCADE, related_name="student")
     
 class Notice(models.Model):
-    def thirty_day_hence():
+    def thirty_day_hence(self):
+        """Hii"""
         return timezone.now() + timezone.timedelta(days=30)
 
     title = models.CharField(max_length=400)
@@ -48,11 +81,5 @@ class Notice(models.Model):
     def __str__(self):
         return str(self.id) + '. ' + self.pub_date.strftime("%d-%b-%Y")
     
-class CollegeList(models.Model):
-    clg_name = models.CharField(max_length=100)
-    clg_u_name = models.CharField(max_length=100, unique=True)
-    desc = models.TextField()
-    clg_pic = models.ImageField(upload_to='college_list/home_pics/', default='college_list/home_pics/default.jpeg')
 
-    def __str__(self):
-        return self.clg_u_name
+

@@ -4,5 +4,6 @@ from .models import *
 
 admin.site.register(User)
 admin.site.register(Admin)
+admin.site.register(Faculty)
 admin.site.register(Notice)
 admin.site.register(CollegeList)
