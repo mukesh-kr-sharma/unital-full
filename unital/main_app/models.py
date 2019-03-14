@@ -1,7 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils import timezone
-
+# python manage.py migrate --run-syncdb
 class Choices():
     GENDER_CHOICES = (
         ('M', 'Male'),
@@ -20,6 +20,7 @@ class User(AbstractUser):
     is_admin = models.BooleanField(default=False)
     is_faculty = models.BooleanField(default=False)
     is_student = models.BooleanField(default=False)
+    is_guest = models.BooleanField(default=False)
     gender = models.CharField(max_length=1, choices=Choices.GENDER_CHOICES, null=True)
     phone_no = models.CharField(max_length=10, null=True)
     address = models.TextField(null=True)
@@ -68,7 +69,7 @@ class Student(models.Model):
     dept = models.ForeignKey(Department, on_delete=models.CASCADE, related_name="student")
     
 class Notice(models.Model):
-    def thirty_day_hence(self):
+    def thirty_day_hence():
         """Hii"""
         return timezone.now() + timezone.timedelta(days=30)
 

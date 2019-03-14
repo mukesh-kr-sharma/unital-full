@@ -107,7 +107,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 
@@ -131,4 +131,4 @@ STATICFILES_DIRS = (
 
 AUTH_USER_MODEL = 'main_app.User'
 
-LOGIN_REDIRECT_URL = 'afterLoginRedirect'
+LOGIN_REDIRECT_URL = 'redirect'
