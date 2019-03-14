@@ -6,6 +6,7 @@ class Choices():
     GENDER_CHOICES = (
         ('M', 'Male'),
         ('F', 'Female'),
+        ('O', 'Others')
     )
     DEPARTMENT_CHOICES = (
         ('CAPP', 'Computer Application'),
@@ -17,14 +18,12 @@ class Choices():
     )
 
 class User(AbstractUser):
-    is_admin = models.BooleanField(default=False)
-    is_faculty = models.BooleanField(default=False)
-    is_student = models.BooleanField(default=False)
-    is_guest = models.BooleanField(default=False)
-    gender = models.CharField(max_length=1, choices=Choices.GENDER_CHOICES, null=True)
-    phone_no = models.CharField(max_length=10, null=True)
-    address = models.TextField(null=True)
-    dob = models.DateField(null=True)
+    USER_TYPE = (('student','Student'), ('faculty','Faculty'), ('admin','Admin'), ('guest','Guest'), ('none','Not Known'))
+    user_type = models.CharField(max_length=30, choices=USER_TYPE, default='none')
+    gender = models.CharField(max_length=1, choices=Choices.GENDER_CHOICES, null=True, default='O')
+    phone_no = models.CharField(max_length=10, null=True, default='00000')
+    address = models.TextField(null=True, default='Fill it')
+    dob = models.DateField(null=True, default=timezone.now)
 
 class Admin(models.Model, Choices):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

@@ -8,7 +8,7 @@ from .models import Notice, College
 
 def redirect_view(request):
     if request.user.is_authenticated:
-        if request.user.is_admin:
+        if request.user.user_type=='admin':
             return redirect('admin_dashboard')
         else:
             return redirect('unital_homepage')
@@ -18,15 +18,11 @@ def redirect_view(request):
 def user_login(request):
     username = request.POST.get('username')
     password = request.POST.get('password')
-    is_admin = request.POST.get('is_admin')
-    is_faculty = request.POST.get('is_faculty')
-    is_student = request.POST.get('is_student')
-    is_guest = request.POST.get('is_guest')
+    user_type = request.POST.get('user_type')
     college = request.POST.get('college')
-    if is_admin:
-        user = authenticate(request, username=username, password=password, is_admin=True)
-    else:
-        user = authenticate(request, username=username, password=password, is_faculty=is_faculty, is_student=is_student, is_guest=is_guest)
+    
+    user = authenticate(request, username=username, password=password, user_type=user_type)
+
     if user is not None:
         login(request, user)
         return redirect('redirect')
@@ -38,7 +34,7 @@ def user_login(request):
         return render(request, template_name='unital/unital-homepage.html', context=context)
 
 def user_logout(request):
-    print(request.username)
+    # print(request.user.username)
     logout(request)
     return redirect('redirect')
 

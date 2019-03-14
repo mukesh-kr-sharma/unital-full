@@ -139,6 +139,7 @@
         </div>
     </section>
 
+    {% if not user.is_authenticated %}
     <section id="guest-login" class="bg-info text-center text-light py-3">
         <h1 class="display-4">Guest Login</h1>
         <p class="lead">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Fugiat repellat quos asperiores exercitationem sed!</p>
@@ -169,7 +170,7 @@
                                 <label class="float-left" for="guest-password">Password</label>
                                 <input type="password" class="form-control" name="password" id="guest-password" placeholder="Password">
                             </div>
-                            <input type="hidden" name="is_guest" value=True>
+                            <input type="hidden" name="user_type" value='guest'>
                             
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                             <button type="submit" class="btn btn-primary px-5">Login</button>
@@ -189,6 +190,7 @@
             </div>
         </div>
     </section>
+    {% endif %}
 
     <footer id="main-footer" class="bg-dark">
         <div class="container">
