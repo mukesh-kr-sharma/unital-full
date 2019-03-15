@@ -36,7 +36,8 @@ class Admin(models.Model, Choices):
 class College(models.Model):
     clg_name = models.CharField(max_length=100)
     clg_u_name = models.CharField(max_length=100, unique=True)
-    desc = models.TextField()
+    desc = models.TextField() # Description
+    logo = models.ImageField(upload_to='college/%s/logo/' % clg_u_name, default='college/logo_default.png')
     clg_pic = models.ImageField(
         upload_to='college_list/home_pics/', default='college_list/home_pics/default.jpeg')
 
@@ -69,7 +70,7 @@ class Student(models.Model):
     
 class Notice(models.Model):
     def thirty_day_hence():
-        """Hii"""
+        """ Hii """
         return timezone.now() + timezone.timedelta(days=30)
 
     title = models.CharField(max_length=400)

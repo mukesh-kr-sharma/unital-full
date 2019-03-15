@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
 from .models import Notice, College
+from django.urls import reverse_lazy
 
 # Create your views here.
 
@@ -13,7 +14,6 @@ def redirect_view(request):
         else:
             return redirect('unital_homepage')
     return redirect('unital_homepage')
-
 
 def user_login(request):
     username = request.POST.get('username')
@@ -36,11 +36,11 @@ def user_login(request):
 def user_logout(request):
     # print(request.user.username)
     logout(request)
-    return redirect('redirect')
+    # return redirect('redirect')
+    return redirect(reverse_lazy('redirect'))
 
 class HomePageView(TemplateView):
     template_name = 'unital/unital-homepage.html'
-
     def get_context_data(self, **kwargs):
         context = super(HomePageView, self).get_context_data(**kwargs)
         context['notice_list'] = Notice.objects.order_by('-pub_date', '-id')[0:10]

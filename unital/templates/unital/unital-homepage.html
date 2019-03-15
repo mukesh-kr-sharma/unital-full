@@ -83,7 +83,7 @@
     <!-- COLLEGES BODY -->
     <section id="colleges" class="my-5 pb-5 bg-faded">
         <div class="container">
-            <h1 class="text-primary mb-4">These are the colleges -</h1>
+            <h1 class="text-primary mb-4 font-weight-light">These are the colleges -</h1>
             <div id="accordion">
 
                 {% for college in college_list %}
@@ -108,7 +108,7 @@
                                         {{ college.desc }}
                                     </p>
 
-                                    <a class="btn btn-primary btn-block mt-auto text-light" href="{{ college.clg_u_name }}">Visit College Website</a>
+                                    <a class="btn btn-primary btn-block mt-auto text-light" href="college/{{ college.clg_u_name }}">Visit College Website</a>
                                 </div>
                             </div>
                         </div>
@@ -140,6 +140,7 @@
     </section>
 
     {% if not user.is_authenticated %}
+    <!-- GUEST LOGIN -->
     <section id="guest-login" class="bg-info text-center text-light py-3">
         <h1 class="display-4">Guest Login</h1>
         <p class="lead">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Fugiat repellat quos asperiores exercitationem sed!</p>
@@ -171,17 +172,17 @@
                                 <input type="password" class="form-control" name="password" id="guest-password" placeholder="Password">
                             </div>
                             <input type="hidden" name="user_type" value='guest'>
+                            <button type="submit" class="btn btn-primary btn-block btn-lg mt-2">Login</button>
+                            {% comment %} <div class="clearfix">
+                                <button type="button" class="btn btn-secondary float-left" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary w-50 float-right">Login</button>
+                            </div> {% endcomment %}
                             
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary px-5">Login</button>
                         </div>
                         <div class="modal-footer bg-light">
-                            
-
-                            <div class="dropdown-menu">
-                            <h6 class="dropdown-header">Dropdown header</h6>
-                            <a class="dropdown-item" href="#">Action</a>
-                            <a class="dropdown-item" href="#">Another action</a>
+                            <div class="list-group d-block w-100">
+                                <a href="#" class="list-group-item list-group-item-action bg-light">Forgot password? Reset here...</a>
+                                <a href="#" class="list-group-item list-group-item-action bg-info text-light">New User? Register here...</a>
                             </div>
                         </div>
                         
