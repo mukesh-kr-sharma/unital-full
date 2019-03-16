@@ -1,6 +1,6 @@
 [
     {
-        "model": "main_app.collegelist",
+        "model": "main_app.college",
         "pk": 1,
         "fields": {
             "clg_name": "Liberty Technical College",
@@ -10,7 +10,7 @@
         }
     },
     {
-        "model": "main_app.collegelist",
+        "model": "main_app.college",
         "pk": 2,
         "fields": {
             "clg_name": "River Valley College",
@@ -20,7 +20,7 @@
         }
     },
     {
-        "model": "main_app.collegelist",
+        "model": "main_app.college",
         "pk": 3,
         "fields": {
             "clg_name": "Lakeside School of Fine Arts",
@@ -30,7 +30,7 @@
         }
     },
     {
-        "model": "main_app.collegelist",
+        "model": "main_app.college",
         "pk": 4,
         "fields": {
             "clg_name": "Paradise Institute",
@@ -40,7 +40,7 @@
         }
     },
     {
-        "model": "main_app.collegelist",
+        "model": "main_app.college",
         "pk": 5,
         "fields": {
             "clg_name": "Meadows Ridge Kindergarten",
