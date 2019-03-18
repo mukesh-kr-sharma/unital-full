@@ -1,16 +1,9 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Admin Login</title>
-    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
-    <link href="https://fonts.googleapis.com/css?family=Quicksand:700" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-</head>
+{% block title %}
+Admin Login
+{% endblock title %}
+{% block body %}
 <body>
     <div class="container">
         <h1>Admin Login</h1>
@@ -30,4 +23,4 @@
         </form>
     </div>
 </body>
-</html>
+{% endblock body %}

@@ -1,8 +1,9 @@
-{% extends 'unital/base.html' %}
+{% extends 'base.html' %}
 {% block title %}
 Admin Dashboard
 {% endblock title %}
 {% block body %}
+<body>
     <div class="container">
         {% if user.is_authenticated %}
             <h2>Hello {{ user.username }}</h2>
@@ -16,4 +17,6 @@ Admin Dashboard
 
         <a href="{% url 'admin_logout'%}" class="btn btn-secondary">Logout</a>
     </div>
+</body>
+    
 {% endblock body %}
