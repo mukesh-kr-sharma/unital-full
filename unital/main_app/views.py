@@ -11,6 +11,8 @@ def redirect_view(request):
     if request.user.is_authenticated:
         if request.user.user_type=='admin':
             return redirect('admin_dashboard')
+        elif request.user.user_type=='student':
+            return redirect('student:homepage')
         else:
             return redirect('unital_homepage')
     return redirect('unital_homepage')
@@ -21,9 +23,9 @@ def user_login(request):
     user_type = request.POST.get('user_type')
     college = request.POST.get('college')
     
-    user = authenticate(request, username=username, password=password, user_type=user_type)
+    user = authenticate(request, username=username, password=password)
 
-    if user is not None:
+    if (user is not None) and (user.user_type == user_type):
         login(request, user)
         return redirect('redirect')
     else:

@@ -7093,13 +7093,16 @@ body {
 
 #clg-body {
   background-color: #f2f2f2; }
-
-#clg-navbar {
-  border-top: #3a4ab2 5px solid; }
-
-#clg-notice-board {
-  margin: 0; }
-  #clg-notice-board ul {
-    min-height: 200px;
-    max-height: 400px;
-    overflow: hidden; }
+  #clg-body header {
+    border-top: #3a4ab2 5px solid;
+    padding-top: 5px; }
+  #clg-body #clg-navbar {
+    border-top: #3a4ab2 5px solid; }
+  #clg-body #clg-notice-board {
+    margin: 0;
+    min-height: 300px !important;
+    max-height: 400px !important; }
+    #clg-body #clg-notice-board ul {
+      min-height: 300px !important;
+      max-height: 400px !important;
+      overflow: hidden; }

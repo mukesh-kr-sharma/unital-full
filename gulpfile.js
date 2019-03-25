@@ -7,7 +7,7 @@ gulp.task('sass', function () {
     return gulp.src(['node_modules/bootstrap/scss/bootstrap.scss', 'unital/static/scss/*.scss'])
         .pipe(sass())
         .pipe(gulp.dest("unital/static/css"))
-        .pipe(browserSync.stream());
+        // .pipe(browserSync.stream());
 });
 
 // Move JS Files to SRC

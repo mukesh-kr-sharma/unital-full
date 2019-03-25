@@ -105,17 +105,43 @@ body {
 
 #clg-body {
     background-color: #f2f2f2;
-}
 
-#clg-navbar {
-    border-top: $color-2 5px solid;
-}
-
-#clg-notice-board {
-    margin: 0;
-    ul {
-        min-height: 200px;
-        max-height: 400px;
-        overflow: hidden;
+    header {
+        border-top: $color-2 5px solid;
+        padding-top: 5px;
     }
+
+    #clg-navbar {
+        border-top: $color-2 5px solid;
+    }
+    #clg-notice-board {
+        margin: 0;
+        min-height: 300px !important;
+        max-height: 400px !important;
+
+        ul {
+            min-height: 300px !important;
+            max-height: 400px !important;
+            overflow: hidden;
+        }
+    }
+
+    // #contents {
+    //     background-image: url("../../static/img/homepage.jpeg");
+    //     min-height: 100%;
+    //     background-size: cover;
+    //     background-attachment: fixed;
+
+    //     #dark-overlay {
+    //         background-color: rgba(0, 0, 0, 0.7);
+    //         position: relative;
+    //         top: 0;
+    //         left: 0;
+    //         width: 100%;
+    //         min-height: 100%;
+    //     }
+    // }
+
+
 }
+

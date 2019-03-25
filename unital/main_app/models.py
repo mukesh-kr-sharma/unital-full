@@ -68,6 +68,7 @@ class Student(models.Model):
     user.is_student = True
     dept = models.ForeignKey(Department, on_delete=models.CASCADE, related_name="student")
     
+########### UNITAL NOTICE BOARD #############
 class Notice(models.Model):
     def thirty_day_hence():
         """ Hii """
@@ -81,18 +82,24 @@ class Notice(models.Model):
 
     def __str__(self):
         return str(self.id) + '. ' + self.pub_date.strftime("%d-%b-%Y")
-    
+
+######### COLLEGE PIC SLIDESHOW ################
 def college_pic_path(instance, filename):
-    # file will be uploaded to MEDIA_ROOT/user_<id>/<filename>
     return 'college/{0}/{1}'.format(str(instance.college.id) + '_' + instance.college.clg_u_name, filename)
 
 class CollegePictures(models.Model):
-
     college = models.ForeignKey(College, on_delete=models.CASCADE, related_name='pictures')    
     pic = models.ImageField(upload_to=college_pic_path)
-    # https://www.reddit.com/r/django/comments/2sfma8/quick_question_how_to_set_a_dynamic_upload_to/
     def __str__(self):
         return str(self.id) + ' ' + self.college.clg_u_name
+
+
+######### COLLEGE NOTICE BOARD #############
+class CollegeNotice(Notice):
+    college = models.ForeignKey(College, on_delete=models.CASCADE, related_name='notice')
+    def __str__(self):
+        return str(self.id) + '. ' + self.pub_date.strftime("%d-%b-%Y")
+    
     
     
 # about college, photu, principle message

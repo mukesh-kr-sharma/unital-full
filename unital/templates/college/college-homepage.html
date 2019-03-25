@@ -14,7 +14,7 @@
         </div>
     </header>
 
-    <section class="bg-dark mb-3 sticky-top" id="clg-navbar">
+    <section class="bg-dark sticky-top" id="clg-navbar">
         <div class="pos-f-t">
             
             <nav class="navbar navbar-dark bg-dark d-flex">
@@ -34,10 +34,11 @@
         </div>
     </section>
 
-    
+{% comment %}     
+<div id="contents">
+    <div id="dark-overlay" class="pt-3"> {% endcomment %}
 
-    <section id="photo-slide">
-        
+    <section id="photo-slide" class="mt-3">        
         <div id="carousel-1" class="carousel slide container mb-3" data-ride="carousel">
             <ol class="carousel-indicators">
                 {% for picture in college.pictures.all %}
@@ -125,7 +126,7 @@
                                     <div class="carousel-item text-dark active">
                                         <div class="d-block w-100" style="height: 300px;">
                                             <div class="mx-5 px-2 py-4">
-                                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non, deleniti incidunt, odit quidem in amet hic, numquam repellat facere illo magni quas excepturi doloribus soluta illum repellendus? Reprehenderit, totam officia aliquam, esse alias earum ullam ratione quas nisi ex dolore? Non dignissimos velit beatae tempore quas repellendus porro soluta exercitationem.
+                                                {% lorem 40 w random %}
                                             </div>
                                             <div class="text-center mt-5"><button class="btn btn-outline-primary w-50">Test</button></div>
                                             
@@ -157,11 +158,11 @@
                 <div class="col-lg-4 mb-3">
 
                     <div class="card " id="clg-notice-board">
-                        <h5 class="card-header">News & Events</h5>
+                        <h5 class="card-header bg-dark text-light">News & Events</h5>
                         <div class="card-body pb-2">
                             <ul class="list-unstyled marquee">
-                                {% for notice in college.notice %}
-                                <li class="shadow-sm rounded py-0" style="cursor: pointer;">{{ notice.title }}</li>
+                                {% for notice in college.notice.all|dictsort:"pub_date" %}
+                                <li class="shadow-sm rounded py-2 text-center" style="cursor: pointer;">{{ notice.title }}</li>
                                 <hr class="bg-light my-1">
                                 {% endfor %}
                             </ul>
@@ -172,10 +173,62 @@
         </div>
         
     </section>
+    {% comment %} </div>
+</div> {% endcomment %}
+
+    {% if not user.is_authenticated %}
+    <!-- STUDENT LOGIN -->
+    <section id="student-login" class="bg-info text-center text-light py-3">
+        <h1 class="display-4">Student Login</h1>
+        <p class="lead">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Fugiat repellat quos asperiores exercitationem sed!</p>
+
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-outline-primary btn-lg bg-white text-secondary py-2 px-4 my-2" data-toggle="modal" data-target="#studentLoginModal">
+            Student Login
+        </button>
+        
+        <!-- Modal -->
+        <div class="modal fade" id="studentLoginModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content text-dark">
+                    <div class="modal-header bg-info text-light">
+                        <h4 class="modal-title" id="studentLoginModalLabel">Student Login</h4>
+                        <button type="button" class="close text-light" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form method="POST" action="{% url 'login' %}">
+                        {% csrf_token %}
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label class="float-left" for="student-username">Username</label>
+                                <input type="text" class="form-control" name="username" id="student-username" placeholder="Enter username">
+                            </div>
+                            <div class="form-group">
+                                <label class="float-left" for="student-password">Password</label>
+                                <input type="password" class="form-control" name="password" id="student-password" placeholder="Password">
+                            </div>
+                            <input type="hidden" name="user_type" value='student'>
+                            <button type="submit" class="btn btn-primary btn-block btn-lg mt-2">Login</button>
+                        </div>
+                        <div class="modal-footer bg-light">
+                            <div class="list-group d-block w-100">
+                                <a href="#" class="list-group-item list-group-item-action bg-light">Forgot password? Reset here...</a>
+                                <a href="#" class="list-group-item list-group-item-action bg-info text-light">New User? Register here...</a>
+                            </div>
+                        </div>
+                        
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
 
     
 
-    <section class="bg-info text-light">
+    <section class="bg-dark text-light">
         <div class="container py-3">
             <div class="row">
                 <div class="col-md-8 mb-4">
@@ -201,7 +254,7 @@
         </div>
     </section>
 
-    <footer class="bg-dark text-light text-center pt-2 pb-1 m-0">
+    <footer class="bg-secondary text-light text-center pt-2 pb-1 m-0">
         <p class="font-weight-light font-italic h5">Developed By MKS</p>
     </footer>
 
