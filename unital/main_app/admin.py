@@ -3,11 +3,39 @@ from django.contrib.auth.admin import UserAdmin
 from .models import *
 # Register your models here.
 
+
+class UserAdmin(admin.ModelAdmin):
+    list_display = ('id', 'username', 'first_name', 'last_name', 'user_type', 'department')
+    list_filter = ('user_type', 'college', 'department')
+    fields = ('first_name', 
+              'last_name', 
+              'username', 
+              'password', 
+              'email',
+              'profile_pic', 
+              'user_type', 
+              'college',
+              'department',
+              'gender', 
+              'phone_no', 
+              'dob', 
+              'address' )
+    # exclude = ('user_permissions','groups','is_staff', 'is_active','last_login','date_joined',) 
+    list_display_links = ('id', 'username')
+    search_fields = ('username', 'first_name')
+    list_per_page = 25
+
+class ExamAdmin(admin.ModelAdmin):
+    pass
+    # def __init__(self, *args, **kwargs):
+    #     super(ExamAdmin, self).__init__(*args, **kwargs)
+    #     self.fields['organisor'].queryset = User.objects.filter(user_type='faculty')
+
+
 # admin.site.register(User, UserAdmin)
-admin.site.register(User)
-admin.site.register(Admin)
-admin.site.register(Faculty)
+admin.site.register(User, UserAdmin)
 admin.site.register(Notice)
 admin.site.register(College)
 admin.site.register(CollegePictures)
 admin.site.register(CollegeNotice)
+admin.site.register(Exam, ExamAdmin)

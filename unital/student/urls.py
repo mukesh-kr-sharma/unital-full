@@ -7,7 +7,7 @@ from django.conf.urls import url
 app_name = 'student'
 
 urlpatterns = [
-    path('', TemplateView.as_view(template_name='unital/unital_homepage.html'), name="homepage"),
+    path('', TemplateView.as_view(template_name='college/faculty/faculty-homepage.html'), name="homepage"),
     # path('redirect', redirect_view, name="redirect"),
     # path('admin-dashboard', AdminDashboardView.as_view(), name="admin_dashboard"),
     # path('login', user_login, name='login'),
