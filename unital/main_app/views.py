@@ -6,15 +6,20 @@ from .models import Notice, College
 from django.urls import reverse_lazy
 
 # Create your views here.
+# college = ''
 
 def redirect_view(request):
     if request.user.is_authenticated:
         if request.user.user_type=='admin':
             return redirect('admin_dashboard')
         elif request.user.user_type=='student':
-            return redirect('student:homepage',request.student.college.clg_u_name)
+            return redirect('student:homepage',request.user.college.clg_u_name)
         else:
             return redirect('unital_homepage')
+    # else:
+    #     print(kwargs)
+    #     if kwargs and kwargs['college']:
+    #         redirect(kwargs['college'])    
     return redirect('unital_homepage')
 
 def user_login(request):
@@ -36,9 +41,12 @@ def user_login(request):
         return render(request, template_name='unital/unital-homepage.html', context=context)
 
 def user_logout(request):
-    # print(request.user.username)
+    college = False
+    if hasattr(request.user, 'college') and hasattr(request.user.college, 'clg_u_name'):
+        college = request.user.college.clg_u_name
     logout(request)
-    # return redirect('redirect')
+    if college:
+        return redirect('/%s/' % college)
     return redirect(reverse_lazy('redirect'))
 
 class HomePageView(TemplateView):

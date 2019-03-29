@@ -5,8 +5,9 @@ from .models import *
 
 
 class UserAdmin(admin.ModelAdmin):
-    list_display = ('id', 'username', 'first_name', 'last_name', 'user_type', 'department')
+    list_display = ('id', 'username', 'first_name', 'last_name', 'user_type', 'department', 'email')
     list_filter = ('user_type', 'college', 'department')
+    
     fields = ('first_name', 
               'last_name', 
               'username', 
@@ -25,6 +26,11 @@ class UserAdmin(admin.ModelAdmin):
     search_fields = ('username', 'first_name')
     list_per_page = 25
 
+    def save_model(self, request, obj, form, change):
+        password = str(obj.password)
+        obj.set_password(password)
+        super().save_model(request, obj, form, change)
+
 class ExamAdmin(admin.ModelAdmin):
     pass
     # def __init__(self, *args, **kwargs):
@@ -32,7 +38,6 @@ class ExamAdmin(admin.ModelAdmin):
     #     self.fields['organisor'].queryset = User.objects.filter(user_type='faculty')
 
 
-# admin.site.register(User, UserAdmin)
 admin.site.register(User, UserAdmin)
 admin.site.register(Notice)
 admin.site.register(College)
