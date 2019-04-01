@@ -37,13 +37,13 @@
                 <!-- sidebar-header  -->
                 <div class="sidebar-item sidebar-header d-flex flex-nowrap">
                     <div class="user-pic">
-                        <img class="img-responsive img-rounded" src="img/user.jpg" alt="User picture">
+                        <img class="img-responsive img-rounded" src="../../../media/{{ user.profile_pic }}" alt="User picture">
                     </div>
                     <div class="user-info">
-                        <span class="user-name">Jhon
-                            <strong>Smith</strong>
+                        <span class="user-name"><strong>{{ user.first_name }}</strong>
+                            {{ user.last_name }}
                         </span>
-                        <span class="user-role">Administrator</span>
+                        <span class="user-role">{{ user.user_type|capfirst }}</span>
                         <span class="user-status">
                             <i class="fa fa-circle"></i>
                             <span>Online</span>
@@ -79,7 +79,7 @@
                             <a href="#">
                                 <i class="fa fa-book"></i>
                                 <span class="menu-text">Examinations</span>
-                                <span class="badge badge-pill badge-danger">3</span>
+                                <span class="badge badge-pill badge-danger rounded">3</span>
                             </a>
                             <div class="sidebar-submenu">
                                 <ul>
@@ -91,6 +91,22 @@
                                     </li>
                                     <li>
                                         <a href="#">Results</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li class="sidebar-dropdown">
+                            <a href="#">
+                                <i class="fa fa-book"></i>
+                                <span class="menu-text">Portfolio</span>
+                            </a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li>
+                                        <a href="{% url 'main_app:portfolio' user.college.clg_u_name user.username  %}">View Portfolio</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Edit Portfolio</a>
                                     </li>
                                 </ul>
                             </div>
