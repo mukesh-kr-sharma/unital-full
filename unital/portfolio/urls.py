@@ -4,10 +4,9 @@ from django.contrib import admin
 from .views import *
 from django.conf.urls import url
 
-# TEMPLATE TAGGING
-app_name = 'student'
+app_name = 'portfolio'
 
 urlpatterns = [
-    path('', TemplateView.as_view(template_name='college/student/student-homepage.html'), name="homepage"),
+    path('', TemplateView.as_view(template_name='portfolio/portfolio.html'), name="homepage"),
     
 ]

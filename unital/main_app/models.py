@@ -28,7 +28,7 @@ class College(models.Model):
     clg_pic = models.ImageField(_('College Picture'), upload_to='college_list/home_pics/', 
                                 default='defaults/college_home_pic.jpeg')
     def __str__(self):
-        return self.clg_u_name
+        return self.clg_name
     class Meta:
         verbose_name = 'College'
         verbose_name_plural = 'College'

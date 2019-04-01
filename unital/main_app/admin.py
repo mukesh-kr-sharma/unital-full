@@ -5,7 +5,11 @@ from .models import *
 
 
 class UserAdmin(admin.ModelAdmin):
-    list_display = ('id', 'username', 'first_name', 'last_name', 'user_type', 'department', 'email')
+
+    def name(obj):
+        return "%s %s" % (obj.first_name, obj.last_name)
+
+    list_display = ('id', 'username', name, 'user_type', 'department', 'college', 'email')
     list_filter = ('user_type', 'college', 'department')
     
     fields = ('first_name', 
