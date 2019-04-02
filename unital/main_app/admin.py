@@ -32,7 +32,8 @@ class UserAdmin(admin.ModelAdmin):
 
     def save_model(self, request, obj, form, change):
         password = str(obj.password)
-        obj.set_password(password)
+        if(len(password)<20):
+            obj.set_password(password)
         super().save_model(request, obj, form, change)
 
 class ExamAdmin(admin.ModelAdmin):

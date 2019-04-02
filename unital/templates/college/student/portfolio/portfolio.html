@@ -16,21 +16,22 @@
     <header id="main-header">
       <div class="row no-gutters">
         <div class="col-lg-4 col-md-5 col-sm-12">
-          <img src="img/person1.jpg" alt="">
+          <img src="../../../media/{{ student.profile_pic }}" alt="">
         </div>
         <div class="col-lg-8 col-md-7 col-sm-12">
           <div class="d-flex flex-column">
             <div class="p-5 bg-inverse text-white">
               <div class="name d-flex flex-row justify-content-between align-items-center">
-                <h1 class="display-4">John Doe</h1>
-                <div><i class="fa fa-twitter"></i></div>
-                <div><i class="fa fa-facebook"></i></div>
-                <div><i class="fa fa-instagram"></i></div>
-                <div><i class="fa fa-github"></i></div>
+                <h1 class="display-4">{{ student.get_full_name }}</h1>
+                <div><i class="fab fa-twitter"></i></div>
+                <div><i class="fab fa-facebook-f"></i></div>
+                <div><i class="fab fa-instagram"></i></div>
+                <div><i class="fab fa-github"></i></div>
               </div>
             </div>
 
-            <div class="p-4 bg-dark-1">Experienced Full Stack Web Developer</div>
+            {% comment %} <div class="p-4 bg-dark-1">Experienced Full Stack Web Developer</div> {% endcomment %}
+            <div class="p-4 bg-dark-1">{{ student.college.clg_name }}: {{ student.department }}</div>
 
             <div>
               <div class="d-flex flex-row text-white align-items-stretch text-center">
@@ -56,10 +57,35 @@
     <!-- HOME -->
     <div id="home" class="collapse show">
       <div class="card card-block bg-primary text-white p-5 border-top-0 border-bottom-0 rounded-0">
-        <h2>Welcome To My Page</h2>
-        <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis, laborum!</p>
+        <h2>Welcome To My Portfolio</h2>
+        {% comment %} <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis, laborum!</p> {% endcomment %}
       </div>
-
+      <div class="card card-block p-5 border-top-0 border-bottom-0 rounded-0">
+        <h3>About Me</h3>
+        <div class="d-table">
+          <div class="d-table-row">
+            <div class="d-table-cell"><strong>College</strong></div>
+            <div class="d-table-cell">{{ student.college.clg_name }}</div>
+          </div>
+          <div class="d-table-row">
+            <div class="d-table-cell"><strong>Department</strong></div>
+            <div class="d-table-cell">{{ student.department }}</div>
+          </div>
+          <div class="d-table-row">
+            <div class="d-table-cell"><strong>Class Roll No.</strong></div>
+            <div class="d-table-cell">717</div>
+          </div>
+          <div class="d-table-row">
+            <div class="d-table-cell"><strong>Exam Roll No.</strong></div>
+            <div class="d-table-cell">16VBCA031004</div>
+          </div>
+          <div class="d-table-row">
+            <div class="d-table-cell"><strong>Email ID</strong></div>
+            <div class="d-table-cell">{{ student.email }}</div>
+          </div>
+          
+        </div>
+      </div>
       <div class="card card-block p-5 border-top-0 border-bottom-0 rounded-0">
         <h3>My Skills</h3>
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ex rerum illo sequi maxime, repudiandae quo in quos, facere minus officia.</p>
@@ -94,57 +120,80 @@
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum, placeat.</p>
       </div>
       <div class="card card-block p-5 border-top-0 border-bottom-0 rounded-0">
-        <h3>Where Have I Worked?</h3>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat, inventore atque dolore blanditiis sit repudiandae!</p>
-        <div class="card-deck">
-          <div class="card">
-            <div class="card-block p-3">
-              <h4 class="card-title">Devmasters</h4>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Porro, eum?</p>
-              <p class="p-2 mb-3 bg-inverse text-white">
-                Position:Full Stack Developer
-              </p>
-              <p class="p-2 mb-3 bg-inverse text-white">
-                Phone: (555) 555-5555
-              </p>
+        <div id="printarea" class="d-print-block">
+          <div class="d-flex justify-content-between border p-3">
+            <div class="">
+              <h4><u>{{ student.get_full_name }}</u></h4>
+              <p class="mb-0">Near Ramgarh College,</p>
+              <p class="mb-0">Ramgarh Cantt</p>
+              <p class="mb-0">Jharkhand</p>
+              <p class="mb-0">Contact No.: {{ student.phone_no}}</p>
+              <p class="mb-0">Email ID: {{ student.email }}</p>
             </div>
-            <div class="card-footer">
-              <h6 class="text-muted">Dates: 2015 - 2017</h6>
+            <div class="">
+              <img class="float-right border" src="../../../media/{{ student.profile_pic }}" width=200px height=200px>
             </div>
+          </div> <!-- heading -->
+
+          <div class="border p-3 mt-3">
+            <h4 class="bg-light pt-1 pb-2 pl-2 rounded"><u>Career Objective</u></h4>
+            <p>To work with full strength in dynamic organisation which provides new challanges that helps me to enhance my working skills, strength and experience in the work oriented environment.</p>
           </div>
 
-          <div class="card">
-            <div class="card-block p-3">
-              <h4 class="card-title">Websites Pro</h4>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Porro, eum?</p>
-              <p class="p-2 mb-3 bg-inverse text-white">
-                Position:Front End Developer
-              </p>
-              <p class="p-2 mb-3 bg-inverse text-white">
-                Phone: (444) 444-4444
-              </p>
-            </div>
-            <div class="card-footer">
-              <h6 class="text-muted">Dates: 2013 - 2015</h6>
-            </div>
-          </div>
+          <div class="border p-3 mt-3">
+            <h4 class="bg-light pt-1 pb-2 pl-2 rounded"><u>Educational Qualification</u></h4>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Qualification</th>
+                  <th>College/Institute</th>
+                  <th>Board/University</th>
+                  <th>Percentage</th>
+                  <th>Passing Year</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>B.Sc. in Computer Application</td>
+                  <td>St. Xavier’s College, Ranchi, Jharkhand</td>
+                  <td>Ranchi University</td>
+                  <td>84% (till Semester IV)</td>
+                  <td>2019</td>
+                </tr>
+                <tr>
+                  <td>12th</td>
+                  <td>BRL DAV Public School, Bhandaridah</td>
+                  <td>CBSE</td>
+                  <td>82%</td>
+                  <td>2016</td>
+                </tr>
+                <tr>
+                  <td>10th</td>
+                  <td>BRL DAV Public School, Bhandaridah</td>
+                  <td>CBSE</td>
+                  <td>83%</td>
+                  <td>2014</td>
+                </tr>
+              </tbody>
+            </table>
+          </div> <!-- Educational Qualification -->
 
-          <div class="card">
-            <div class="card-block p-3">
-              <h4 class="card-title">123 Designs</h4>
-              <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Porro, eum?</p>
-              <p class="p-2 mb-3 bg-inverse text-white">
-                Position:Designer
-              </p>
-              <p class="p-2 mb-3 bg-inverse text-white">
-                Phone: (333) 333-3333
-              </p>
-            </div>
-            <div class="card-footer">
-              <h6 class="text-muted">Dates: 2010 - 2013</h6>
-            </div>
+          <div class="border p-3 mt-3">
+            <h4 class="bg-light pt-1 pb-2 pl-2 rounded"><u>Skill Set</u></h4>
+
+            <ul>
+              <li>Good Listener</li>
+              <li>Reasoning Ability</li>
+              <li>Good Communication Skills</li>
+              <li>Team Player</li>
+            </ul>
+          </div> <!-- skill set -->
+
+          <div class="border p-3 mt-3">
+            <h4 class="bg-light pt-1 pb-2 pl-2 rounded"><u>Academic Project</u></h4>
           </div>
-        </div>
+        </div> <!-- printarea -->
+        
       </div>
     </div>
 
@@ -249,7 +298,7 @@
     <footer id="main-footer" class="p-5 bg-inverse text-white">
       <div class="row">
         <div class="col-md-6">
-          <a href="#" class="btn btn-outline-secondary"><i class="fa fa-cloud"></i> Download My Resume</a>
+          <a href="javascript:printResume()" class="btn btn-outline-secondary"><i class="fa fa-cloud"></i> Print and Download My Resume</a>
         </div>
       </div>
     </footer>
@@ -258,16 +307,39 @@
     <script src="{% static 'js/jquery.min.js' %}"></script>
     <script src="{% static 'js/tether.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.2.0/ekko-lightbox.js"></script>
+    <script src="{% static 'js/printThis.js' %}"></script>
+    {% comment %} <script src="{% static 'js/html2canvas.js' %}"></script>
+    <script src="{% static 'js/jspdf.debug.js' %}"></script> {% endcomment %}
     <script>
         $('.port-item').click(function(){
-        $('.collapse').collapse('hide');
+          $('.collapse').collapse('hide');
         });
 
         $(document).on('click', '[data-toggle="lightbox"]', function(event) {
             event.preventDefault();
             $(this).ekkoLightbox();
         });
+
+        function printResume() {
+            $('#printarea').printThis();
+        }
+
+        /////////////////////////////////// DOWNLOAD PDF ///////////////////////////////////
+        {% comment %} $('#downloadButton').click(function () {
+            const filename  = 'ThisIsYourPDFFilename.pdf';
+
+            html2canvas(document.querySelector('#printarea')
+                    ).then(canvas => {
+                      let pdf = new jsPDF('p', 'mm', 'a4');
+                      pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, 211, 298);
+                      doc.output("datauri");
+                      // pdf.save(filename);
+                    });
+        });
+
+        html2canvas(document.querySelector("#printarea")).then(canvas => {
+            document.body.appendChild(canvas)
+        }); {% endcomment %}
   </script>
 </body>
 </html>

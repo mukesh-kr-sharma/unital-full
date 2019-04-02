@@ -5,7 +5,7 @@ from .views import *
 from . import college_view
 from django.conf.urls import url
 
-app_name = 'main_app'
+# app_name = 'main_app'
 
 urlpatterns = [
     path('', HomePageView.as_view(), name="unital_homepage"),
@@ -15,5 +15,4 @@ urlpatterns = [
     path('logout', user_logout, name='logout'),
     path('<slug:clg_u_name>/', college_view.CollegeHomepageView.as_view(), name='college-homepage'),
     path('<slug:clg_u_name>/<slug:username>', include('student.urls'), name="student"),
-    path('<slug:clg_u_name>/<slug:username>/portfolio', include('portfolio.urls'), name="portfolio" )
 ]

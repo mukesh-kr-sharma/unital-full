@@ -33,6 +33,9 @@ class College(models.Model):
         verbose_name = 'College'
         verbose_name_plural = 'College'
 
+def profile_pic_path(instance, filename):
+    return 'profile_pic/{0}/{1}/{2}/{3}'.format(str(instance.college.clg_u_name), str(instance.user_type), str(instance.username), filename)
+
 class User(AbstractUser, Choices):
     user_type = models.CharField(_('user type'), max_length=30, choices=Choices.USER_TYPE, blank=True, null=True)
     college = models.ForeignKey(College, on_delete=models.CASCADE, related_name='user', blank=True, null=True)
@@ -41,8 +44,14 @@ class User(AbstractUser, Choices):
     phone_no = models.CharField(max_length=10, null=True, blank=True)
     address = models.TextField(null=True, blank=True)
     dob = models.DateField(_('date of birth'), null=True, blank=True)
-    profile_pic = models.ImageField(_('Profile Picture'), upload_to='%s/profile_pics/' % user_type,
+
+    def upload_path(self, **kwargs):
+        return '%s/profile_pics/' % self.user_type
+    profile_pic = models.ImageField(_('Profile Picture'), upload_to=profile_pic_path,
                                                           default='defaults/profile_pic.gif')
+
+    def get_full_name(self):
+        return self.first_name + " " + self.last_name
     
     def __str__(self):
         return self.username
