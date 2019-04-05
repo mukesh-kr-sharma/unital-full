@@ -2,6 +2,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext as _
+import datetime
 
 ######### CHOICES ##################
 class Choices():
@@ -9,9 +10,13 @@ class Choices():
         ('M', 'Male'),
         ('F', 'Female'),
     )
+    GRADUATION_PROGRAMME = (
+        ('B.Sc.', 'B.Sc.'),
+        ('B.Com.', 'B.Com.')
+    )
     DEPARTMENT_CHOICES = (
-        ('CAPP', 'Computer Application'),
-        ('IT', 'Information Technology')
+        ('Computer Application', 'Computer Application'),
+        ('Information Technology', 'Information Technology'),
     )
     USER_TYPE = (
         ('student','Student'),
@@ -19,6 +24,9 @@ class Choices():
         ('admin','Admin'), 
         ('guest','Guest'), 
     )
+    YEAR_CHOICES = []
+    for r in range(1980, (datetime.datetime.now().year+1)):
+        YEAR_CHOICES.append((r,r))
 
 class College(models.Model):
     clg_name = models.CharField(_('Name'), max_length=100)
@@ -30,16 +38,21 @@ class College(models.Model):
     def __str__(self):
         return self.clg_name
     class Meta:
-        verbose_name = 'College'
-        verbose_name_plural = 'College'
+        # verbose_name = 'College'
+        verbose_name_plural = '1. Colleges'
 
 def profile_pic_path(instance, filename):
     return 'profile_pic/{0}/{1}/{2}/{3}'.format(str(instance.college.clg_u_name), str(instance.user_type), str(instance.username), filename)
 
 class User(AbstractUser, Choices):
+    def current_year():
+        return datetime.date.today().year
     user_type = models.CharField(_('user type'), max_length=30, choices=Choices.USER_TYPE, blank=True, null=True)
+    father_name = models.CharField(_("Farther's Name"), max_length=50, blank=True, null=True)
     college = models.ForeignKey(College, on_delete=models.CASCADE, related_name='user', blank=True, null=True)
+    graduation_programme = models.CharField(_("Graduation Programme"), max_length=50, choices=Choices.GRADUATION_PROGRAMME, null=True, blank=True)
     department = models.CharField(max_length=50, choices=Choices.DEPARTMENT_CHOICES, null=True, blank=True)
+    session = models.IntegerField(_('Session start year'), choices=Choices.YEAR_CHOICES, default=current_year)
     gender = models.CharField(max_length=1, choices=Choices.GENDER_CHOICES, null=True, blank=True)
     phone_no = models.CharField(max_length=10, null=True, blank=True)
     address = models.TextField(null=True, blank=True)
@@ -57,8 +70,8 @@ class User(AbstractUser, Choices):
         return self.username
     
     class Meta:
-        verbose_name = 'User'
-        verbose_name_plural = 'User'
+        # verbose_name = 'User'
+        verbose_name_plural = '2. Users'
 
 class Exam(models.Model):
     organisor = models.ForeignKey(User, 
@@ -87,8 +100,8 @@ class Notice(models.Model):
     def __str__(self):
         return str(self.id) + '. ' + self.pub_date.strftime("%d-%b-%Y")
     class Meta:
-        verbose_name = 'Unital Notice'
-        verbose_name_plural = 'Unital Notice'
+        # verbose_name = 'Unital Notice'
+        verbose_name_plural = '3. Unital Notice'
 
 ######### COLLEGE PIC SLIDESHOW ################
 def college_pic_path(instance, filename):
@@ -99,12 +112,16 @@ class CollegePictures(models.Model):
     pic = models.ImageField(upload_to=college_pic_path)
     def __str__(self):
         return str(self.id) + ' ' + self.college.clg_u_name
-
+    class Meta:
+        verbose_name_plural = '4. College Pictures'
 
 ######### COLLEGE NOTICE BOARD #############
 class CollegeNotice(Notice):
     college = models.ForeignKey(College, on_delete=models.CASCADE, related_name='notice')
     def __str__(self):
         return str(self.id) + '. ' + self.pub_date.strftime("%d-%b-%Y")
+    
+    class Meta:
+        verbose_name_plural = '5. College Notice Board'
 
 

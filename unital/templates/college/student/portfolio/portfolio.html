@@ -154,44 +154,92 @@
               </thead>
               <tbody>
                 <tr>
-                  <td>B.Sc. in Computer Application</td>
-                  <td>St. Xavier’s College, Ranchi, Jharkhand</td>
+                  <td>{{ student.graduation_programme}} in {{ student.department }}</td>
+                  <td>{{ student.college.clg_name}}</td>
                   <td>Ranchi University</td>
-                  <td>84% (till Semester IV)</td>
-                  <td>2019</td>
+                  <td>{{ student.portfolio.academic_qualification.graduation_percentage}}</td>
+                  <td>{{ student.session|add:3}}</td>
                 </tr>
                 <tr>
                   <td>12th</td>
-                  <td>BRL DAV Public School, Bhandaridah</td>
-                  <td>CBSE</td>
-                  <td>82%</td>
-                  <td>2016</td>
+                  <td>{{ student.portfolio.academic_qualification.inter_school}}</td>
+                  <td>{{ student.portfolio.academic_qualification.inter_board}}</td>
+                  <td>{{ student.portfolio.academic_qualification.inter_percentage}}</td>
+                  <td>{{ student.portfolio.academic_qualification.inter_pass_year}}</td>
                 </tr>
                 <tr>
                   <td>10th</td>
-                  <td>BRL DAV Public School, Bhandaridah</td>
-                  <td>CBSE</td>
-                  <td>83%</td>
-                  <td>2014</td>
+                  <td>{{ student.portfolio.academic_qualification.metric_school}}</td>
+                  <td>{{ student.portfolio.academic_qualification.metric_board}}</td>
+                  <td>{{ student.portfolio.academic_qualification.metric_percentage}}</td>
+                  <td>{{ student.portfolio.academic_qualification.metric_pass_year}}</td>
                 </tr>
               </tbody>
             </table>
           </div> <!-- Educational Qualification -->
 
+          {% if student.portfolio.skill_set.all.count > 0 %}
           <div class="border p-3 mt-3">
             <h4 class="bg-light pt-1 pb-2 pl-2 rounded"><u>Skill Set</u></h4>
-
             <ul>
-              <li>Good Listener</li>
-              <li>Reasoning Ability</li>
-              <li>Good Communication Skills</li>
-              <li>Team Player</li>
+              {% for skill in student.portfolio.skill_set.all %}
+              <li>{{ skill.skill }}</li>
+              {% endfor %}
             </ul>
           </div> <!-- skill set -->
+          {% endif %}
 
+          {% if student.portfolio.technical_skill.all.count > 0 %}
           <div class="border p-3 mt-3">
-            <h4 class="bg-light pt-1 pb-2 pl-2 rounded"><u>Academic Project</u></h4>
-          </div>
+            <h4 class="bg-light pt-1 pb-2 pl-2 rounded"><u>Technical Skills</u></h4>
+            <ul class="technical_skills">
+            </ul>
+          </div> <!-- technical skill -->
+          {% endif %}
+
+          {% if academic_projects|length > 0 %}
+            <div class="border p-3 mt-3">
+              <h4 class="bg-light pt-1 pb-2 pl-2 rounded"><u>Academic Project</u></h4>
+              <ul>
+                {% for project in academic_projects %}
+                <li>
+                  <b><u>{{ project.title }}</u></b> <br/>
+                  <p class="my-1"><b>Description: </b>{{ project.description }}</p>
+                  <p class="mt-0"><b>Technologies Used: </b>{% for technology_used in project.technology_used.all %}{{ technology_used.technology.skill }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+                </li>
+                {% endfor %}
+              </ul>
+            </div> <!-- project -->
+          {% endif %}
+
+          {% if student.portfolio.profile_summary.all.count > 0 %}
+          <div class="border p-3 mt-3">
+            <h4 class="bg-light pt-1 pb-2 pl-2 rounded"><u>Profile Summary</u></h4>
+            <ul>
+              {% for summary in student.portfolio.profile_summary.all %}
+              <li>{{ summary.summary }}</li>
+              {% endfor %}
+            </ul>
+          </div> <!-- profile summary -->
+          {% endif %}
+          
+          <div class="border p-3 mt-3">
+            <h4 class="bg-light pt-1 pb-2 pl-2 rounded"><u>Additional Details</u></h4>
+            <ul class="d-table pl-3">
+              <li class="d-table-row mb-1 list-unstyled">
+                <span class="d-table-cell font-weight-bold pr-3">Father's Name</span>
+                <span class="d-table-cell pr-3">:</span>
+                <span class="d-table-cell">{{ student.father_name }}</span>
+              </li>
+              <li class="d-table-row mb-1 list-unstyled">
+                <span class="d-table-cell font-weight-bold">Date Of Birth</span>
+                <span class="d-table-cell">:</span>
+                <span class="d-table-cell">{{ student.dob }}</span>
+              </li>
+            </ul>
+          </div> <!-- Additional details -->
+
+
         </div> <!-- printarea -->
         
       </div>
@@ -324,22 +372,33 @@
             $('#printarea').printThis();
         }
 
-        /////////////////////////////////// DOWNLOAD PDF ///////////////////////////////////
-        {% comment %} $('#downloadButton').click(function () {
-            const filename  = 'ThisIsYourPDFFilename.pdf';
 
-            html2canvas(document.querySelector('#printarea')
-                    ).then(canvas => {
-                      let pdf = new jsPDF('p', 'mm', 'a4');
-                      pdf.addImage(canvas.toDataURL('image/png'), 'PNG', 0, 0, 211, 298);
-                      doc.output("datauri");
-                      // pdf.save(filename);
-                    });
+
+
+        /************** TECHNICAL SKILLS **************/
+        {% if student.portfolio.technical_skill.all.count > 0 %}
+        var technical_skill = {};
+        {% for skill_title in technical_skill_title  %}
+          technical_skill["{{ skill_title }}"] = []
+          {% for skill in student.portfolio.technical_skill.all %}
+            {% if skill.skill_title == skill_title %}
+              technical_skill["{{skill_title}}"].push("{{skill.skill}}");
+            {% endif %}
+          {% endfor %}
+        {% endfor %}
+        $.each(technical_skill, function(skill_title, skill_array) {
+          var list_item = "<li><b>" + skill_title + "</b>: ";
+          $.each(skill_array, function(index, value) {
+            list_item+= value;
+            if(index != skill_array.length -1)
+              list_item += ", ";
+          });
+          $('.technical_skills').append(list_item)
         });
-
-        html2canvas(document.querySelector("#printarea")).then(canvas => {
-            document.body.appendChild(canvas)
-        }); {% endcomment %}
+        {% endif %}
+        /************** TECHNICAL SKILLS **************/
+        
+        /************** PROJECTS ***************/
   </script>
 </body>
 </html>

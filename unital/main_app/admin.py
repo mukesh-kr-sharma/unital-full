@@ -10,17 +10,20 @@ class UserAdmin(admin.ModelAdmin):
         return "%s %s" % (obj.first_name, obj.last_name)
 
     list_display = ('id', 'username', name, 'user_type', 'department', 'college', 'email')
-    list_filter = ('user_type', 'college', 'department')
+    list_filter = ('user_type', 'college', 'department', 'session')
     
     fields = ('first_name', 
-              'last_name', 
+              'last_name',
+              'father_name', 
               'username', 
               'password', 
               'email',
               'profile_pic', 
               'user_type', 
               'college',
+              'graduation_programme',
               'department',
+              'session',
               'gender', 
               'phone_no', 
               'dob', 

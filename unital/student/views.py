@@ -28,7 +28,14 @@ def portfolio(request, **kwargs):
     student = User.objects.get(username=username, user_type='student')
     context = {}
     if student.college.clg_u_name == college:
+        technical_skill = student.portfolio.technical_skill.all()
+        skill_title = []
+        for skill in technical_skill:
+            skill_title.append(skill.skill_title)
+        
         context = {"student": student}
+        context['academic_projects'] = student.portfolio.project.filter(project_type='Academic Project')
+        context['technical_skill_title'] = set(skill_title)
     else:
         pass
     return render(request, template_name = 'college/student/portfolio/portfolio.html', context=context)
