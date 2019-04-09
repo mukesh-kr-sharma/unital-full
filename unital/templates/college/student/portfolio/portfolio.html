@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{% static 'css/all.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.2.0/ekko-lightbox.css" />
+    <link rel="stylesheet" href="{% static 'css/ekko-lightbox/5.2.0/ekko-lightbox.css'%}" />
     <link rel="stylesheet" href="{% static 'portfolio/css/style.css'%}">
     <title>My Portfolio</title>
 </head>
@@ -123,21 +123,18 @@
         <div id="printarea" class="d-print-block">
           <div class="d-flex justify-content-between border p-3">
             <div class="">
-              <h4><u>{{ student.get_full_name }}</u></h4>
-              <p class="mb-0">Near Ramgarh College,</p>
-              <p class="mb-0">Ramgarh Cantt</p>
-              <p class="mb-0">Jharkhand</p>
-              <p class="mb-0">Contact No.: {{ student.phone_no}}</p>
-              <p class="mb-0">Email ID: {{ student.email }}</p>
+              <h4 class="pb-3"><u>{{ student.get_full_name }}</u></h4>
+              <p class="mb-0 py-2 font-italic"><b>Contact No.:  </b>{{ student.phone_no}}</p>
+              <p class="mb-0 py-2 font-italic"><b>Email ID:  </b><span class="btn-link">{{ student.email }}</span></p>
             </div>
             <div class="">
-              <img class="float-right border" src="../../../media/{{ student.profile_pic }}" width=200px height=200px>
+              <img class="float-right border" src="../../../media/{{ student.profile_pic }}" width=180px height=180px>
             </div>
           </div> <!-- heading -->
 
           <div class="border p-3 mt-3">
             <h4 class="bg-light pt-1 pb-2 pl-2 rounded"><u>Career Objective</u></h4>
-            <p>To work with full strength in dynamic organisation which provides new challanges that helps me to enhance my working skills, strength and experience in the work oriented environment.</p>
+            <p class="px-2">{{ student.portfolio.career_objective }}</p>
           </div>
 
           <div class="border p-3 mt-3">
@@ -236,8 +233,34 @@
                 <span class="d-table-cell">:</span>
                 <span class="d-table-cell">{{ student.dob }}</span>
               </li>
+              <li class="d-table-row mb-1 list-unstyled">
+                <span class="d-table-cell font-weight-bold">Gender</span>
+                <span class="d-table-cell">:</span>
+                <span class="d-table-cell">{{ student.gender }}</span>
+              </li>
+              <li class="d-table-row mb-1 list-unstyled">
+                <span class="d-table-cell font-weight-bold">Address</span>
+                <span class="d-table-cell">:</span>
+                <span class="d-table-cell">{{ student.address }}</span>
+              </li>
+              <li class="d-table-row mb-1 list-unstyled">
+                <span class="d-table-cell font-weight-bold pr-2">Languages Known</span>
+                <span class="d-table-cell">:</span>
+                <span class="d-table-cell">{% for language_object in student.portfolio.languages_known.all %}{{ language_object.language }}{% if not forloop.last %}, {% endif %}{% endfor %}</span>
+              </li>
+              <li class="d-table-row mb-1 list-unstyled">
+                <span class="d-table-cell font-weight-bold">Hobbies</span>
+                <span class="d-table-cell">:</span>
+                <span class="d-table-cell">{% for hobby_object in student.portfolio.hobbies.all %}{{ hobby_object.hobby }}{% if not forloop.last %}, {% endif %}{% endfor %}</span>
+              </li>
             </ul>
           </div> <!-- Additional details -->
+
+          <div class="border p-3 mt-3">
+            <h4 class="bg-light pt-1 pb-2 pl-2 rounded"><u>Declaration</u></h4>
+            <p class="mb-4">I hereby declare that all the above mentioned information is true to the best of my knowledge.</p>
+
+          </div> <!-- declaration -->
 
 
         </div> <!-- printarea -->

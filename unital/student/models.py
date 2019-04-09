@@ -43,11 +43,11 @@ class Portfolio(models.Model):
     insta_link = models.URLField(_("Instragram Link"), max_length=200, blank=True)
     github_link = models.URLField(_("Github Link"), max_length=200, blank=True)
 
-    def __str__(self):
-        return str(self.user.first_name) + ' ' + str(self.user.last_name)
+    # def __str__(self):
+    #     return str(self.user.first_name) + ' ' + str(self.user.last_name)
 
     class Meta:
-        verbose_name_plural = "1. Portfolios"
+        verbose_name_plural = "01. Portfolios"
     
 
 class AcademicQualification(models.Model):
@@ -68,34 +68,39 @@ class AcademicQualification(models.Model):
         return str(self.portfolio.user.first_name) + ' ' + str(self.portfolio.user.last_name)
     
     class Meta:
-        verbose_name_plural = "2. Academic Qualifications"
+        verbose_name_plural = "02. Academic Qualifications"
     
 
 
 class SkillSet(models.Model):
-    portfolio = models.ForeignKey("Portfolio", verbose_name=_("Portfolio"), related_name='skill_set',       on_delete=models.CASCADE)
+    portfolio = models.ForeignKey("Portfolio", verbose_name=_("Portfolio"), related_name='skill_set', on_delete=models.CASCADE)
     skill = models.CharField(_("Skill"), max_length=250)
     def __str__(self):
         return '(' + str(self.portfolio.user.username) + '). ' + str(self.skill)
-    
+
     class Meta:
-        verbose_name_plural = "3. Skill Set"
+        verbose_name_plural = "03. Skill Set"
+    
+    # def save(self, *args, **kwargs):
+    #     if self.request:
+    #         self.portfolio = self.request.user.portfolio.id
+    #     super(SkillSet, self).save(*args, **kwargs)
 
 class TechnicalSkill(models.Model):
-    portfolio = models.ForeignKey("Portfolio", verbose_name=_("Portfolio"), related_name='technical_skill',         on_delete=models.CASCADE)
+    portfolio = models.ForeignKey("Portfolio", verbose_name=_("Portfolio"), related_name='technical_skill', on_delete=models.CASCADE)
     skill_title = models.CharField(_("Title"), max_length=100, choices=PortfolioChoices.TECHNICAL_SKILL_TITLE)
     skill = models.CharField(_("Skill"), max_length=50)
     skill_level = models.IntegerField(_("Skill Level"))
     def __str__(self):
         return '(' + str(self.portfolio.user.username) + '). ' + self.skill_title + ' :' + str(self.skill)
     class Meta:
-        verbose_name_plural = "4. Technical Skills"
+        verbose_name_plural = "04. Technical Skills"
 
 class ProfileSummary(models.Model):
     portfolio = models.ForeignKey("Portfolio", verbose_name=_("Portfolio"), related_name='profile_summary', on_delete=models.CASCADE)
     summary = models.TextField(_("Summary"))
     class Meta:
-        verbose_name_plural = "5. Profile Summary"
+        verbose_name_plural = "05. Profile Summary"
 
 class Internship(models.Model):
     portfolio = models.ForeignKey("Portfolio", verbose_name=_("Portfolio"), related_name='internship', on_delete=models.CASCADE)
@@ -107,7 +112,7 @@ class Internship(models.Model):
         return str(self.portfolio.user.first_name) + ' ' + str(self.portfolio.user.last_name) + ' (' + str(self.company) + ')'
     
     class Meta:
-        verbose_name_plural = "7. Internships"
+        verbose_name_plural = "08. Internships"
     
 
 class Project(models.Model):
@@ -121,7 +126,7 @@ class Project(models.Model):
         return str(self.portfolio.user.first_name) + ' ' + str(self.portfolio.user.last_name) + ' (' + str(self.title) + ')'
 
     class Meta:
-        verbose_name_plural = "8. Projects"
+        verbose_name_plural = "09. Projects"
 
 class TechnologyUsed(models.Model):
     project = models.ForeignKey("Project", verbose_name=_("Project"), on_delete=models.CASCADE, related_name='technology_used')
@@ -131,12 +136,18 @@ class TechnologyUsed(models.Model):
         return str(self.project.portfolio.user.first_name) + ' ' + str(self.project.portfolio.user.last_name) + ' (' + str(self.project.title) + ': ' + str(self.technology.skill) + ')'
     
     class Meta:
-        verbose_name_plural = '9. Technology Used (in project)'
+        verbose_name_plural = '10. Technology Used (in project)'
 
 class Hobbies(models.Model):
-    portfolio = models.ForeignKey("Portfolio", verbose_name=_("Portfolio"), on_delete=models.CASCADE)
+    portfolio = models.ForeignKey("Portfolio", verbose_name=_("Portfolio"), on_delete=models.CASCADE, related_name='hobbies')
     hobby = models.CharField(_("Hobby"), max_length=50)
     class Meta:
-        verbose_name_plural = "6. Hobbies"
+        verbose_name_plural = "06. Hobbies"
+
+class LanguagesKnown(models.Model):
+    portfolio = models.ForeignKey("Portfolio", verbose_name=_("Portfolio"), on_delete=models.CASCADE, related_name='languages_known')
+    language = models.CharField(_("Language"), max_length=12, choices=PortfolioChoices.LANGUAGES_KNOWN)
+    class Meta:
+        verbose_name_plural = "07. Languages Known"
 
 

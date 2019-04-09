@@ -49,12 +49,17 @@ def user_logout(request):
         return redirect('/%s/' % college)
     return redirect(reverse_lazy('redirect'))
 
-class HomePageView(TemplateView):
+class HomePageView(TemplateView):        
     template_name = 'unital/unital-homepage.html'
+    def dispatch(self, request, *args, **kwargs):
+        if self.request and self.request.user.is_authenticated:
+            return redirect('redirect')
+        return super(HomePageView, self).dispatch(request, *args, **kwargs)
     def get_context_data(self, **kwargs):
         context = super(HomePageView, self).get_context_data(**kwargs)
         context['notice_list'] = Notice.objects.order_by('-pub_date', '-id')[0:10]
         context['college_list'] = College.objects.all()
+        
         return context
 
 class AdminDashboardView(TemplateView):

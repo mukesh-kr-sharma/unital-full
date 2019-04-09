@@ -125,23 +125,52 @@ body {
             overflow: hidden;
         }
     }
-
-    // #contents {
-    //     background-image: url("../../static/img/homepage.jpeg");
-    //     min-height: 100%;
-    //     background-size: cover;
-    //     background-attachment: fixed;
-
-    //     #dark-overlay {
-    //         background-color: rgba(0, 0, 0, 0.7);
-    //         position: relative;
-    //         top: 0;
-    //         left: 0;
-    //         width: 100%;
-    //         min-height: 100%;
-    //     }
-    // }
-
-
 }
+
+// #student-body {
+//         fieldset {
+//             legend {
+//                 @extend .pt-4;
+//                 @extend .pl-4;
+//             }
+//             table {
+//                 width: 100%;
+//                 tr {
+//                     @extend .row;
+
+//                     td {
+//                         div {
+//                             @extend .row;
+//                             label {
+//                                 @extend .col-md-3;
+//                                 font-weight: 500;
+//                             }
+//                             div {
+//                                 @extend .col-md-9;
+//                             }
+//                         }
+//                     }
+
+//                     td:nth-child(1) {
+//                         @extend .col-md-10;
+//                     }
+//                     td:nth-child(2) {
+//                         @extend .col-md-2;
+//                     }
+//                 }
+
+//                 .delete-row {
+//                     @extend .p-0;
+//                     @extend .text-primary;
+//                     text-transform: capitalize;
+//                 }
+
+//                 .delete-row ~ div {
+//                     visibility: hidden;
+//                 }
+//             }
+//         }
+// }
+
+
 

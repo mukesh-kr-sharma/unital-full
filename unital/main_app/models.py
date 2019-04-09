@@ -7,8 +7,8 @@ import datetime
 ######### CHOICES ##################
 class Choices():
     GENDER_CHOICES = (
-        ('M', 'Male'),
-        ('F', 'Female'),
+        ('Male', 'Male'),
+        ('Female', 'Female'),
     )
     GRADUATION_PROGRAMME = (
         ('B.Sc.', 'B.Sc.'),
@@ -53,7 +53,7 @@ class User(AbstractUser, Choices):
     graduation_programme = models.CharField(_("Graduation Programme"), max_length=50, choices=Choices.GRADUATION_PROGRAMME, null=True, blank=True)
     department = models.CharField(max_length=50, choices=Choices.DEPARTMENT_CHOICES, null=True, blank=True)
     session = models.IntegerField(_('Session start year'), choices=Choices.YEAR_CHOICES, default=current_year)
-    gender = models.CharField(max_length=1, choices=Choices.GENDER_CHOICES, null=True, blank=True)
+    gender = models.CharField(max_length=10, choices=Choices.GENDER_CHOICES, null=True, blank=True)
     phone_no = models.CharField(max_length=10, null=True, blank=True)
     address = models.TextField(null=True, blank=True)
     dob = models.DateField(_('date of birth'), null=True, blank=True)

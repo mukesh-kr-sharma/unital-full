@@ -14,5 +14,5 @@ urlpatterns = [
     path('login', user_login, name='login'),
     path('logout', user_logout, name='logout'),
     path('<slug:clg_u_name>/', college_view.CollegeHomepageView.as_view(), name='college-homepage'),
-    path('<slug:clg_u_name>/<slug:username>', include('student.urls'), name="student"),
+    path('<slug:clg_u_name>/<slug:username>/', include('student.urls'), name="student"),
 ]
