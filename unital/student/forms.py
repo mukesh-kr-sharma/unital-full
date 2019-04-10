@@ -21,4 +21,5 @@ class SkillSetModelForm(forms.ModelForm):
 class TechnicalSkillModelForm(forms.ModelForm):
     class Meta():
         model = TechnicalSkill
-        exclude = ['portfolio',]
+        fields = '__all__'
+        widgets = {'portfolio': forms.HiddenInput()}

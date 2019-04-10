@@ -50,10 +50,10 @@ def update_portfolio(request, **kwargs):
                             prefix="skill_set",
                             initial=[{'portfolio': request.user.portfolio.id,}])
         
-        TechnicalSkillFormSet = modelformset_factory(TechnicalSkill, form=TechnicalSkillModelForm, extra=0, can_delete=True)
+        TechnicalSkillFormSet = modelformset_factory(TechnicalSkill, form=TechnicalSkillModelForm, extra=2, can_delete=True)
         technicalskill_formset = TechnicalSkillFormSet(queryset=TechnicalSkill.objects.filter(portfolio=request.user.portfolio.id), 
-                            prefix="technical_skill",
-                            initial=[{'portfolio': request.user.portfolio.id,}])
+                             prefix="technical_skill",
+                             initial=[{'portfolio': request.user.portfolio.id,}])
 
         context['portfolio_form'] = portfolio_form
         context['academic_qualification_form'] = academic_qualification_form
