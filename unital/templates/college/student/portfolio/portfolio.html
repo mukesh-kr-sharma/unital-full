@@ -60,6 +60,7 @@
         <h2>Welcome To My Portfolio</h2>
         {% comment %} <p class="lead">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perferendis, laborum!</p> {% endcomment %}
       </div>
+      <!--
       <div class="card card-block p-5 border-top-0 border-bottom-0 rounded-0">
         <h3>About Me</h3>
         <div class="d-table">
@@ -86,30 +87,17 @@
           
         </div>
       </div>
+      -->
       <div class="card card-block p-5 border-top-0 border-bottom-0 rounded-0">
-        <h3>My Skills</h3>
+        <h3>Technical Skills</h3>
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ex rerum illo sequi maxime, repudiandae quo in quos, facere minus officia.</p>
         <hr>
-        <h4>HTML</h4>
+        {% for skill in technical_skill %}
+        <h4>{{skill.skill}}</h4>
         <div class="progress mb-3">
-          <div class="progress-bar bg-success" role="progressbar" style="width:100%"></div>
+          <div class="progress-bar bg-success" role="progressbar" style="width:{{skill.skill_level}}0%"></div>
         </div>
-        <h4>CSS</h4>
-        <div class="progress mb-3">
-          <div class="progress-bar bg-success" role="progressbar" style="width:100%"></div>
-        </div>
-        <h4>JavaScript</h4>
-        <div class="progress mb-3">
-          <div class="progress-bar bg-success" role="progressbar" style="width:85%"></div>
-        </div>
-        <h4>PHP</h4>
-        <div class="progress mb-3">
-          <div class="progress-bar bg-success" role="progressbar" style="width:75%"></div>
-        </div>
-        <h4>Python</h4>
-        <div class="progress mb-3">
-          <div class="progress-bar bg-success" role="progressbar" style="width:65%"></div>
-        </div>
+        {% endfor %}
       </div>
     </div>
 
@@ -278,8 +266,28 @@
       <div class="card card-block p-5 border-top-0 border-bottom-0 rounded-0">
         <h3>What Have I Built?</h3>
         <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat, inventore atque dolore blanditiis sit repudiandae!</p>
-        <div class="row no-gutters">
-          <div class="col-md-3">
+        <div class="row">
+
+        {% for project in projects %}
+        
+          <div class="card text-center col-md-4 p-0 mt-4 mx-3">
+            <div class="card-header">
+              <h5 class="card-title mb-0 p-2">{{ project.title }}</h5>
+            </div>
+            <div class="card-body">
+              <p class="card-text">"{{ project.description }}"</p>
+              {% comment %} {{ project.technology_used}} {% endcomment %}
+              <a href="{{ project.github_link }}" class="btn btn-primary">Github Link</a>
+            </div>
+            <div class="card-footer text-muted">
+              {{ project.project_type }}
+            </div>
+          </div>
+        
+        {% endfor %}
+          
+
+          {% comment %} <div class="col-md-3">
             <a href="https://unsplash.it/1200/768.jpg?image=251" data-toggle="lightbox">
               <img src="https://unsplash.it/600.jpg?image=251" alt="" class="img-fluid">
             </a>
@@ -298,7 +306,7 @@
             <a href="https://unsplash.it/1200/768.jpg?image=254" data-toggle="lightbox">
               <img src="https://unsplash.it/600.jpg?image=254" alt="" class="img-fluid">
             </a>
-          </div>
+          </div> {% endcomment %}
         </div>
         <div class="row no-gutters">
           <div class="col-md-3">

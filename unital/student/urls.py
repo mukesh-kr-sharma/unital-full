@@ -9,8 +9,7 @@ app_name = 'student'
 urlpatterns = [
     path('', TemplateView.as_view(template_name='college/student/student-homepage.html'), name="homepage"),
     path('portfolio', portfolio, name="portfolio" ),
-    # path('portfolio/edit', EditPortfolioView.as_view(), name="edit-portfolio" )
-    # path('portfolio/create', PortfolioCreate.as_view(), name="create-portfolio" ),
-    path('portfolio/update', update_portfolio, name="update-portfolio" )
+    path('portfolio/update', update_portfolio, name="update-portfolio" ),
+    path('syllabus', syllabus, name="syllabus"),
 ]
 # https://computernerddiaries.wordpress.com/2014/10/29/django-error-generic-detail-view-must-be-called-with-either-an-object-pk-or-a-slug/

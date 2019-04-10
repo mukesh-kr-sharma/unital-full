@@ -49,6 +49,8 @@ class ExamAdmin(admin.ModelAdmin):
 admin.site.register(User, UserAdmin)
 admin.site.register(Notice)
 admin.site.register(College)
+admin.site.register(Department)
 admin.site.register(CollegePictures)
 admin.site.register(CollegeNotice)
 admin.site.register(Exam, ExamAdmin)
+admin.site.register(Syllabus)

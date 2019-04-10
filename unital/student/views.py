@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import TemplateView
 from django.forms.models import modelformset_factory
 from django.urls import reverse_lazy
-from main_app.models import User
+from main_app.models import User, Syllabus
 from .forms import *
 from .models import *
 
@@ -68,61 +68,20 @@ def portfolio(request, **kwargs):
     student = User.objects.get(username=username, user_type='student')
     context = {}
     if student.college.clg_u_name == college:
-        technical_skill = student.portfolio.technical_skill.all()
+        technical_skill = student.portfolio.technical_skill.all().order_by('-skill_level')
         skill_title = []
         for skill in technical_skill:
             skill_title.append(skill.skill_title)
         
         context = {"student": student}
-        context['academic_projects'] = student.portfolio.project.filter(project_type='Academic Project')
+        context['projects'] = student.portfolio.project.filter(portfolio=request.user.portfolio,)
+        context['academic_projects'] = student.portfolio.project.filter(project_type='Academic Project', portfolio=request.user.portfolio)
         context['technical_skill_title'] = set(skill_title)
+        context['technical_skill'] = technical_skill
     else:
         pass
     return render(request, template_name = 'college/student/portfolio/portfolio.html', context=context)
 
-
-
-# {
-#     'object': <Portfolio: Portfolio object (1)>, 
-#     'portfolio': <Portfolio: Portfolio object (1)>, 
-#     'form': <PortfolioModelForm bound=True, valid=Unknown, fields=(user;career_objective;fb_link;twitter_link;insta_link;github_link)>, 
-#     'view': <student.views.PortfolioUpdate object at 0x000001FC762370B8>, 
-#     'academic_qualification': <AcademicQualificationModelForm bound=False, valid=Unknown, fields=(portfolio;metric_school;metric_board;metric_percentage;metric_pass_year;inter_school;inter_board;inter_percentage;inter_pass_year;graduation_percentage)>, 
-#     'skill_set': <django.forms.formsets.SkillSetFormFormSet object at 0x000001FC76B38978>, 
-#     'technical_skill': <django.forms.formsets.TechnicalSkillFormFormSet object at 0x000001FC76B38320>
-# }
-
-
-# <QueryDict: {'csrfmiddlewaretoken': ['Nk8sXJBhSHKe8xNqFSF63qSQi9bij3E9NHiqfvHEWNMfmwVf7E7TOhs1LtGyI6Mb'], 
-# 'career_objective': ['To secure a responsible career opportunity to full utilize my knowledge, training and skills, while making a significant contribution to the success of the Mukesh'], 
-# 'fb_link': [''], 
-# 'twitter_link': [''], 
-# 'insta_link': [''], 
-# 'github_link': [''], 
-# 'metric_school': ['BRL DAV Public Schoo'], 
-# 'metric_board': ['CBSE'], 
-# 'metric_percentage': ['83.00'], 
-# 'metric_pass_year': ['2014'], 
-# 'initial-metric_pass_year': ['2014'], 
-# 'inter_school': ['BRL DAV Public School'], 
-# 'inter_board': ['CBSE'], 
-# 'inter_percentage': ['82.00'], 
-# 'inter_pass_year': ['2016'], 
-# 'initial-inter_pass_year': ['2016'], 
-# 'graduation_percentage': ['90.00'], 
-# 'skill_set-TOTAL_FORMS': ['2'], 
-# 'skill_set-INITIAL_FORMS': ['1'], 
-# 'skill_set-MIN_NUM_FORMS': ['0'], 
-# 'skill_set-MAX_NUM_FORMS': ['1000'], 
-# 'skill_set-0-id': ['2'], 
-# 'skill_set-0-skill': ['Reasoning Ability'], 
-# 'skill_set-1-skill': ['hiii'], 
-# 'skill_set-__prefix__-skill': ['']}>
-
-# <tr><th><label for="id_skill_set-0-skill">Skill:</label></th><td><input type="text" name="skill_set-0-skill" value="Reasoning Ability" maxlength="250" id="id_skill_set-0-skill"></td></tr>
-
-# <tr><th><label for="id_skill_set-0-DELETE">Delete:</label></th><td><input type="checkbox" name="skill_set-0-DELETE" id="id_skill_set-0-DELETE"><input type="hidden" name="skill_set-0-id" value="2" id="id_skill_set-0-id"></td></tr>
-
-# <tr><th><label for="id_skill_set-1-skill">Skill:</label></th><td><input type="text" name="skill_set-1-skill" value="hiii" maxlength="250" id="id_skill_set-1-skill"></td></tr>
-
-# <tr><th><label for="id_skill_set-1-DELETE">Delete:</label></th><td><input type="checkbox" name="skill_set-1-DELETE" id="id_skill_set-1-DELETE"><input type="hidden" name="skill_set-1-id" id="id_skill_set-1-id"></td></tr>
+def syllabus(request, **kwargs):
+    syllabus = Syllabus.objects.get(college=request.user.college, department=request.user.department, session=request.user.session)
+    return render(request, template_name = 'college/student/syllabus/syllabus.html', context={'syllabus':syllabus})
