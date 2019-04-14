@@ -14,6 +14,8 @@ def redirect_view(request):
             return redirect('admin_dashboard')
         elif request.user.user_type=='student':
             return redirect('student:homepage',request.user.college.clg_u_name, request.user.username)
+        elif request.user.user_type=='faculty':
+            return redirect('faculty:homepage',request.user.college.clg_u_name, request.user.username)
         else:
             return redirect('unital_homepage')
     # else:

@@ -11,5 +11,8 @@ urlpatterns = [
     path('portfolio', portfolio, name="portfolio" ),
     path('portfolio/update', update_portfolio, name="update-portfolio" ),
     path('syllabus', syllabus, name="syllabus"),
+    path('notes/sem-<slug:semester>', NotesListView.as_view(), name='notes'),
+    path('previous-year-question/sem-<slug:semester>', PreviousYearQuestionListView.as_view(), name='previous-year-question'),
+    path('forum', ForumView.as_view(), name="forum"),
 ]
 # https://computernerddiaries.wordpress.com/2014/10/29/django-error-generic-detail-view-must-be-called-with-either-an-object-pk-or-a-slug/

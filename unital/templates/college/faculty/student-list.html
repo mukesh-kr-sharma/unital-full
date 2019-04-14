@@ -1,0 +1,20 @@
+{% extends 'college/faculty/base.html' %}
+
+{% block title %}{{user.get_full_name}}: {{user.college.clg_name}}: Student List{% endblock title %}
+
+{% block page_content %}
+<p>Media url : {{ user.profile_pic.url }}</p>
+
+<h1>Student List</h1>
+  {% if student_list %}
+  <ul>
+    {% for student in student_list %}
+      <li>
+        <a href="{% url 'faculty:student-detail' user.college.clg_u_name user.username student.username %}">{{ student.username }}</a> ({{student.get_full_name}})
+      </li>
+    {% endfor %}
+  </ul>
+  {% else %}
+    <p>There are no books in the library.</p>
+  {% endif %}       
+{% endblock page_content %}

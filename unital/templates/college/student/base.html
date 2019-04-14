@@ -30,7 +30,7 @@
                 <!-- sidebar-header  -->
                 <div class="sidebar-item sidebar-header d-flex flex-nowrap">
                     <div class="user-pic">
-                        <img class="img-responsive img-rounded" src="../../../media/{{ user.profile_pic }}" alt="User picture">
+                        <img class="img-responsive img-rounded" src="{{request.scheme}}://{{ request.META.HTTP_HOST }}{{ user.profile_pic.url }}" alt="User picture">
                     </div>
                     <div class="user-info">
                         <span class="user-name"><strong>{{ user.first_name }}</strong>
@@ -104,22 +104,47 @@
                                 </ul>
                             </div>
                         </li>
+                        <li>
+                            <a href="{% url 'student:forum' user.college.clg_u_name user.username %}">
+                                <i class="fas fa-book-open"></i>
+                                <span class="menu-text">Forum</span>
+                            </a>
+                        </li>
                         
                         <li class="header-menu">
                             <span>Extra</span>
                         </li>
-                        <li>
+                        <li class="sidebar-dropdown">
                             <a href="#">
                                 <i class="fa fa-book"></i>
                                 <span class="menu-text">Study Notes</span>
-                                <span class="badge badge-pill badge-primary">Beta</span>
                             </a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    {% for i in "x"|rjust:"6" %}
+                                    <li>
+                                        <a href="{% url 'student:notes' user.college.clg_u_name user.username forloop.counter %}">Semester {{forloop.counter}}</a>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
                         </li>
-                        <li>
+
+
+                        <li class="sidebar-dropdown">
                             <a href="#">
                                 <i class="fa fa-calendar"></i>
                                 <span class="menu-text">Previous Year Papers</span>
                             </a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    {% for i in "x"|rjust:"6" %}
+                                    <li>
+                                        <a href="{% url 'student:previous-year-question' user.college.clg_u_name user.username forloop.counter %}">Semester {{forloop.counter}}</a>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
                         </li>
                         <li>
                             <a href="{% url 'student:syllabus' user.college.clg_u_name user.username %}">

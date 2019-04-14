@@ -1,0 +1,149 @@
+{% extends 'college/student/base.html' %}
+{% load student_extras %}
+{% block title %}{{user.get_full_name}}: {{user.college.clg_name}}: Notes{% endblock title %}
+{% block page_content %}
+
+<div class="card mb-4 border-0 p-0">
+    <div class="card-body p-0">
+        <form class="form-inline border shadow-sm">
+            {% comment %} {% csrf_token %} {% endcomment %}
+
+            <textarea name="question" id="" rows="2" class="form-control w-100 border-left-0 border-right-0 border-top-0 border-0 rounded-0 mb-0 bg-white shadow-sm" style="resize:none" placeholder="Write your question/query"></textarea>
+
+            <select name="for_college" class="form-control my-1 mr-4 border-0" required>
+                <option {% if user.user_type is not 'guest' %}disabled{% endif %}>Choose College</option>
+                {% for college in COLLEGE_CHOICES %}
+                <option value="{{college.pk}}" {% if user.college.pk == college.pk %}selected{% endif %} {% if user.user_type is not 'guest' %}disabled{% endif %}>{{college.clg_name}}</option>
+                {% endfor %}
+            </select>
+
+            <select class="form-control my-1 mr-sm-2 border-0" name="for_department" required>
+                <option {% if user.user_type is not 'guest' %}disabled{% endif %}>Choose Department</option>
+                {% for department in DEPARTMENT_CHOICES %}
+                <option value="{{department.pk}}" {% if user.department.pk == department.pk %}selected{% endif %} {% if user.user_type is not 'guest' %}disabled{% endif %}>{{department.name}}</option>
+                {% endfor %}
+            </select>
+            <input type="hidden" name="posted_by" value="{{user.pk}}">
+            <button type="submit" id="post_query" class="btn btn-primary my-2 mr-3 ml-auto px-5 shadow-sm">Post Question</button>
+        </form>
+    </div>
+</div>
+
+<div id="question_list">
+{% for question in question_list reversed %}
+<div class="card border-0 p-0 mb-4">
+    <div class="card-body border-bottom d-flex align-items-center shadow-sm py-3">
+        <img src="{{request.scheme}}://{{ request.META.HTTP_HOST }}{{ question.posted_by.profile_pic.url }}" style="border-radius: 50%" class="border shadow-sm mr-4" height="40px" width="40px" alt="">
+        <a class="text-dark" data-toggle="collapse" href="#question-{{ forloop.counter }}">
+            <div class="d-flex flex-column">
+                <div class="h6 pb-1 m-0">{{ question.posted_by.get_full_name }}</div>
+                <div class="small"><b>{{ question.posted_by.user_type|capfirst }}:</b> {{ question.posted_by.college.clg_name }}</div>
+            </div> 
+        </a>    
+        <small class="text-muted mr-0 ml-auto">Posted {{ question.posted_on|get_due_date_string }}</small>
+    </div>
+    <div class="collapse show" id="question-{{ forloop.counter }}">
+        <div class="card-body shadow-sm py-3">
+            <h6>Question:</h6>
+            {{ question.question }}
+        </div>
+        <div class="card-body shadow-sm py-2">
+            <small class="w-100"><b>Question For: </b>{{ question.for_college.clg_name }} <span class="float-right">{{ question.for_department.name }} Department</span></small>
+        </div>
+        <div class="card-body shadow-sm pb-2">
+            <a class="text-dark" data-toggle="collapse" href="#replies-{{ forloop.counter }}">
+                <h6 class="border-bottom pb-1 mb-3">Replies:</h6>
+            </a>
+            <div class="collapse show" id="replies-{{ forloop.counter }}">
+                <ul class="unstyled mx-0 mb-0 p-0">
+                    {% for reply in question|replies %}
+                    <li class="d-flex justify-content-between border-bottom {% if forloop.last %}mb-0{% else %}mb-3{% endif %} pb-2">
+                        <div>
+                            <i class="fa-li fa fa-check-square" style="position:relative; left:0px;"></i>
+                        </div>
+                        <p class="text-left w-100">{{reply.reply}}</p>
+                        <div class="d-flex flex-column" style="margin-top: -16px;">
+                            <a tabindex="0" class="btn mr-4" role="button" data-toggle="popover" data-trigger="focus"
+                                title="{{ reply.posted_by.get_full_name }} ({{ reply.posted_by.user_type|capfirst }})" data-placement="top"
+                                data-content="{{ reply.posted_by.college.clg_name }} ({{ reply.posted_by.department.name}} Department)"><img src="{{request.scheme}}://{{ request.META.HTTP_HOST }}{{ reply.posted_by.profile_pic.url }}"
+                                    style="border-radius: 50%" class="border shadow-sm " height="40px" width="40px"></a>
+                            <small class="text-muted">{{ reply.posted_on|get_due_date_string }}</small>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <form class="form-row input-group py-2">
+                    <input type="text" class="form-control" name="reply" placeholder="Your reply...">
+                    <input type="hidden" name="posted_by" value="{{user.pk}}">
+                    <input type="hidden" name="question" value="{{question.pk}}">
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-primary px-5 shadow-sm post_reply">Post</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+</div>
+
+
+{% endblock page_content %}
+
+{% block scripts %}
+<script>
+        $('.popover-dismiss').popover({
+            trigger: 'focus'
+        });
+        $(function () {
+            $('[data-toggle="popover"]').popover()
+        });
+
+        $.ajaxSetup ({
+            // Disable caching of AJAX responses
+            cache: false
+        });
+
+        $(document).on('click', "#post_query", function(e) {
+            e.preventDefault();
+            var form = $(this).closest("form");
+            $.ajax({
+                url: "{% url 'forum:post-question' %}",
+                method: 'POST',
+                data: form.serialize(),
+                dataType: 'json',
+                success: function (data) {
+                    // if (data.error) {
+                    //     alert(data.error);
+                    // } else if (data.success) {
+                    //     alert(data.success);
+                    // }
+                    
+                    $("#question_list").empty();
+                    $("#question_list").load(" #question_list");
+                }
+            });
+        });
+
+        $(document).on('click', ".post_reply", function(e) {
+            e.preventDefault();
+            var form = $(this).closest("form");
+            $.ajax({
+                url: "{% url 'forum:post-reply' %}",
+                method: 'POST',
+                data: form.serialize(),
+                dataType: 'json',
+                success: function (data) {
+                    // if (data.error) {
+                    //     alert(data.error);
+                    // } else if (data.success) {
+                    //     alert(data.success);
+                    // }
+                    $("#question_list").empty();
+                    $("#question_list").load(" #question_list");
+                }
+            });
+        });
+
+    </script>
+{% endblock scripts %}

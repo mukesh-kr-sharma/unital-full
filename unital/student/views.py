@@ -1,15 +1,18 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import TemplateView
+from django.views.generic.list import ListView
 from django.forms.models import modelformset_factory
 from django.urls import reverse_lazy
 from main_app.models import User, Syllabus
 from .forms import *
 from .models import *
+from main_app import models as main_app_models
+from forum.models import *
+from forum.forms import *
 
-# Create your views here.
 
 app_name='student'
-# https://micropyramid.com/blog/understanding-djangos-model-formsets-in-detail-and-their-advanced-usage/
+
 def update_portfolio(request, **kwargs):
     if request.method == 'POST':
         portfolio_form = PortfolioModelForm(data=request.POST, instance=get_object_or_404(Portfolio, id=request.user.portfolio.id))
@@ -74,8 +77,8 @@ def portfolio(request, **kwargs):
             skill_title.append(skill.skill_title)
         
         context = {"student": student}
-        context['projects'] = student.portfolio.project.filter(portfolio=request.user.portfolio,)
-        context['academic_projects'] = student.portfolio.project.filter(project_type='Academic Project', portfolio=request.user.portfolio)
+        context['projects'] = student.portfolio.project.filter(portfolio=student.portfolio,)
+        context['academic_projects'] = student.portfolio.project.filter(project_type='Academic Project', portfolio=student.portfolio)
         context['technical_skill_title'] = set(skill_title)
         context['technical_skill'] = technical_skill
     else:
@@ -85,3 +88,37 @@ def portfolio(request, **kwargs):
 def syllabus(request, **kwargs):
     syllabus = Syllabus.objects.get(college=request.user.college, department=request.user.department, session=request.user.session)
     return render(request, template_name = 'college/student/syllabus/syllabus.html', context={'syllabus':syllabus})
+
+class NotesListView(ListView):
+    template_name = 'college/student/notes/notes.html'
+    model = main_app_models.Notes
+    context_object_name = 'notes_list'
+
+    def get_queryset(self):
+        return main_app_models.Notes.objects.filter(subject__semester=self.kwargs.get('semester'), subject__department=self.request.user.department, subject__college=self.request.user.college).order_by('subject__name', '-uploaded_on')
+
+class PreviousYearQuestionListView(ListView):
+    template_name = 'college/student/previous_year_question/pyq.html'
+    model = main_app_models.Notes
+    context_object_name = 'notes_list'
+
+    def get_queryset(self):
+        return main_app_models.Notes.objects.filter(subject__semester=self.kwargs.get('semester'), subject__department=self.request.user.department, subject__college=self.request.user.college).order_by('subject__name', '-uploaded_on')
+
+class ForumView(ListView):
+    model = Question
+    context_object_name = 'question_list'
+    template_name = 'college/student/forum/forum.html'
+    extra_context = {
+        'COLLEGE_CHOICES': main_app_models.College.objects.all(),
+        'DEPARTMENT_CHOICES': main_app_models.Department.objects.all(),
+    }
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(self.extra_context)
+        return context
+
+    def get_object(self):
+        return Question.objects.filter(for_college = self.request.user.college, for_department = self.request.user.department)
+

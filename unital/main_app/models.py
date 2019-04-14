@@ -24,9 +24,12 @@ class Choices():
         ('admin','Admin'), 
         ('guest','Guest'), 
     )
+    SEMESTER_CHOICES = [('0','All')]
     YEAR_CHOICES = []
     for r in range(2010, (datetime.datetime.now().year+1)):
         YEAR_CHOICES.append((r,r))
+    for r in range(1,7):
+        SEMESTER_CHOICES.append((r,r))
 
 class College(models.Model):
     clg_name = models.CharField(_('Name'), max_length=100)
@@ -65,7 +68,7 @@ class User(AbstractUser, Choices):
     graduation_programme = models.CharField(_("Graduation Programme"), max_length=50, choices=Choices.GRADUATION_PROGRAMME, null=True, blank=True)
     department = models.ForeignKey("Department", verbose_name=_("Department"), on_delete=models.CASCADE, related_name="department", null=True, blank=True)
     # department = models.CharField(max_length=50, choices=Choices.DEPARTMENT_CHOICES, null=True, blank=True)
-    session = models.IntegerField(_('Session start year'), choices=Choices.YEAR_CHOICES, default=current_year)
+    session = models.IntegerField(_('Session start year'), choices=Choices.YEAR_CHOICES, default=current_year, blank=True, null=True)
     gender = models.CharField(max_length=10, choices=Choices.GENDER_CHOICES, null=True, blank=True)
     phone_no = models.CharField(max_length=10, null=True, blank=True)
     address = models.TextField(null=True, blank=True)
@@ -155,5 +158,38 @@ class Syllabus(models.Model):
         return '{0}: {1}: {2}'.format(self.college.clg_name, self.department.name, self.session)
     class Meta:
         verbose_name_plural = '7. Syllabus'
-    
 
+############## SUBJECT ###############
+class Subject(models.Model):
+    college = models.ForeignKey("College", verbose_name=_("College"), on_delete=models.CASCADE, blank=True, null=True, related_name='subject')
+    department = models.ForeignKey("Department", verbose_name=_("Department"), on_delete=models.CASCADE, related_name='subject')
+    semester = models.IntegerField(_("Semester"), choices=Choices.SEMESTER_CHOICES, default='1')
+    name = models.CharField(_("Subject Name"), max_length=50)
+
+    def __str__(self):
+        return self.name
+    
+    class Meta:
+        verbose_name_plural = 'Subjects'
+
+############### NOTES ##################
+def notes_path(instance, filename):
+    if instance.subject.college:
+        clg_path = str(instance.subject.college.id) + '_' + instance.subject.college.clg_u_name
+    else:
+        clg_path = 'all'
+    return 'college/{0}/{1}/notes/{2}/{3}'.format(clg_path, instance.subject.department.name, instance.subject.name, filename)
+
+class Notes(models.Model):
+    subject = models.ForeignKey("Subject", verbose_name=_("Subject"), on_delete=models.CASCADE, related_name='notes')
+    notes = models.FileField(_("Notes"), upload_to=notes_path)
+    uploaded_by = models.ForeignKey("User", verbose_name=_("Uploaded By"), on_delete=models.CASCADE, limit_choices_to={'user_type': 'faculty'})
+    uploaded_on = models.DateTimeField(_("Uploaded On"), auto_now_add=True)
+
+    def __str__(self):
+        if self.subject.college:
+            return self.subject.name + ': ' + self.subject.department.name + ': ' + self.subject.college.clg_u_name
+        else:
+            return self.subject.name + ': ' + self.subject.department.name + ': All'
+    class Meta:
+        verbose_name_plural = 'Notes'

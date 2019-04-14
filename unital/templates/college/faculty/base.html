@@ -30,7 +30,7 @@
                 <!-- sidebar-header  -->
                 <div class="sidebar-item sidebar-header d-flex flex-nowrap">
                     <div class="user-pic">
-                        <img class="img-responsive img-rounded" src="../../../media/{{ user.profile_pic }}" alt="User picture">
+                        <img class="img-responsive img-rounded" src="{{request.scheme}}://{{ request.META.HTTP_HOST }}{{ user.profile_pic.url }}" alt="User picture">
                     </div>
                     <div class="user-info">
                         <span class="user-name"><strong>{{ user.first_name }}</strong>
@@ -91,18 +91,24 @@
                         <li class="sidebar-dropdown">
                             <a href="#">
                                 <i class="fas fa-user-graduate"></i>
-                                <span class="menu-text">Portfolio</span>
+                                <span class="menu-text">Student Section</span>
                             </a>
                             <div class="sidebar-submenu">
                                 <ul>
                                     <li>
-                                        <a href="{% url 'student:portfolio' user.college.clg_u_name user.username  %}">View Portfolio</a>
+                                        <a href="{% url 'faculty:student-list' user.college.clg_u_name user.username  %}">View List</a>
                                     </li>
                                     <li>
-                                        <a href="{% url 'student:update-portfolio' user.college.clg_u_name user.username%} ">Update Portfolio</a>
+                                        {% comment %} <a href="{% url 'faculty:update-portfolio' user.college.clg_u_name user.username%} ">Update Portfolio</a> {% endcomment %}
                                     </li>
                                 </ul>
                             </div>
+                        </li>
+                        <li>
+                            <a href="{% url 'faculty:forum' user.college.clg_u_name user.username %}">
+                                <i class="fas fa-book-open"></i>
+                                <span class="menu-text">Forum</span>
+                            </a>
                         </li>
                         
                         <li class="header-menu">
@@ -122,7 +128,7 @@
                             </a>
                         </li>
                         <li>
-                            <a href="{% url 'student:syllabus' user.college.clg_u_name user.username %}">
+                            <a href="{% url 'faculty:syllabus' user.college.clg_u_name user.username %}">
                                 <i class="fas fa-book-open"></i>
                                 <span class="menu-text">Syllabus</span>
                             </a>
