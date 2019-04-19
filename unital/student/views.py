@@ -122,3 +122,18 @@ class ForumView(ListView):
     def get_object(self):
         return Question.objects.filter(for_college = self.request.user.college, for_department = self.request.user.department)
 
+#################### SETTINGS #########################
+def settings(request, **kwargs):
+    context = {}
+    if request.method == 'POST':
+        context['saved'] = False
+        profileForm = ProfileSettingModelForm(request.POST, request.FILES, instance=request.user)
+        if profileForm.is_valid():
+            if profileForm.save():
+                password = request.POST.get('password')
+                user = main_app_models.User.objects.get(id=request.user.id)
+                if(password and len(password)<20):
+                    user.set_password(password)
+                    user.save()
+                context['saved'] = True
+    return render(request, 'college/student/settings/settings.html', context = context)

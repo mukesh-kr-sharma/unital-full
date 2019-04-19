@@ -1,0 +1,74 @@
+{% extends 'college/student/base.html' %}
+
+{% block title %}{{user.get_full_name}}: {{user.college.clg_name}}: Settings{% endblock title %}
+
+{% block page_content %}
+<h3>Settings</h3>
+<hr class="mb-0">
+<form method="POST" enctype=multipart/form-data>
+    {% csrf_token %}
+    <div class="form-row">
+        <div class="col pl-4 pr-4 pt-2 mr-3 border-right">
+            <div class="row mt-2">
+                <label class="col-md-4 my-auto">Name</label>
+                <input class="form-control col-md-8" type="text" placeholder="First Name" disabled="True" value="{{ user.get_full_name }}"></div>
+            <div class="row mt-4">
+                <label class="col-md-4 my-auto">Phone Number</label>
+                <input class="form-control col-md-8" type="text" placeholder="" name="phone_no" value="{{ user.phone_no }}">
+            </div>
+            <div class="row mt-4">
+                <label class="col-md-4 mt-2">Address</label>
+                <textarea class="form-control col" rows="3" name="address" placeholder="Your address here" style="resize:none">{{ user.address }}</textarea>
+            </div>
+            <hr>
+            <h6 class="border-bottom">Change Password</h6>
+            <div class="row mt-3">
+                <label class="col-md-4 my-auto">New Password</label>
+                <input class="form-control col" type="password" name="password" placeholder="Leave blank for no change">
+            </div>
+        </div>
+        <div class="col-sm-4 p-3">
+            <div class="m-2 p-2"><img id="profile-pic" src="{{request.scheme}}://{{ request.META.HTTP_HOST }}{{ user.profile_pic.url }}"
+                    class="rounded-circle shadow-sm border-info" style="max-height:100%; max-width: 100%"></div>
+            <div>
+                <center>
+                    <label class="btn btn-outline-secondary" for="my-file-selector">
+                        <input id="my-file-selector" type="file" name="profile_pic" style="display:none">
+                        Upload Image
+                    </label>
+                    <br>
+                    <span class='label label-info' id="upload-file-info"></span>
+                </center>
+            </div>
+        </div>
+    </div>
+    <hr class="mt-0">
+    <input type="submit" class="btn btn-lg btn-primary rounded-0 mr-4 ml-auto d-block px-5 mt-5" value="Submit">
+</form>
+
+{% endblock page_content %}
+
+{% block scripts %}
+
+<script>
+
+    $(document).on('change', '#my-file-selector', function(event) {
+        $('#upload-file-info').html(this.files[0].name);
+        $('#profile-pic').attr('src', URL.createObjectURL(event.target.files[0]));
+    });
+
+    {% if saved %}
+    $.notify({
+        // options
+        message: 'Changes saved successfully!!' 
+    },{
+        // settings
+        type: 'success',
+        animate: {
+            enter: 'animated fadeInRight',
+            exit: 'animated fadeOutRight'
+        }
+    });
+    {% endif %}
+</script>
+{% endblock scripts %}

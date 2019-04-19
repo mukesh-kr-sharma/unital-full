@@ -30,7 +30,7 @@
                 <!-- sidebar-header  -->
                 <div class="sidebar-item sidebar-header d-flex flex-nowrap">
                     <div class="user-pic">
-                        <img class="img-responsive img-rounded" src="{{request.scheme}}://{{ request.META.HTTP_HOST }}{{ user.profile_pic.url }}" alt="User picture">
+                        <img class="img-responsive rounded" src="{{request.scheme}}://{{ request.META.HTTP_HOST }}{{ user.profile_pic.url }}" alt="User picture">
                     </div>
                     <div class="user-info">
                         <span class="user-name"><strong>{{ user.first_name }}</strong>
@@ -284,7 +284,7 @@
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuMessage">
                         <a class="dropdown-item" href="#">My profile</a>
                         <a class="dropdown-item" href="#">Help</a>
-                        <a class="dropdown-item" href="#">Setting</a>
+                        <a class="dropdown-item" href="{% url 'student:settings' user.college.clg_u_name user.username %}">Setting</a>
                     </div>
                 </div>
                 <div>
@@ -316,6 +316,7 @@
     <script src="{% static 'js/popper.min.js'%}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/jquery.mCustomScrollbar.concat.min.js'%}"></script>
+    <script src="{% static 'js/bootstrap-notify.js' %}"></script>
     <script src="{% static 'profile/js/main.js' %}"></script>
 
     {% block scripts %}

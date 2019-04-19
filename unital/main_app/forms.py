@@ -1,6 +1,23 @@
 # # https://django-betterforms.readthedocs.io/en/latest/multiform.html#working-with-modelforms
-# from django import forms
-# from .models import User
+from django import forms
+from .models import User
+
+##################### SETTINGS #######################
+class UpdateProfilePicModelForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ("profile_pic",)
+
+
+
+
+
+
+
+
+
+
+
 # class UserCreationForm(forms.ModelForm):
 #     password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
 #     password2 = forms.CharField(
@@ -23,3 +40,4 @@
 #         if commit:
 #             user.save()
 #         return user
+

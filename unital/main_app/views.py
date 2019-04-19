@@ -25,22 +25,28 @@ def redirect_view(request):
     return redirect('unital_homepage')
 
 def user_login(request):
-    username = request.POST.get('username')
-    password = request.POST.get('password')
-    user_type = request.POST.get('user_type')
-    college = request.POST.get('college')
-    
-    user = authenticate(request, username=username, password=password)
+    context = {}
+    if request.POST:
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user_type = request.POST.get('user_type')
+        college = request.POST.get('college')
 
-    if (user is not None) and (user.user_type == user_type):
-        login(request, user)
-        return redirect('redirect')
-    else:
-        if request.POST:
-            context = {'login-error': 'Invalid Credentials'}
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            if user.user_type == user_type:
+                if (user_type == 'student') or (user_type == 'faculty'):
+                    if (str(user.college.pk) == str(college)):
+                        login(request, user)
+                    else:
+                        print(user.college.pk)
+                        print(college)
+            return redirect('redirect')
         else:
-            context = {}
-        return render(request, template_name='unital/unital-homepage.html', context=context)
+            context = {'login-error': 'Invalid Credentials'}
+    else:
+        context['college_list'] = College.objects.all()
+    return render(request, template_name='unital/login-page.html', context=context)
 
 def user_logout(request):
     college = False

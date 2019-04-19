@@ -29,6 +29,19 @@
                 <div class="bg-dark p-4">
                     <h5 class="text-white h4">Collapsed content</h5>
                     <span class="text-muted">Toggleable via the navbar brand.</span>
+
+                    {% if not user.is_authenticated %}
+
+                    <button type="button" class="btn btn-outline-primary btn-lg bg-white text-secondary py-2 px-4 my-2" data-toggle="modal" data-target="#studentLoginModal">
+                        Student Login
+                    </button>
+
+
+                    <button type="button" class="btn btn-outline-primary btn-lg bg-white text-secondary py-2 px-4 my-2" data-toggle="modal" data-target="#facultyLoginModal">
+                        Faculty Login
+                    </button>
+
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -70,7 +83,7 @@
         </div>
     </section>
 
-    {% comment %} <section id="principal-message" class="bg-primary text-light mb-0">
+    <section id="principal-message" class="bg-primary text-light mb-0">
         <div class="container">
             <h2 class="font-weight-light border-bottom pb-4 mb-3 pt-4">Principal Message</h2>
             <blockquote class="blockquote">
@@ -83,7 +96,7 @@
                 <footer class="blockquote-footer text-light pt-3 pb-4 text-right">Principal: <cite title="Source Title">Mr. Funsuik Wangdu</cite></footer>
             </blockquote>
         </div>
-    </section> {% endcomment %}
+    </section>
 
     {% comment %} <section id="about-us" class="bg-info text-light mt-0">
         <div class="container">
@@ -173,21 +186,12 @@
         </div>
         
     </section>
-    {% comment %} </div>
-</div> {% endcomment %}
+    
+    <section id="login-buttons">
 
-    {% if not user.is_authenticated %}
-    <!-- STUDENT LOGIN -->
-    <section id="student-login" class="bg-primary text-center text-light py-3">
-        <h1 class="display-4">Student Login</h1>
-        <p class="lead">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Fugiat repellat quos asperiores exercitationem sed!</p>
+    </section>
 
-        <!-- Button trigger modal -->
-        <button type="button" class="btn btn-outline-primary btn-lg bg-white text-secondary py-2 px-4 my-2" data-toggle="modal" data-target="#studentLoginModal">
-            Student Login
-        </button>
-        
-        <!-- Modal -->
+    <section id="login-modals">
         <div class="modal fade" id="studentLoginModal" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content text-dark">
@@ -209,6 +213,7 @@
                                 <input type="password" class="form-control" name="password" id="student-password" placeholder="Password">
                             </div>
                             <input type="hidden" name="user_type" value='student'>
+                            <input type="hidden" name="college" value="{{ college.pk }}">
                             <button type="submit" class="btn btn-primary btn-block btn-lg mt-2">Login</button>
                         </div>
                         <div class="modal-footer bg-light">
@@ -222,21 +227,7 @@
                 </div>
             </div>
         </div>
-    </section>
 
-
-
-    <!-- FACULTY LOGIN -->
-    <section id="faculty-login" class="bg-info text-center text-light py-3">
-        <h1 class="display-4">Faculty Login</h1>
-        <p class="lead">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Fugiat repellat quos asperiores exercitationem sed!</p>
-
-        <!-- Button trigger modal -->
-        <button type="button" class="btn btn-outline-primary btn-lg bg-white text-secondary py-2 px-4 my-2" data-toggle="modal" data-target="#facultyLoginModal">
-            Faculty Login
-        </button>
-        
-        <!-- Modal -->
         <div class="modal fade" id="facultyLoginModal" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content text-dark">
@@ -258,6 +249,7 @@
                                 <input type="password" class="form-control" name="password" id="faculty-password" placeholder="Password">
                             </div>
                             <input type="hidden" name="user_type" value='faculty'>
+                            <input type="hidden" name="college" value="{{ college.pk }}">
                             <button type="submit" class="btn btn-primary btn-block btn-lg mt-2">Login</button>
                         </div>
                         <div class="modal-footer bg-light">
@@ -270,8 +262,38 @@
                 </div>
             </div>
         </div>
+
     </section>
-    {% endif %}
+
+    {% comment %} {% if not user.is_authenticated %}
+    <!-- STUDENT LOGIN -->
+    <section id="student-login" class="bg-primary text-center text-light py-3">
+        <h1 class="display-4">Student Login</h1>
+        <p class="lead">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Fugiat repellat quos asperiores exercitationem sed!</p>
+
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-outline-primary btn-lg bg-white text-secondary py-2 px-4 my-2" data-toggle="modal" data-target="#studentLoginModal">
+            Student Login
+        </button>
+        
+        <!-- Modal -->
+        
+    </section>
+
+    <!-- FACULTY LOGIN -->
+    <section id="faculty-login" class="bg-info text-center text-light py-3">
+        <h1 class="display-4">Faculty Login</h1>
+        <p class="lead">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Fugiat repellat quos asperiores exercitationem sed!</p>
+
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-outline-primary btn-lg bg-white text-secondary py-2 px-4 my-2" data-toggle="modal" data-target="#facultyLoginModal">
+            Faculty Login
+        </button>
+        
+        <!-- Modal -->
+        
+    </section>
+    {% endif %} {% endcomment %}
 
 
     
