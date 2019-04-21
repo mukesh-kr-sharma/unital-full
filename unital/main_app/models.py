@@ -109,9 +109,9 @@ class Notice(models.Model):
 
     title = models.CharField(max_length=400)
     body = models.TextField()
-    link = models.URLField()
-    pub_date = models.DateField(default=timezone.now)
-    expire_date = models.DateField(default=thirty_day_hence)
+    link = models.URLField(blank=True, null=True)
+    pub_date = models.DateTimeField(_("Published On"), auto_now_add=True)
+    expiry_date = models.DateField(_("Expiry Date"), default=thirty_day_hence)
 
     def __str__(self):
         return str(self.id) + '. ' + self.pub_date.strftime("%d-%b-%Y")
@@ -132,8 +132,21 @@ class CollegePictures(models.Model):
         verbose_name_plural = '5. College Pictures'
 
 ######### COLLEGE NOTICE BOARD #############
-class CollegeNotice(Notice):
+class CollegeNotice(models.Model):
+    def thirty_day_hence():
+        """ Hii """
+        return timezone.now() + timezone.timedelta(days=30)
+
+    title = models.CharField(max_length=400)
+    body = models.TextField()
+    link = models.URLField(blank=True, null=True)
+    pub_date = models.DateTimeField(_("Published On"), auto_now_add=True)
+    expiry_date = models.DateField(_("Expiry Date"), default=thirty_day_hence)
+
     college = models.ForeignKey(College, on_delete=models.CASCADE, related_name='notice')
+    department = models.ForeignKey(Department, verbose_name=_("Department"), on_delete=models.CASCADE, blank=True, null=True)
+    pub_by = models.ForeignKey("User", verbose_name=_("Published By"), on_delete=models.CASCADE)
+
     def __str__(self):
         return str(self.id) + '. ' + self.pub_date.strftime("%d-%b-%Y")
     

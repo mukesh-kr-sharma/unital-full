@@ -124,6 +124,26 @@
                 </div>
                 {% endfor %}
             </div>
+
+            <div id="empty_technicalskill_form" style="display:none">
+                <div class="row technicalskill_form">
+                    {% for hidden in technicalskill_formset.empty_form.hidden_fields %}
+                    {{ hidden }}
+                    {% endfor %}
+                    {% for field in technicalskill_formset.empty_form.visible_fields %}
+                    <div class="form-group row mr-2 {% cycle 'col-md-3' 'col-md-3' 'col-md-3' 'col-md-3'%}">
+                        <label for="{{ field.id_for_label }}"
+                            class="col-md-4 font-weight-bold my-auto">{{ field.label }}</label>
+                        {{ field|add_class:"form-control col-md-8 my-auto" }}
+                        {% for error in field.errors %}
+                        <span class="help-block">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <button class="btn btn-outline-secondary add-more-technical-skill my-3 d-inline-block">Add More</button>
         </div>
     </div>
     <hr>
@@ -142,6 +162,16 @@
         $('.skillset_formset').append($('#empty_skillset_form').html().replace(/__prefix__/g, form_idx));
         $('#id_skill_set-' + current_form + '-portfolio').val(portfolio_id);
         $('#id_skill_set-TOTAL_FORMS').val(parseInt(form_idx) + 1);
+    });
+
+    $(".add-more-technical-skill").on("click", function (e) {
+        e.preventDefault();
+        var form_idx = $('#id_technical_skill-TOTAL_FORMS').val();
+        var portfolio_id = parseInt($('#id_technical_skill-0-portfolio').val());
+        var current_form = $('#id_technical_skill-TOTAL_FORMS').val();
+        $('.technicalskill_formset').append($('#empty_technicalskill_form').html().replace(/__prefix__/g, form_idx));
+        $('#id_technical_skill-' + current_form + '-portfolio').val(portfolio_id);
+        $('#id_technical_skill-TOTAL_FORMS').val(parseInt(form_idx) + 1);
     });
 
 </script>

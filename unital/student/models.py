@@ -54,15 +54,15 @@ class AcademicQualification(models.Model):
     def current_year():
         return datetime.date.today().year
     portfolio = models.OneToOneField("Portfolio", verbose_name=_("Portfolio"), related_name='academic_qualification',      on_delete=models.CASCADE)
-    metric_school = models.CharField(_("10th School"), max_length=150)
-    metric_board = models.CharField(_("10th Board"), max_length=50)
-    metric_percentage = models.DecimalField(_("10th Percentage"), max_digits=5, decimal_places=2)
-    metric_pass_year = models.IntegerField(_('10th Passing Year'), choices=PortfolioChoices.YEAR_CHOICES, default=current_year)
-    inter_school = models.CharField(_("12th School/College"), max_length=150)
-    inter_board = models.CharField(_("12th Board"), max_length=50)
-    inter_percentage = models.DecimalField(_("12th Percentage"), max_digits=5, decimal_places=2)
-    inter_pass_year = models.IntegerField(_('12th Passing Year'), choices=PortfolioChoices.YEAR_CHOICES, default=current_year)
-    graduation_percentage = models.DecimalField(_("Graduation Percentage"), max_digits=5, decimal_places=2)
+    metric_school = models.CharField(_("10th School"), max_length=150, null=True)
+    metric_board = models.CharField(_("10th Board"), max_length=50, null=True)
+    metric_percentage = models.DecimalField(_("10th Percentage"), max_digits=5, decimal_places=2, null=True)
+    metric_pass_year = models.IntegerField(_('10th Passing Year'), choices=PortfolioChoices.YEAR_CHOICES, default=current_year, null=True)
+    inter_school = models.CharField(_("12th School/College"), max_length=150, null=True)
+    inter_board = models.CharField(_("12th Board"), max_length=50, null=True)
+    inter_percentage = models.DecimalField(_("12th Percentage"), max_digits=5, decimal_places=2, null=True)
+    inter_pass_year = models.IntegerField(_('12th Passing Year'), choices=PortfolioChoices.YEAR_CHOICES, default=current_year, null=True)
+    graduation_percentage = models.DecimalField(_("Graduation Percentage"), max_digits=5, decimal_places=2, null=True)
 
     def __str__(self):
         return str(self.portfolio.user.first_name) + ' ' + str(self.portfolio.user.last_name)

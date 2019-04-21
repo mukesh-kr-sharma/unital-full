@@ -16,21 +16,22 @@
     <link rel="stylesheet" href="{% static 'css/jquery.mCustomScrollbar.min.css' %}">
     <link rel="stylesheet" href="{% static 'profile/css/main.css' %}">
     <link rel="stylesheet" href="{% static 'profile/css/sidebar-themes.css' %}">
+    <link rel="stylesheet" href="{% static 'css/datatables.css' %}">
     <link rel="shortcut icon" type="image/png" href="img/favicon.png" />
 </head>
 
 <body id="student-body">
     <div class="page-wrapper default-theme sidebar-bg bg1 toggled">
-        <nav id="sidebar" class="sidebar-wrapper">
+        <nav id="sidebar" class="sidebar-wrapper d-none d-md-block">
             <div class="sidebar-content">
                 <!-- sidebar-brand  -->
                 <div class="sidebar-item sidebar-brand">
-                    <a href="{% url 'student:homepage' user.college.clg_u_name user.username %}">unital</a>
+                    <a href="{% url 'faculty:homepage' user.college.clg_u_name user.username %}">unital</a>
                 </div>
                 <!-- sidebar-header  -->
                 <div class="sidebar-item sidebar-header d-flex flex-nowrap">
                     <div class="user-pic">
-                        <img class="img-responsive img-rounded" src="{{request.scheme}}://{{ request.META.HTTP_HOST }}{{ user.profile_pic.url }}" alt="User picture">
+                        <img class="img-responsive rounded" src="{{request.scheme}}://{{ request.META.HTTP_HOST }}{{ user.profile_pic.url }}" alt="User picture">
                     </div>
                     <div class="user-info">
                         <span class="user-name"><strong>{{ user.first_name }}</strong>
@@ -68,7 +69,7 @@
                                 <span class="menu-text">Dashboard</span>
                             </a>
                         </li>
-                        <li class="sidebar-dropdown">
+                        <!-- <li class="sidebar-dropdown">
                             <a href="#">
                                 <i class="fas fa-award"></i>
                                 <span class="menu-text">Examinations</span>
@@ -103,11 +104,17 @@
                                     </li>
                                 </ul>
                             </div>
-                        </li>
+                        </li> -->
                         <li>
                             <a href="{% url 'faculty:forum' user.college.clg_u_name user.username %}">
                                 <i class="fas fa-book-open"></i>
                                 <span class="menu-text">Forum</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{% url 'faculty:notice-list' user.college.clg_u_name user.username %}">
+                                <i class="fa fa-tachometer-alt"></i>
+                                <span class="menu-text">Notice</span>
                             </a>
                         </li>
                         
@@ -265,7 +272,7 @@
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuMessage">
                         <a class="dropdown-item" href="#">My profile</a>
                         <a class="dropdown-item" href="#">Help</a>
-                        <a class="dropdown-item" href="#">Setting</a>
+                        <a class="dropdown-item" href="{% url 'faculty:settings' user.college.clg_u_name user.username %}">Setting</a>
                     </div>
                 </div>
                 <div>
@@ -281,8 +288,8 @@
             </div>
         </nav>
         <!-- page-content  -->
-        <main class="page-content pt-2 bg-light">
-            <div id="overlay" class="overlay"></div>
+        <main class="page-content pt-2 bg-light" style="min-height:100vh">
+            {% comment %} <div id="overlay" class="overlay"></div> {% endcomment %}
             <div class="container-fluid px-5 py-3">
                 {% block page_content %}
                 {% endblock page_content %}
@@ -297,6 +304,8 @@
     <script src="{% static 'js/popper.min.js'%}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/jquery.mCustomScrollbar.concat.min.js'%}"></script>
+    <script src="{% static 'js/bootstrap-notify.js' %}"></script>
+    <script src="{% static 'js/datatables.js' %}"></script>
     <script src="{% static 'profile/js/main.js' %}"></script>
 
     {% block scripts %}
@@ -304,24 +313,3 @@
 </body>
 
 </html>
-
-
-
-
-
-
-{% comment %} <input type="text" name="metric_school" value="BRL DAV Public School" maxlength="150" required id="id_metric_school"></td></tr>
-<input type="text" name="metric_board" value="CBSE" maxlength="50" required
-id="id_metric_board"></td></tr>
-<input type="number" name="metric_percentage" value="83.00" step="0.01" required id="id_metric_percentage"></td></tr>
-<select name="metric_pass_year" id="id_metric_pass_year">
-  <option value="2014" selected>2014</option>
-<input type="hidden" name="initial-metric_pass_year" value="2014" id="initial-id_metric_pass_year"></td></tr>
-<input type="text" name="inter_school" value="BRL DAV Public School" maxlength="150" required id="id_inter_school"></td></tr>
-<input type="text" name="inter_board" value="CBSE" maxlength="50" required id="id_inter_board"></td></tr>
-<input type="number" name="inter_percentage" value="82.00" step="0.01" required id="id_inter_percentage"></td></tr>
-<select name="inter_pass_year" id="id_inter_pass_year">
-  <option value="2016" selected>2016</option>
-</select>
-<input type="hidden" name="initial-inter_pass_year" value="2016" id="initial-id_inter_pass_year"></td></tr>
-<input type="number" name="graduation_percentage" value="83.00" step="0.01" required id="id_graduation_percentage"><input type="hidden" name="portfolio" value="1" id="id_portfolio"></td></tr> {% endcomment %}

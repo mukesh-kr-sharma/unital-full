@@ -5,6 +5,7 @@ from django.forms.models import modelformset_factory
 from django.urls import reverse_lazy
 from main_app.models import User, Syllabus
 from .forms import *
+from main_app.forms import ProfileSettingModelForm
 from .models import *
 from main_app import models as main_app_models
 from forum.models import *
@@ -36,25 +37,33 @@ def update_portfolio(request, **kwargs):
         
         if skillset_formset.is_valid():
             skillset_formset.save()
+        # else:
+        #     print(skillset_formset.errors)
         
         if technicalskill_formset.is_valid():
             technicalskill_formset.save()
+        else:
+            print(technicalskill_formset.non_form_errors())
+            for form in technicalskill_formset:
+                if not form.is_valid():
+                    print(form.data)
+        
 
         return redirect(reverse_lazy('redirect'))
     else:
         context = {}
         template_name = 'college/student/portfolio/edit-portfolio.html'
-        portfolio_form = PortfolioModelForm(instance=Portfolio.objects.get_or_create(user=request.user.id)[0])
-        academic_qualification_form = AcademicQualificationModelForm(instance=AcademicQualification.objects.get_or_create(portfolio=request.user.portfolio.id)[0])
+        portfolio_form = PortfolioModelForm(instance=Portfolio.objects.get_or_create(user=request.user)[0])
+        academic_qualification_form = AcademicQualificationModelForm(instance=AcademicQualification.objects.get_or_create(portfolio=request.user.portfolio)[0])
 
 
         SkillSetFormSet = modelformset_factory(SkillSet, form=SkillSetModelForm, extra=0, can_delete=True)
-        skillset_formset = SkillSetFormSet(queryset=SkillSet.objects.filter(portfolio=request.user.portfolio.id), 
+        skillset_formset = SkillSetFormSet(queryset=SkillSet.objects.filter(portfolio=request.user.portfolio), 
                             prefix="skill_set",
                             initial=[{'portfolio': request.user.portfolio.id,}])
         
-        TechnicalSkillFormSet = modelformset_factory(TechnicalSkill, form=TechnicalSkillModelForm, extra=2, can_delete=True)
-        technicalskill_formset = TechnicalSkillFormSet(queryset=TechnicalSkill.objects.filter(portfolio=request.user.portfolio.id), 
+        TechnicalSkillFormSet = modelformset_factory(TechnicalSkill, form=TechnicalSkillModelForm, extra=0, can_delete=True)
+        technicalskill_formset = TechnicalSkillFormSet(queryset=TechnicalSkill.objects.filter(portfolio=request.user.portfolio), 
                              prefix="technical_skill",
                              initial=[{'portfolio': request.user.portfolio.id,}])
 
@@ -71,7 +80,11 @@ def portfolio(request, **kwargs):
     student = User.objects.get(username=username, user_type='student')
     context = {}
     if student.college.clg_u_name == college:
-        technical_skill = student.portfolio.technical_skill.all().order_by('-skill_level')
+        try:
+            technical_skill = student.portfolio.technical_skill.all().order_by('-skill_level')
+        except:
+            return redirect('student:update-portfolio', clg_u_name=request.user.college.clg_u_name, username=request.user.username)
+        
         skill_title = []
         for skill in technical_skill:
             skill_title.append(skill.skill_title)
@@ -108,10 +121,11 @@ class PreviousYearQuestionListView(ListView):
 class ForumView(ListView):
     model = Question
     context_object_name = 'question_list'
-    template_name = 'college/student/forum/forum.html'
+    template_name = 'college/forum/forum-main.html'
     extra_context = {
         'COLLEGE_CHOICES': main_app_models.College.objects.all(),
         'DEPARTMENT_CHOICES': main_app_models.Department.objects.all(),
+        'BASE_TEMPLATE' : 'college/student/base.html',
     }
 
     def get_context_data(self, **kwargs):
@@ -124,7 +138,7 @@ class ForumView(ListView):
 
 #################### SETTINGS #########################
 def settings(request, **kwargs):
-    context = {}
+    context = {'BASE_TEMPLATE':'college/student/base.html'}
     if request.method == 'POST':
         context['saved'] = False
         profileForm = ProfileSettingModelForm(request.POST, request.FILES, instance=request.user)
@@ -136,4 +150,4 @@ def settings(request, **kwargs):
                     user.set_password(password)
                     user.save()
                 context['saved'] = True
-    return render(request, 'college/student/settings/settings.html', context = context)
+    return render(request, 'college/settings/settings-main.html', context = context)

@@ -5,13 +5,10 @@ from .models import *
 
 
 class UserAdmin(admin.ModelAdmin):
-
     def name(obj):
         return "%s %s" % (obj.first_name, obj.last_name)
-
     list_display = ('id', 'username', name, 'user_type', 'department', 'college', 'email')
     list_filter = ('user_type', 'college', 'department', 'session')
-    
     fields = ('first_name', 
               'last_name',
               'father_name', 
@@ -28,11 +25,9 @@ class UserAdmin(admin.ModelAdmin):
               'phone_no', 
               'dob', 
               'address' )
-    # exclude = ('user_permissions','groups','is_staff', 'is_active','last_login','date_joined',) 
     list_display_links = ('id', 'username')
     search_fields = ('username', 'first_name')
     list_per_page = 25
-
     def save_model(self, request, obj, form, change):
         password = str(obj.password)
         if(password and len(password)<20):

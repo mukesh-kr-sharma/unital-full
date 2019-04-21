@@ -4,6 +4,27 @@ $color-2: rgb(58, 74, 178);
 $color-3:#343a40;
 $color-4: #dadada;
 $home-height: 768px;
+
+select.form-control {
+    -webkit-appearance: none;
+}
+
+pre {
+    white-space: pre-wrap;
+    /* Since CSS 2.1 */
+    white-space: -moz-pre-wrap;
+    /* Mozilla, since 1999 */
+    white-space: -pre-wrap;
+    /* Opera 4-6 */
+    white-space: -o-pre-wrap;
+    /* Opera 7 */
+    word-wrap: break-word;
+    /* Internet Explorer 5.5+ */
+    font-family: "Times New Roman",
+    Times,
+    serif;
+}
+
 body {
     min-width: 496px;
 }

@@ -1,5 +1,5 @@
-{% extends 'college/student/base.html' %}
-
+{% extends BASE_TEMPLATE %}
+{% comment %} {% extends 'college/student/base.html' %} {% endcomment %}
 {% block title %}{{user.get_full_name}}: {{user.college.clg_name}}: Settings{% endblock title %}
 
 {% block page_content %}

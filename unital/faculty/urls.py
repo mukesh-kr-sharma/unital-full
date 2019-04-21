@@ -12,4 +12,11 @@ urlpatterns = [
     path('student-list/<slug:student_username>', StudentDetailView.as_view(), name="student-detail"),
     path('syllabus', syllabus, name="syllabus"),
     path('forum', ForumView.as_view(), name="forum"),
+    path('settings', settings, name='settings'),
+
+    path('notice', notice_list, name="notice-list"),
+    # path('notice/add', NoticeCreateView.as_view(), name="notice-create"),
+    path('notice/<int:pk>', notice_detail, name="notice-detail"),
+    path('notice/<int:pk>/update', notice_update, name="notice-update"),
+    path('notice/<int:pk>/delete', notice_delete, name="notice-delete"),
 ]

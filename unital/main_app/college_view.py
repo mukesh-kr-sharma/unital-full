@@ -9,6 +9,7 @@ class CollegeHomepageView(TemplateView):
     template_name = 'college/college-homepage.html'
     def get_context_data(self, **kwargs):
         context = super(CollegeHomepageView, self).get_context_data(**kwargs)
+        # print(kwargs)
         context['college'] = College.objects.get(clg_u_name=kwargs['clg_u_name'])
         # context['college.notice'] = College.notice.objects.order_by('-pub_date', '-id')[0:10]
         # context['college.notice'] = College.notice.objects.all()

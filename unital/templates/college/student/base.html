@@ -21,7 +21,7 @@
 
 <body id="student-body">
     <div class="page-wrapper default-theme sidebar-bg bg1 toggled">
-        <nav id="sidebar" class="sidebar-wrapper">
+        <nav id="sidebar" class="sidebar-wrapper d-none d-md-block">
             <div class="sidebar-content">
                 <!-- sidebar-brand  -->
                 <div class="sidebar-item sidebar-brand">
@@ -300,8 +300,7 @@
             </div>
         </nav>
         <!-- page-content  -->
-        <main class="page-content pt-2 bg-light">
-            <div id="overlay" class="overlay"></div>
+        <main class="page-content pt-2 bg-light" style="min-height:100vh">
             <div class="container-fluid px-5 py-3">
                 {% block page_content %}
                 {% endblock page_content %}
@@ -324,24 +323,3 @@
 </body>
 
 </html>
-
-
-
-
-
-
-{% comment %} <input type="text" name="metric_school" value="BRL DAV Public School" maxlength="150" required id="id_metric_school"></td></tr>
-<input type="text" name="metric_board" value="CBSE" maxlength="50" required
-id="id_metric_board"></td></tr>
-<input type="number" name="metric_percentage" value="83.00" step="0.01" required id="id_metric_percentage"></td></tr>
-<select name="metric_pass_year" id="id_metric_pass_year">
-  <option value="2014" selected>2014</option>
-<input type="hidden" name="initial-metric_pass_year" value="2014" id="initial-id_metric_pass_year"></td></tr>
-<input type="text" name="inter_school" value="BRL DAV Public School" maxlength="150" required id="id_inter_school"></td></tr>
-<input type="text" name="inter_board" value="CBSE" maxlength="50" required id="id_inter_board"></td></tr>
-<input type="number" name="inter_percentage" value="82.00" step="0.01" required id="id_inter_percentage"></td></tr>
-<select name="inter_pass_year" id="id_inter_pass_year">
-  <option value="2016" selected>2016</option>
-</select>
-<input type="hidden" name="initial-inter_pass_year" value="2016" id="initial-id_inter_pass_year"></td></tr>
-<input type="number" name="graduation_percentage" value="83.00" step="0.01" required id="id_graduation_percentage"><input type="hidden" name="portfolio" value="1" id="id_portfolio"></td></tr> {% endcomment %}
