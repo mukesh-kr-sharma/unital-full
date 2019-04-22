@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'main_app',
     'student',
     'faculty',
+    'guest',
     'forum',
 ]
 

@@ -72,3 +72,9 @@ class HomePageView(TemplateView):
 
 class AdminDashboardView(TemplateView):
     template_name = 'unital/admin_dashboard.html'
+
+def guest_registration(request):
+    context = {}
+    if request.method == 'POST':
+        pass
+    return render(request, template_name='unital/guest/register.html', context=context)
