@@ -32,8 +32,9 @@
         <div class="bg-white col-md-6 rounded mt-5 pt-5">
             <h3 class="text-center">SIGN IN</h3>
             <form method="POST" class="px-5 mt-5">
+                {% csrf_token %}
                 <div>
-                    <input type="text" class="form-control p-4 mb-3" placeholder="Username">
+                    <input type="text" class="form-control p-4 mb-3" name="username" placeholder="Username">
                 </div>
                 <div class="input-group">
                     <input type="password" name="password" class="form-control p-4" data-toggle="password" placeholder="Password">
@@ -44,7 +45,7 @@
                     </div>
                 </div>
                 <input type="hidden" name="user_type" value="guest">
-                <input type="submit" name="submit" id="submit" class="form-submit mt-4" value="Sign In">
+                <input type="submit" id="submit" class="form-submit mt-4" value="Sign In">
             </form>
             <hr class="mt-5">
 

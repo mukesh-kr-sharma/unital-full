@@ -1,98 +1,324 @@
 {% load static %}
+{% block load_tag %}
+{% endblock load_tag %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{% endblock title %}</title>
     <link rel="stylesheet" href="{% static 'css/all.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
-    <link rel="stylesheet" href="{% static 'css/bootstrap-datepicker.min.css' %}">
-    <link href="https://fonts.googleapis.com/css?family=Quicksand:700" rel="stylesheet">
-    <title>Document</title>
-    <style>
-        .form-submit {
-                width: 100%;
-                border-radius: 5px;
-                padding: 17px 20px;
-                box-sizing: border-box;
-                font-size: 14px;
-                font-weight: 700;
-                color: #fff;
-                text-transform: uppercase;
-                border: none;
-                background-image: linear-gradient(to left, #74ebd5, #9face6);
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'css/pretty-checkbox.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/jquery.mCustomScrollbar.min.css' %}">
+    <link rel="stylesheet" href="{% static 'profile/css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'profile/css/sidebar-themes.css' %}">
+    <link rel="shortcut icon" type="image/png" href="img/favicon.png" />
 </head>
-<body style="background:url('{% static 'img/signup-bg.jpg'%}')">
 
-    <div class="container d-flex align-items-center justify-content-center">
-        <div class="bg-white rounded mt-5 pt-5 w-75 ">
-            <h3 class="text-center">CREATE ACCOUNT</h3>
-            <form class="px-5 mt-5">
-                <div class="row mb-4">
-                    <div class="col-md-6">
-                        <input type="text" class="form-control p-4" placeholder="First Name">
+<body id="student-body">
+    <div class="page-wrapper default-theme sidebar-bg bg1 toggled">
+        <nav id="sidebar" class="sidebar-wrapper d-none d-md-block">
+            <div class="sidebar-content">
+                <!-- sidebar-brand  -->
+                <div class="sidebar-item sidebar-brand">
+                    <a href="#">unital</a>
+                </div>
+                <!-- sidebar-header  -->
+                <div class="sidebar-item sidebar-header d-flex flex-nowrap">
+                    <div class="user-pic">
+                        <img class="img-responsive rounded" src="{{request.scheme}}://{{ request.META.HTTP_HOST }}{{ user.profile_pic.url }}" alt="User picture">
                     </div>
-                    <div class="col">
-                        <input type="text" class="form-control p-4" placeholder="Last Name">
+                    <div class="user-info">
+                        <span class="user-name"><strong>{{ user.first_name }}</strong>
+                            {{ user.last_name }}
+                        </span>
+                        <span class="user-role">{{ user.user_type|capfirst }}</span>
+                        <span class="user-status">
+                            <i class="fa fa-circle"></i>
+                            <span>Online</span>
+                        </span>
                     </div>
                 </div>
-                <div class="row mb-4">
-                    <div class="col-md-6">
-                        <input type="email" class="form-control p-4" placeholder="Email ID">
-                    </div>
-                    <div class="col">
-                        <input type="text" class="form-control p-4" placeholder="Username">
-                    </div>
-                </div>
-                <div class="row mb-4">
-                    <div class="col-md-6">
-                    <div class="input-group">
-                        <input type="password" name="password" class="form-control p-4" data-toggle="password" placeholder="Password">
-                        <div class="input-group-append">
-                            <span class="input-group-text bg-white border-left-0">
-                                <i class="fa fa-eye"></i>
-                            </span>
+                <!-- sidebar-search  -->
+                <!-- <div class="sidebar-item sidebar-search">
+                    <div>
+                        <div class="input-group">
+                            <input type="text" class="form-control search-menu" placeholder="Search...">
+                            <div class="input-group-append">
+                                <span class="input-group-text">
+                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                </span>
+                            </div>
                         </div>
+                    </div>
+                </div> -->
+                <!-- sidebar-menu  -->
+                <div class=" sidebar-item sidebar-menu">
+                    <ul>
+                        <li class="header-menu">
+                            <span>General</span>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fa fa-tachometer-alt"></i>
+                                <span class="menu-text">Dashboard</span>
+                            </a>
+                        </li>
+                        {% comment %} <li class="sidebar-dropdown">
+                            <a href="#">
+                                <i class="fas fa-award"></i>
+                                <span class="menu-text">Examinations</span>
+                                <span class="badge badge-pill badge-danger rounded">3</span>
+                            </a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li>
+                                        <a href="#">View Tests</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Create Test</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Results</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li> {% endcomment %}
+                        <li class="sidebar-dropdown">
+                            <a href="#">
+                                <i class="fas fa-user-graduate"></i>
+                                <span class="menu-text">Portfolio</span>
+                            </a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    <li>
+                                        <a href="#">View Portfolio</a>
+                                    </li>
+                                    <li>
+                                        <a href="#">Update Portfolio</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fas fa-book-open"></i>
+                                <span class="menu-text">Forum</span>
+                            </a>
+                        </li>
+                        
+                        <li class="header-menu">
+                            <span>Extra</span>
+                        </li>
+                        <li class="sidebar-dropdown">
+                            <a href="#">
+                                <i class="fa fa-book"></i>
+                                <span class="menu-text">Study Notes</span>
+                            </a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    {% for i in "x"|rjust:"6" %}
+                                    <li>
+                                        <a href="#">Semester {{forloop.counter}}</a>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </li>
+
+
+                        <li class="sidebar-dropdown">
+                            <a href="#">
+                                <i class="fa fa-calendar"></i>
+                                <span class="menu-text">Previous Year Papers</span>
+                            </a>
+                            <div class="sidebar-submenu">
+                                <ul>
+                                    {% for i in "x"|rjust:"6" %}
+                                    <li>
+                                        <a href="#">Semester {{forloop.counter}}</a>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="fas fa-book-open"></i>
+                                <span class="menu-text">Syllabus</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- sidebar-menu  -->
+            </div>
+            <!-- sidebar-footer  -->
+            <div class="sidebar-footer">
+                <div class="dropdown">
+
+                    <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-bell"></i>
+                        <span class="badge badge-pill badge-warning notification">3</span>
+                    </a>
+                    <div class="dropdown-menu notifications" aria-labelledby="dropdownMenuMessage">
+                        <div class="notifications-header">
+                            <i class="fa fa-bell"></i>
+                            Notifications
                         </div>
-                    </div>
-                    <div class="col">
-                        <input type="password" class="form-control p-4" placeholder="Confirm Password">
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">
+                            <div class="notification-content">
+                                <div class="icon">
+                                    <i class="fas fa-check text-success border border-success"></i>
+                                </div>
+                                <div class="content">
+                                    <div class="notification-detail">Lorem ipsum dolor sit amet consectetur adipisicing
+                                        elit. In totam explicabo</div>
+                                    <div class="notification-time">
+                                        6 minutes ago
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <a class="dropdown-item" href="#">
+                            <div class="notification-content">
+                                <div class="icon">
+                                    <i class="fas fa-exclamation text-info border border-info"></i>
+                                </div>
+                                <div class="content">
+                                    <div class="notification-detail">Lorem ipsum dolor sit amet consectetur adipisicing
+                                        elit. In totam explicabo</div>
+                                    <div class="notification-time">
+                                        Today
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <a class="dropdown-item" href="#">
+                            <div class="notification-content">
+                                <div class="icon">
+                                    <i class="fas fa-exclamation-triangle text-warning border border-warning"></i>
+                                </div>
+                                <div class="content">
+                                    <div class="notification-detail">Lorem ipsum dolor sit amet consectetur adipisicing
+                                        elit. In totam explicabo</div>
+                                    <div class="notification-time">
+                                        Yesterday
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item text-center" href="#">View all notifications</a>
                     </div>
                 </div>
-                <div class="row mb-4">
-                    <div class="col-md-6">
-                        <input type="text" name="phone_no" class="form-control p-4" placeholder="Phone No.">
-                    </div>
-                    <div class="col">
-                        <input type="text" name="dob" id="datepicker" class="form-control p-4" placeholder="Date Of Birth">
-                    </div>
-                </div>
+                <div class="dropdown">
+                    <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-envelope"></i>
+                        <span class="badge badge-pill badge-success notification">7</span>
+                    </a>
+                    <div class="dropdown-menu messages" aria-labelledby="dropdownMenuMessage">
+                        <div class="messages-header">
+                            <i class="fa fa-envelope"></i>
+                            Messages
+                        </div>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">
+                            <div class="message-content">
+                                <div class="pic">
+                                    <img src="{% static 'profile/img/user.jpg' %}" alt="">
+                                </div>
+                                <div class="content">
+                                    <div class="message-title">
+                                        <strong> Jhon doe</strong>
+                                    </div>
+                                    <div class="message-detail">Lorem ipsum dolor sit amet consectetur adipisicing
+                                        elit. In totam explicabo</div>
+                                </div>
+                            </div>
 
-                <div class="custom-control custom-checkbox ml-3">
-                    <input type="checkbox" class="custom-control-input" id="customCheck" name="example1">
-                    <label class="custom-control-label pl-4" for="customCheck">I agree with all terms and conditions</label>
-                </div>
-                
-                <input type="submit" name="submit" id="submit" class="form-submit mt-4" value="Sign up">
-            </form>
-            <hr class="mt-5">
+                        </a>
+                        <a class="dropdown-item" href="#">
+                            <div class="message-content">
+                                <div class="pic">
+                                    <img src="{% static 'profile/img/user.jpg' %}" alt="">
+                                </div>
+                                <div class="content">
+                                    <div class="message-title">
+                                        <strong> Jhon doe</strong>
+                                    </div>
+                                    <div class="message-detail">Lorem ipsum dolor sit amet consectetur adipisicing
+                                        elit. In totam explicabo</div>
+                                </div>
+                            </div>
 
-            <p class="text-center">Already have an account? <a href="{% url 'guest:sign-in'%}">Sign In</a></p>
-        </div>
+                        </a>
+                        <a class="dropdown-item" href="#">
+                            <div class="message-content">
+                                <div class="pic">
+                                    <img src="{% static 'profile/img/user.jpg' %}" alt="">
+                                </div>
+                                <div class="content">
+                                    <div class="message-title">
+                                        <strong> Jhon doe</strong>
+                                    </div>
+                                    <div class="message-detail">Lorem ipsum dolor sit amet consectetur adipisicing
+                                        elit. In totam explicabo</div>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item text-center" href="#">View all messages</a>
+
+                    </div>
+                </div>
+                <div class="dropdown">
+                    <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-cog"></i>
+                        <span class="badge-sonar"></span>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuMessage">
+                        <a class="dropdown-item" href="#">My profile</a>
+                        <a class="dropdown-item" href="#">Help</a>
+                        <a class="dropdown-item" href="#">Setting</a>
+                    </div>
+                </div>
+                <div>
+                    <a href="{% url 'logout' %}">
+                        <i class="fa fa-power-off"></i>
+                    </a>
+                </div>
+                <div class="pinned-footer">
+                    <a href="#">
+                        <i class="fas fa-ellipsis-h"></i>
+                    </a>
+                </div>
+            </div>
+        </nav>
+        <!-- page-content  -->
+        <main class="page-content pt-2 bg-light" style="min-height:100vh">
+            <div class="container-fluid px-5 py-3">
+                {% block page_content %}
+                {% endblock page_content %}
+            </div>
+        </main>
+        <!-- page-content" -->
     </div>
-    <script src="{% static 'js/jquery.min.js' %}"></script>
-    <script src="{% static 'js/tether.min.js' %}"></script>
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'js/bootstrap-show-password.js'%}"></script>
-    <script src="{% static 'js/bootstrap-datepicker.min.js' %}"></script>
+    <!-- page-wrapper -->
 
-    <script>
-        $( function() {
-            $( "#datepicker" ).datepicker();
-        } );
-    </script>
+    <!-- using online scripts -->
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/popper.min.js'%}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/jquery.mCustomScrollbar.concat.min.js'%}"></script>
+    <script src="{% static 'js/bootstrap-notify.js' %}"></script>
+    <script src="{% static 'profile/js/main.js' %}"></script>
+
+    {% block scripts %}
+    {% endblock scripts %}
 </body>
+
 </html>
