@@ -158,7 +158,7 @@
             </div>
             <!-- sidebar-footer  -->
             <div class="sidebar-footer">
-                <div class="dropdown">
+                {% comment %} <div class="dropdown">
 
                     <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-bell"></i>
@@ -286,7 +286,20 @@
                         <a class="dropdown-item" href="#">Help</a>
                         <a class="dropdown-item" href="{% url 'student:settings' user.college.clg_u_name user.username %}">Setting</a>
                     </div>
+                </div> {% endcomment %}
+
+                <div>
+                    <a href="{% url 'student:homepage' user.college.clg_u_name user.username%}">
+                        <i class="fas fa-home"></i>
+                    </a>
                 </div>
+
+                <div>
+                    <a href="{% url 'student:settings' user.college.clg_u_name user.username%}">
+                        <i class="fa fa-cog"></i>
+                    </a>
+                </div>
+
                 <div>
                     <a href="{% url 'logout' %}">
                         <i class="fa fa-power-off"></i>

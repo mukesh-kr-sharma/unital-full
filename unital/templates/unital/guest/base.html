@@ -8,7 +8,6 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Responsive sidebar template with sliding effect and dropdown menu based on bootstrap 3">
     <title>{% block title %}{% endblock title %}</title>
     <link rel="stylesheet" href="{% static 'css/all.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/pretty-checkbox.min.css' %}">
@@ -16,6 +15,7 @@
     <link rel="stylesheet" href="{% static 'css/jquery.mCustomScrollbar.min.css' %}">
     <link rel="stylesheet" href="{% static 'profile/css/main.css' %}">
     <link rel="stylesheet" href="{% static 'profile/css/sidebar-themes.css' %}">
+    <link rel="stylesheet" href="{% static 'css/datatables.css' %}">
     <link rel="shortcut icon" type="image/png" href="img/favicon.png" />
 </head>
 
@@ -25,7 +25,7 @@
             <div class="sidebar-content">
                 <!-- sidebar-brand  -->
                 <div class="sidebar-item sidebar-brand">
-                    <a href="{% url 'student:homepage' user.college.clg_u_name user.username %}">unital</a>
+                    <a href="#">unital</a>
                 </div>
                 <!-- sidebar-header  -->
                 <div class="sidebar-item sidebar-header d-flex flex-nowrap">
@@ -63,12 +63,12 @@
                             <span>General</span>
                         </li>
                         <li>
-                            <a href="#">
+                            <a href="{% url 'guest:homepage' %}">
                                 <i class="fa fa-tachometer-alt"></i>
                                 <span class="menu-text">Dashboard</span>
                             </a>
                         </li>
-                        <li class="sidebar-dropdown">
+                        {% comment %} <li class="sidebar-dropdown">
                             <a href="#">
                                 <i class="fas fa-award"></i>
                                 <span class="menu-text">Examinations</span>
@@ -87,8 +87,8 @@
                                     </li>
                                 </ul>
                             </div>
-                        </li>
-                        <li class="sidebar-dropdown">
+                        </li> {% endcomment %}
+                        {% comment %} <li class="sidebar-dropdown">
                             <a href="#">
                                 <i class="fas fa-user-graduate"></i>
                                 <span class="menu-text">Portfolio</span>
@@ -96,69 +96,42 @@
                             <div class="sidebar-submenu">
                                 <ul>
                                     <li>
-                                        <a href="{% url 'student:portfolio' user.college.clg_u_name user.username  %}">View Portfolio</a>
+                                        <a href="#">View Portfolio</a>
                                     </li>
                                     <li>
-                                        <a href="{% url 'student:update-portfolio' user.college.clg_u_name user.username%} ">Update Portfolio</a>
+                                        <a href="#">Update Portfolio</a>
                                     </li>
                                 </ul>
                             </div>
+                        </li> {% endcomment %}
+                        <li>
+                            <a href="{% url 'guest:profile' %}">
+                                <i class="fas fa-user-graduate"></i>
+                                <span class="menu-text">Profile</span>
+                            </a>
                         </li>
                         <li>
-                            <a href="{% url 'student:forum' user.college.clg_u_name user.username %}">
+                            <a href="{% url 'guest:forum' %}">
                                 <i class="fas fa-book-open"></i>
                                 <span class="menu-text">Forum</span>
                             </a>
                         </li>
-                        
-                        <li class="header-menu">
-                            <span>Extra</span>
-                        </li>
-                        <li class="sidebar-dropdown">
-                            <a href="#">
-                                <i class="fa fa-book"></i>
-                                <span class="menu-text">Study Notes</span>
-                            </a>
-                            <div class="sidebar-submenu">
-                                <ul>
-                                    {% for i in "x"|rjust:"6" %}
-                                    <li>
-                                        <a href="{% url 'student:notes' user.college.clg_u_name user.username forloop.counter %}">Semester {{forloop.counter}}</a>
-                                    </li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                        </li>
 
-
-                        <li class="sidebar-dropdown">
-                            <a href="#">
-                                <i class="fa fa-calendar"></i>
-                                <span class="menu-text">Previous Year Papers</span>
-                            </a>
-                            <div class="sidebar-submenu">
-                                <ul>
-                                    {% for i in "x"|rjust:"6" %}
-                                    <li>
-                                        <a href="{% url 'student:previous-year-question' user.college.clg_u_name user.username forloop.counter %}">Semester {{forloop.counter}}</a>
-                                    </li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                        </li>
                         <li>
-                            <a href="{% url 'student:syllabus' user.college.clg_u_name user.username %}">
+                            <a href="{% url 'guest:notice'%}">
                                 <i class="fas fa-book-open"></i>
-                                <span class="menu-text">Syllabus</span>
+                                <span class="menu-text">Notice</span>
                             </a>
                         </li>
+                        
+                        
                     </ul>
                 </div>
                 <!-- sidebar-menu  -->
             </div>
             <!-- sidebar-footer  -->
             <div class="sidebar-footer">
-                <div class="dropdown">
+                {% comment %} <div class="dropdown">
 
                     <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-bell"></i>
@@ -275,8 +248,8 @@
                         <a class="dropdown-item text-center" href="#">View all messages</a>
 
                     </div>
-                </div>
-                <div class="dropdown">
+                </div> {% endcomment %}
+                {% comment %} <div class="dropdown">
                     <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-cog"></i>
                         <span class="badge-sonar"></span>
@@ -284,9 +257,22 @@
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuMessage">
                         <a class="dropdown-item" href="#">My profile</a>
                         <a class="dropdown-item" href="#">Help</a>
-                        <a class="dropdown-item" href="{% url 'student:settings' user.college.clg_u_name user.username %}">Setting</a>
+                        <a class="dropdown-item" href="{% url 'guest:settings'%}">Setting</a>
                     </div>
+                </div> {% endcomment %}
+
+                <div>
+                    <a href="{% url 'guest:homepage'%}">
+                        <i class="fas fa-home"></i>
+                    </a>
                 </div>
+
+                <div>
+                    <a href="{% url 'guest:settings'%}">
+                        <i class="fa fa-cog"></i>
+                    </a>
+                </div>
+
                 <div>
                     <a href="{% url 'logout' %}">
                         <i class="fa fa-power-off"></i>
@@ -316,7 +302,9 @@
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/jquery.mCustomScrollbar.concat.min.js'%}"></script>
     <script src="{% static 'js/bootstrap-notify.js' %}"></script>
+    <script src="{% static 'js/datatables.js' %}"></script>
     <script src="{% static 'profile/js/main.js' %}"></script>
+    <script src="{% static 'js/number-counter.js' %}"></script>
 
     {% block scripts %}
     {% endblock scripts %}

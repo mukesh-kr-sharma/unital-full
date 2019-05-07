@@ -12,16 +12,16 @@
             <textarea name="question" id="" rows="2" class="form-control w-100 border-left-0 border-right-0 border-top-0 border-0 rounded-0 mb-0 bg-white shadow-sm" style="resize:none" placeholder="Write your question/query"></textarea>
 
             <select name="for_college" class="form-control my-1 mr-4 border-0" required>
-                <option {% if user.user_type is not 'guest' %}disabled{% endif %}>Choose College</option>
+                <option value="" {% if not user.user_type == 'guest' %}disabled{% endif %}>Choose College</option>
                 {% for college in COLLEGE_CHOICES %}
-                <option value="{{college.pk}}" {% if user.college.pk == college.pk %}selected{% endif %} {% if user.user_type is not 'guest'%} {% if user.college.pk != college.pk %}disabled{% endif %} {% endif %}>{{college.clg_name}}</option>
+                <option value="{{college.pk}}" {% if user.college.pk == college.pk %}selected{% endif %} {% if not user.user_type == 'guest'%} {% if user.college.pk != college.pk %}disabled{% endif %} {% endif %}>{{college.clg_name}}</option>
                 {% endfor %}
             </select>
 
             <select class="form-control my-1 mr-sm-2 border-0" name="for_department" required>
-                <option {% if user.user_type is not 'guest' %}disabled{% endif %}>Choose Department</option>
+                <option value="" {% if not user.user_type == 'guest' %}disabled{% endif %}>Choose Department</option>
                 {% for department in DEPARTMENT_CHOICES %}
-                <option value="{{department.pk}}" {% if user.department.pk == department.pk %}selected{% endif %} {% if user.user_type is not 'guest' %}{% if user.department.pk != department.pk %}disabled{% endif %}{% endif %}>{{department.name}}</option>
+                <option value="{{department.pk}}" {% if user.department.pk == department.pk %}selected{% endif %} {% if not user.user_type == 'guest' %}{% if user.department.pk != department.pk %}disabled{% endif %}{% endif %}>{{department.name}}</option>
                 {% endfor %}
             </select>
             <input type="hidden" name="posted_by" value="{{user.pk}}">
@@ -34,11 +34,24 @@
 {% for question in question_list reversed %}
 <div class="card border-0 p-0 mb-4">
     <div class="card-body border-bottom d-flex align-items-center shadow-sm py-3">
-        <img src="{{request.scheme}}://{{ request.META.HTTP_HOST }}{{ question.posted_by.profile_pic.url }}" style="border-radius: 50%" class="border shadow-sm mr-4" height="40px" width="40px" alt="">
+
+        <img src="{{request.scheme}}://{{ request.META.HTTP_HOST }}{{ question.posted_by.profile_pic.url }}" 
+                style="border-radius: 50%" 
+                class="border shadow-sm mr-4" 
+                height="40px" 
+                width="40px">
+
         <a class="text-dark" data-toggle="collapse" href="#question-{{ forloop.counter }}">
             <div class="d-flex flex-column">
-                <div class="h6 pb-1 m-0">{{ question.posted_by.get_full_name }}</div>
-                <div class="small"><b>{{ question.posted_by.user_type|capfirst }}:</b> {{ question.posted_by.college.clg_name }}</div>
+                <div class="h6 pb-1 m-0">
+                    {{ question.posted_by.get_full_name }}
+                </div>
+                <div class="small">
+                    <b>{{ question.posted_by.user_type|capfirst }} </b> 
+                    {% if not question.posted_by.user_type == 'guest'%}
+                        : {{ question.posted_by.college.clg_name }}
+                    {% endif %}
+                </div>
             </div> 
         </a>    
         <small class="text-muted mr-0 ml-auto">Posted {{ question.posted_on|get_due_date_string }}</small>
@@ -49,7 +62,12 @@
             {{ question.question }}
         </div>
         <div class="card-body shadow-sm py-2">
-            <small class="w-100"><b>Question For: </b>{{ question.for_college.clg_name }} <span class="float-right">{{ question.for_department.name }} Department</span></small>
+            <small class="w-100"><b>Question For: </b>
+                {{ question.for_college.clg_name|default:'Every College' }} 
+                <span class="float-right">
+                    {{ question.for_department.name|default:'All' }} Department
+                </span>
+            </small>
         </div>
         <div class="card-body shadow-sm pb-2">
             <a class="text-dark" data-toggle="collapse" href="#replies-{{ forloop.counter }}">

@@ -28,12 +28,11 @@
 
 {% else %}
 
-<h3>No previous year questions available</h3>
+    <div class="alert alert-danger" role="alert">
+        <h3>Sorry!! No previous year questions available...</h3>
+    </div>
+<h3></h3>
 
 {% endif %}
-
-
-
-{% comment %} {{ request.scheme }}/{{ request.get_host }}/media/{{ syllabus.syllabus }} {% endcomment %}
 
 {% endblock page_content %}

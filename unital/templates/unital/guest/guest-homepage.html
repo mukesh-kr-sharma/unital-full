@@ -1,324 +1,53 @@
-{% load static %}
-{% block load_tag %}
-{% endblock load_tag %}
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'unital/guest/base.html' %}
 
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{% block title %}{% endblock title %}</title>
-    <link rel="stylesheet" href="{% static 'css/all.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/pretty-checkbox.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link rel="stylesheet" href="{% static 'css/jquery.mCustomScrollbar.min.css' %}">
-    <link rel="stylesheet" href="{% static 'profile/css/main.css' %}">
-    <link rel="stylesheet" href="{% static 'profile/css/sidebar-themes.css' %}">
-    <link rel="shortcut icon" type="image/png" href="img/favicon.png" />
-</head>
+{% block title %}{{user.get_full_name}}{% endblock title %}
 
-<body id="student-body">
-    <div class="page-wrapper default-theme sidebar-bg bg1 toggled">
-        <nav id="sidebar" class="sidebar-wrapper d-none d-md-block">
-            <div class="sidebar-content">
-                <!-- sidebar-brand  -->
-                <div class="sidebar-item sidebar-brand">
-                    <a href="#">unital</a>
-                </div>
-                <!-- sidebar-header  -->
-                <div class="sidebar-item sidebar-header d-flex flex-nowrap">
-                    <div class="user-pic">
-                        <img class="img-responsive rounded" src="{{request.scheme}}://{{ request.META.HTTP_HOST }}{{ user.profile_pic.url }}" alt="User picture">
-                    </div>
-                    <div class="user-info">
-                        <span class="user-name"><strong>{{ user.first_name }}</strong>
-                            {{ user.last_name }}
-                        </span>
-                        <span class="user-role">{{ user.user_type|capfirst }}</span>
-                        <span class="user-status">
-                            <i class="fa fa-circle"></i>
-                            <span>Online</span>
-                        </span>
-                    </div>
-                </div>
-                <!-- sidebar-search  -->
-                <!-- <div class="sidebar-item sidebar-search">
-                    <div>
-                        <div class="input-group">
-                            <input type="text" class="form-control search-menu" placeholder="Search...">
-                            <div class="input-group-append">
-                                <span class="input-group-text">
-                                    <i class="fa fa-search" aria-hidden="true"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div> -->
-                <!-- sidebar-menu  -->
-                <div class=" sidebar-item sidebar-menu">
-                    <ul>
-                        <li class="header-menu">
-                            <span>General</span>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i class="fa fa-tachometer-alt"></i>
-                                <span class="menu-text">Dashboard</span>
-                            </a>
-                        </li>
-                        {% comment %} <li class="sidebar-dropdown">
-                            <a href="#">
-                                <i class="fas fa-award"></i>
-                                <span class="menu-text">Examinations</span>
-                                <span class="badge badge-pill badge-danger rounded">3</span>
-                            </a>
-                            <div class="sidebar-submenu">
-                                <ul>
-                                    <li>
-                                        <a href="#">View Tests</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Create Test</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Results</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li> {% endcomment %}
-                        <li class="sidebar-dropdown">
-                            <a href="#">
-                                <i class="fas fa-user-graduate"></i>
-                                <span class="menu-text">Portfolio</span>
-                            </a>
-                            <div class="sidebar-submenu">
-                                <ul>
-                                    <li>
-                                        <a href="#">View Portfolio</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Update Portfolio</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i class="fas fa-book-open"></i>
-                                <span class="menu-text">Forum</span>
-                            </a>
-                        </li>
-                        
-                        <li class="header-menu">
-                            <span>Extra</span>
-                        </li>
-                        <li class="sidebar-dropdown">
-                            <a href="#">
-                                <i class="fa fa-book"></i>
-                                <span class="menu-text">Study Notes</span>
-                            </a>
-                            <div class="sidebar-submenu">
-                                <ul>
-                                    {% for i in "x"|rjust:"6" %}
-                                    <li>
-                                        <a href="#">Semester {{forloop.counter}}</a>
-                                    </li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                        </li>
+{% block page_content %}
 
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        <span class="font-weight-bold">Login Time: </span>{{ user.last_login }}
 
-                        <li class="sidebar-dropdown">
-                            <a href="#">
-                                <i class="fa fa-calendar"></i>
-                                <span class="menu-text">Previous Year Papers</span>
-                            </a>
-                            <div class="sidebar-submenu">
-                                <ul>
-                                    {% for i in "x"|rjust:"6" %}
-                                    <li>
-                                        <a href="#">Semester {{forloop.counter}}</a>
-                                    </li>
-                                    {% endfor %}
-                                </ul>
-                            </div>
-                        </li>
-                        <li>
-                            <a href="#">
-                                <i class="fas fa-book-open"></i>
-                                <span class="menu-text">Syllabus</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <!-- sidebar-menu  -->
-            </div>
-            <!-- sidebar-footer  -->
-            <div class="sidebar-footer">
-                <div class="dropdown">
-
-                    <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fa fa-bell"></i>
-                        <span class="badge badge-pill badge-warning notification">3</span>
-                    </a>
-                    <div class="dropdown-menu notifications" aria-labelledby="dropdownMenuMessage">
-                        <div class="notifications-header">
-                            <i class="fa fa-bell"></i>
-                            Notifications
-                        </div>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">
-                            <div class="notification-content">
-                                <div class="icon">
-                                    <i class="fas fa-check text-success border border-success"></i>
-                                </div>
-                                <div class="content">
-                                    <div class="notification-detail">Lorem ipsum dolor sit amet consectetur adipisicing
-                                        elit. In totam explicabo</div>
-                                    <div class="notification-time">
-                                        6 minutes ago
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                        <a class="dropdown-item" href="#">
-                            <div class="notification-content">
-                                <div class="icon">
-                                    <i class="fas fa-exclamation text-info border border-info"></i>
-                                </div>
-                                <div class="content">
-                                    <div class="notification-detail">Lorem ipsum dolor sit amet consectetur adipisicing
-                                        elit. In totam explicabo</div>
-                                    <div class="notification-time">
-                                        Today
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                        <a class="dropdown-item" href="#">
-                            <div class="notification-content">
-                                <div class="icon">
-                                    <i class="fas fa-exclamation-triangle text-warning border border-warning"></i>
-                                </div>
-                                <div class="content">
-                                    <div class="notification-detail">Lorem ipsum dolor sit amet consectetur adipisicing
-                                        elit. In totam explicabo</div>
-                                    <div class="notification-time">
-                                        Yesterday
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item text-center" href="#">View all notifications</a>
-                    </div>
-                </div>
-                <div class="dropdown">
-                    <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fa fa-envelope"></i>
-                        <span class="badge badge-pill badge-success notification">7</span>
-                    </a>
-                    <div class="dropdown-menu messages" aria-labelledby="dropdownMenuMessage">
-                        <div class="messages-header">
-                            <i class="fa fa-envelope"></i>
-                            Messages
-                        </div>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">
-                            <div class="message-content">
-                                <div class="pic">
-                                    <img src="{% static 'profile/img/user.jpg' %}" alt="">
-                                </div>
-                                <div class="content">
-                                    <div class="message-title">
-                                        <strong> Jhon doe</strong>
-                                    </div>
-                                    <div class="message-detail">Lorem ipsum dolor sit amet consectetur adipisicing
-                                        elit. In totam explicabo</div>
-                                </div>
-                            </div>
-
-                        </a>
-                        <a class="dropdown-item" href="#">
-                            <div class="message-content">
-                                <div class="pic">
-                                    <img src="{% static 'profile/img/user.jpg' %}" alt="">
-                                </div>
-                                <div class="content">
-                                    <div class="message-title">
-                                        <strong> Jhon doe</strong>
-                                    </div>
-                                    <div class="message-detail">Lorem ipsum dolor sit amet consectetur adipisicing
-                                        elit. In totam explicabo</div>
-                                </div>
-                            </div>
-
-                        </a>
-                        <a class="dropdown-item" href="#">
-                            <div class="message-content">
-                                <div class="pic">
-                                    <img src="{% static 'profile/img/user.jpg' %}" alt="">
-                                </div>
-                                <div class="content">
-                                    <div class="message-title">
-                                        <strong> Jhon doe</strong>
-                                    </div>
-                                    <div class="message-detail">Lorem ipsum dolor sit amet consectetur adipisicing
-                                        elit. In totam explicabo</div>
-                                </div>
-                            </div>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item text-center" href="#">View all messages</a>
-
-                    </div>
-                </div>
-                <div class="dropdown">
-                    <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fa fa-cog"></i>
-                        <span class="badge-sonar"></span>
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuMessage">
-                        <a class="dropdown-item" href="#">My profile</a>
-                        <a class="dropdown-item" href="#">Help</a>
-                        <a class="dropdown-item" href="#">Setting</a>
-                    </div>
-                </div>
-                <div>
-                    <a href="{% url 'logout' %}">
-                        <i class="fa fa-power-off"></i>
-                    </a>
-                </div>
-                <div class="pinned-footer">
-                    <a href="#">
-                        <i class="fas fa-ellipsis-h"></i>
-                    </a>
-                </div>
-            </div>
-        </nav>
-        <!-- page-content  -->
-        <main class="page-content pt-2 bg-light" style="min-height:100vh">
-            <div class="container-fluid px-5 py-3">
-                {% block page_content %}
-                {% endblock page_content %}
-            </div>
-        </main>
-        <!-- page-content" -->
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
-    <!-- page-wrapper -->
 
-    <!-- using online scripts -->
-    <script src="{% static 'js/jquery.min.js' %}"></script>
-    <script src="{% static 'js/popper.min.js'%}"></script>
-    <script src="{% static 'js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'js/jquery.mCustomScrollbar.concat.min.js'%}"></script>
-    <script src="{% static 'js/bootstrap-notify.js' %}"></script>
-    <script src="{% static 'profile/js/main.js' %}"></script>
+    <div class="d-flex flex-row justify-content-around mt-4">
+    
+        <div class="info-box bg-primary">
+            <div class="icon">
+                <i class="fas fa-question"></i>
+            </div>
+            <div class="content">
+                <div class="text">QUERY POSTED</div>
+                <div class="number count">257</div>
+            </div>
+        </div>  
 
-    {% block scripts %}
-    {% endblock scripts %}
-</body>
+        <div class="info-box bg-success">
+            <div class="icon">
+                <i class="fas fa-dna"></i>
+            </div>
+            <div class="content">
+                <div class="text">ANSWERS GOT</div>
+                <div class="number count">257</div>
+            </div>
+        </div>  
 
-</html>
+        <div class="info-box bg-info">
+            <div class="icon">
+                <i class="far fa-comment-alt"></i>
+            </div>
+            <div class="content">
+                <div class="text">REPLIED QUERY</div>
+                <div class="number count">257</div>
+            </div>
+        </div>  
+
+
+    </div>
+
+    
+
+
+{% endblock %}

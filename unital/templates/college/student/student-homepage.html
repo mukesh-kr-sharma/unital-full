@@ -3,5 +3,51 @@
 {% block title %}{{user.get_full_name}}: {{user.college.clg_name}}: Homepage{% endblock title %}
 
 {% block page_content %}
-Student Homepage
-{% endblock page_content %}
+
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        <span class="font-weight-bold">Login Time: </span>{{ user.last_login }}
+
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="d-flex flex-row justify-content-around mt-4">
+    
+        <div class="info-box bg-primary">
+            <div class="icon">
+                <i class="fas fa-question"></i>
+            </div>
+            <div class="content">
+                <div class="text">QUERY POSTED</div>
+                <div class="number count">257</div>
+            </div>
+        </div>  
+
+        <div class="info-box bg-success">
+            <div class="icon">
+                <i class="fas fa-dna"></i>
+            </div>
+            <div class="content">
+                <div class="text">ANSWERS GOT</div>
+                <div class="number count">257</div>
+            </div>
+        </div>  
+
+        <div class="info-box bg-info">
+            <div class="icon">
+                <i class="far fa-comment-alt"></i>
+            </div>
+            <div class="content">
+                <div class="text">REPLIED QUERY</div>
+                <div class="number count">257</div>
+            </div>
+        </div>  
+
+
+    </div>
+
+    
+
+
+{% endblock %}

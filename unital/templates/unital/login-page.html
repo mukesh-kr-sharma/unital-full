@@ -32,6 +32,15 @@
 <div class="dark-overlay">
     <div class='rounded shadow-lg p-4 mx-auto mt-5' id="login-box">
     <div class="display-4 mb-4 text-center text-info text-style-bold border-bottom border-info pb-3">Unital</div>
+
+    {% if login_error %}
+    <div class="alert alert-danger py-2" role="alert">
+
+        {{login_error}}
+
+    </div>
+    {% endif %}
+
     <form method="POST">
         {% csrf_token %}
         <div>
@@ -63,7 +72,6 @@
                     {% endfor %}
                 </select>
             </div>
-            <input type="hidden" name="user_type" value='student'>
             <button type="submit" class="btn btn-info btn-block btn-lg mt-2">Login</button>
         </div>
         

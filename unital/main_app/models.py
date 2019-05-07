@@ -57,7 +57,10 @@ class Department(models.Model):
 ########### USER #########################
 
 def profile_pic_path(instance, filename):
-    return 'profile_pic/{0}/{1}/{2}/{3}'.format(str(instance.college.clg_u_name), str(instance.user_type), str(instance.username), filename)
+    try:
+        return 'profile_pic/{0}/{1}/{2}/{3}'.format(str(instance.college.clg_u_name), str(instance.user_type), str(instance.username), filename)
+    except:
+        return 'profile_pic/{0}/{1}/{2}/{3}'.format("No College", str(instance.user_type), str(instance.username), filename)
 
 class User(AbstractUser, Choices):
     def current_year():
@@ -89,22 +92,9 @@ class User(AbstractUser, Choices):
         # verbose_name = 'User'
         verbose_name_plural = '3. Users'
 
-class Exam(models.Model):
-    organisor = models.ForeignKey(User, 
-                                on_delete=models.CASCADE, 
-                                related_name='exam', 
-                                limit_choices_to={'user_type': 'faculty'})
-
-    instructions = models.TextField()
-    class Meta:
-        verbose_name = 'Exam'
-        verbose_name_plural = 'Exam'
-
-
 ########### UNITAL NOTICE BOARD #############
 class Notice(models.Model):
     def thirty_day_hence():
-        """ Hii """
         return timezone.now() + timezone.timedelta(days=30)
 
     title = models.CharField(max_length=400)
@@ -134,7 +124,6 @@ class CollegePictures(models.Model):
 ######### COLLEGE NOTICE BOARD #############
 class CollegeNotice(models.Model):
     def thirty_day_hence():
-        """ Hii """
         return timezone.now() + timezone.timedelta(days=30)
 
     title = models.CharField(max_length=400)
@@ -183,7 +172,7 @@ class Subject(models.Model):
         return self.name
     
     class Meta:
-        verbose_name_plural = 'Subjects'
+        verbose_name_plural = '8. Subjects'
 
 ############### NOTES ##################
 def notes_path(instance, filename):
@@ -205,4 +194,4 @@ class Notes(models.Model):
         else:
             return self.subject.name + ': ' + self.subject.department.name + ': All'
     class Meta:
-        verbose_name_plural = 'Notes'
+        verbose_name_plural = '9. Notes'

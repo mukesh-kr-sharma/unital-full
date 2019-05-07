@@ -34,12 +34,6 @@ class UserAdmin(admin.ModelAdmin):
             obj.set_password(password)
         super().save_model(request, obj, form, change)
 
-class ExamAdmin(admin.ModelAdmin):
-    pass
-    # def __init__(self, *args, **kwargs):
-    #     super(ExamAdmin, self).__init__(*args, **kwargs)
-    #     self.fields['organisor'].queryset = User.objects.filter(user_type='faculty')
-
 
 admin.site.register(User, UserAdmin)
 admin.site.register(Notice)
@@ -47,7 +41,6 @@ admin.site.register(College)
 admin.site.register(Department)
 admin.site.register(CollegePictures)
 admin.site.register(CollegeNotice)
-admin.site.register(Exam, ExamAdmin)
 admin.site.register(Syllabus)
 admin.site.register(Notes)
 admin.site.register(Subject)

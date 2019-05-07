@@ -1,0 +1,56 @@
+{% extends 'unital/guest/base.html' %}
+{% block title %}{{user.get_full_name}}: Notice{% endblock title %}
+
+{% block page_content %}
+<h3>{{notice.title}}</h3>
+<hr>
+<br>
+
+<div class="row">
+    <div class="col-md-3">
+        <h5>Notice Description</h5>
+    </div>
+    <div class="col-md-9">
+        <pre class="h5 text-justify">{{ notice.body }}</pre>
+    </div>
+</div>
+{% if notice.link %}
+<hr>
+<div class="row mt-4">
+    <div class="col-md-3">
+        <h5>Link (URL)</h5>
+    </div>
+    <div class="col-md-9">
+        <pre class="h5 text-justify"><a href="{{notice.link}}">{{notice.link}}</a></pre>
+    </div>
+</div>
+{% endif %}
+<hr>
+<div class="row mt-4">
+    <div class="col-md-3">
+        <h5>Published Date</h5>
+    </div>
+    <div class="col-md-9">
+        <pre class="h5 text-justify">{{ notice.pub_date }}</pre>
+    </div>
+</div>
+<hr>
+<div class="row mt-4">
+    <div class="col-md-3">
+        <h5>Expiry Date</h5>
+    </div>
+    <div class="col-md-9">
+        <pre class="h5 text-justify">{{ notice.expiry_date }}</pre>
+    </div>
+</div>
+<hr>
+
+
+{% endblock page_content %}
+
+{% block scripts %}
+<script>
+
+</script>
+
+{% endblock scripts %}

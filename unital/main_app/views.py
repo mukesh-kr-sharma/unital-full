@@ -16,8 +16,8 @@ def redirect_view(request):
             return redirect('student:homepage',request.user.college.clg_u_name, request.user.username)
         elif request.user.user_type=='faculty':
             return redirect('faculty:homepage',request.user.college.clg_u_name, request.user.username)
-        else:
-            return redirect('unital_homepage')
+        elif request.user.user_type == 'guest':
+            return redirect('guest:homepage')
     # else:
     #     print(kwargs)
     #     if kwargs and kwargs['college']:
@@ -33,17 +33,29 @@ def user_login(request):
         college = request.POST.get('college')
 
         user = authenticate(request, username=username, password=password)
+        print(user)
         if user is not None:
             if user.user_type == user_type:
-                if (user_type == 'student') or (user_type == 'faculty'):
+                if user_type == 'student':
                     if (str(user.college.pk) == str(college)):
                         login(request, user)
                     else:
                         print(user.college.pk)
                         print(college)
-            return redirect('redirect')
+                elif user_type == 'faculty':
+                    if (str(user.college.pk) == str(college)):
+                        login(request, user)
+                    else:
+                        print(user.college.pk)
+                        print(college)
+                else:
+                    login(request, user)
+                
+                return redirect('redirect')
+            else:
+                print(user.user_type, user_type)
         else:
-            context = {'login-error': 'Invalid Credentials'}
+            context = {'login_error': 'Invalid Credentials!! Please try again...'}
     else:
         context['college_list'] = College.objects.all()
     return render(request, template_name='unital/login-page.html', context=context)

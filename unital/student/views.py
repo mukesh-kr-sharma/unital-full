@@ -99,7 +99,11 @@ def portfolio(request, **kwargs):
     return render(request, template_name = 'college/student/portfolio/portfolio.html', context=context)
 
 def syllabus(request, **kwargs):
-    syllabus = Syllabus.objects.get(college=request.user.college, department=request.user.department, session=request.user.session)
+    try:
+        syllabus = Syllabus.objects.get(college=request.user.college, department=request.user.department, session=request.user.session)
+    except:
+        syllabus = None
+    
     return render(request, template_name = 'college/student/syllabus/syllabus.html', context={'syllabus':syllabus})
 
 class NotesListView(ListView):

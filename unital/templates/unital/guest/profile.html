@@ -1,0 +1,53 @@
+{% extends 'unital/guest/base.html' %}
+{% block title %}{{user.get_full_name}}: Profile{% endblock title %}
+
+{% block page_content %}
+
+    <div class="row justify-content-center mb-5">
+        <div class="col-md-10 bg-white rounded shadow-lg border-top border-bottom border-success m-0 p-0">
+            <div class="w-100 p-3 border-bottom border-primary">
+                <h3 class="text-success">Guest Profile</h3>
+            </div>
+            <div class="w-100 p-3 row">
+                <div class="col-md-8 d-table px-3 border-right">
+                    <div class="d-table-row mb-4">
+                        <div class="d-table-cell p-3 font-weight-bold">Name</div>
+                        <div class="d-table-cell p-3  font-weight-bold">:</div>
+                        <div class="d-table-cell p-3">{{ user.get_full_name }}</div>
+                    </div>
+                    <div class="d-table-row mb-4">
+                        <div class="d-table-cell p-3 font-weight-bold ">Email Id</div>
+                        <div class="d-table-cell p-3  font-weight-bold">:</div>
+                        <div class="d-table-cell p-3">{{ user.email }}</div>
+                    </div>
+                    <div class="d-table-row mb-4">
+                        <div class="d-table-cell p-3 font-weight-bold ">Phone No.</div>
+                        <div class="d-table-cell p-3  font-weight-bold">:</div>
+                        <div class="d-table-cell p-3">{{ user.phone_no }}</div>
+                    </div>
+                    <div class="d-table-row mb-4">
+                        <div class="d-table-cell p-3 font-weight-bold ">Address</div>
+                        <div class="d-table-cell p-3  font-weight-bold">:</div>
+                        <div class="d-table-cell p-3">{{ user.address|default:'None' }}</div>
+                    </div>
+                </div>
+                <div class="col justify-content-center">
+                    <div class="profile-pic p-2 bg-primary rounded">
+                        <img id="profile-pic" src="{{request.scheme}}://{{ request.META.HTTP_HOST }}{{ user.profile_pic.url }}"
+                    class="rounded shadow-lg border-info" style="max-height:100%; max-width: 100%">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <a href="{% url 'guest:settings'%}" class="btn btn-primary rounded-0 px-5 py-3 mx-auto mt-5 d-block w-25">Change Profile</a>
+
+{% endblock page_content %}
+
+{% block scripts %}
+<script>
+
+</script>
+
+{% endblock scripts %}

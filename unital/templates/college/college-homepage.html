@@ -18,7 +18,7 @@
         <div class="pos-f-t">
             
             <nav class="navbar navbar-dark bg-dark d-flex">
-                <div class="text-center flex-grow-1 pl-5"><span class="lead text-light">A college under Deoghar University</span></div>
+                <div class="text-center flex-grow-1 pl-5"><span class="lead text-light">A college under ABC University</span></div>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent"
                     aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -27,17 +27,20 @@
 
             <div class="collapse" id="navbarToggleExternalContent">
                 <div class="bg-dark p-4">
-                    <h5 class="text-white h4">Collapsed content</h5>
-                    <span class="text-muted">Toggleable via the navbar brand.</span>
+                    {% comment %} <h5 class="text-white h4">Collapsed content</h5>
+                    <span class="text-muted">Toggleable via the navbar brand.</span> {% endcomment %}
+
+                    <a class="btn btn-outline-primary btn-lg w-100 d-block bg-white text-secondary py-2 px-4 my-2"
+                        href="{% url 'unital_homepage'%}">Unital Homepage</a>
 
                     {% if not user.is_authenticated %}
 
-                    <button type="button" class="btn btn-outline-primary btn-lg bg-white text-secondary py-2 px-4 my-2" data-toggle="modal" data-target="#studentLoginModal">
+                    <button class="btn btn-outline-primary btn-lg w-100 d-block bg-white text-secondary py-2 px-4 my-2" data-toggle="modal" data-target="#studentLoginModal">
                         Student Login
                     </button>
 
 
-                    <button type="button" class="btn btn-outline-primary btn-lg bg-white text-secondary py-2 px-4 my-2" data-toggle="modal" data-target="#facultyLoginModal">
+                    <button class="btn btn-outline-primary btn-lg w-100 d-block bg-white text-secondary py-2 px-4 my-2" data-toggle="modal" data-target="#facultyLoginModal">
                         Faculty Login
                     </button>
 
@@ -52,7 +55,7 @@
     <div id="dark-overlay" class="pt-3"> {% endcomment %}
 
     <section id="photo-slide" class="mt-3">        
-        <div id="carousel-1" class="carousel slide container mb-3" data-ride="carousel">
+        <div id="carousel-1" class="carousel slide mb-3" data-ride="carousel">
             <ol class="carousel-indicators">
                 {% for picture in college.pictures.all %}
                     <li data-target="#carousel-1" data-slide-to="{{forloop.counter0}}" {% if forloop.first %}class="active"{% endif %}></li>
@@ -63,10 +66,6 @@
                     {% for picture in college.pictures.all %}
                     <div class="carousel-item {% if forloop.first %}active{% endif %}">
                         <img class="d-block w-100" src="../../media/{{picture.pic}}" alt="Pic #{{forloop.counter}}">
-                        <div class="carousel-caption d-none d-md-block">
-                            <h3>Caption Head {{forloop.counter}}</h3>
-                            <p class="lead">Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-                        </div>
                     </div>
                     {% endfor %}
                 </div>
@@ -83,69 +82,85 @@
         </div>
     </section>
 
-    <section id="principal-message" class="bg-primary text-light mb-0">
-        <div class="container">
-            <h2 class="font-weight-light border-bottom pb-4 mb-3 pt-4">Principal Message</h2>
-            <blockquote class="blockquote">
-                <p class="mb-0 lead text-justify">
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Consequatur assumenda, sint doloremque rerum distinctio a sequi ducimus. Iste asperiores consequuntur deserunt quam eligendi recusandae, iusto exercitationem quia tempora quas omnis laborum, maxime saepe unde molestiae hic. Vitae, illum eligendi, dolorem eius itaque velit repellendus eveniet accusamus, vero quas natus ut quidem. Sapiente asperiores esse porro temporibus architecto sint officiis rerum ipsam aspernatur, unde suscipit ullam tempore numquam repellendus libero aut!
-                <br><br>
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Soluta necessitatibus corrupti dolorum! Amet eius incidunt tempora voluptatibus eveniet repellat inventore unde modi obcaecati, placeat est delectus accusantium quibusdam, fuga vero exercitationem laboriosam consectetur minima esse sunt molestiae sequi. Ipsam cumque placeat nulla debitis commodi 
-                </p>
-                <br>
-                <footer class="blockquote-footer text-light pt-3 pb-4 text-right">Principal: <cite title="Source Title">Mr. Funsuik Wangdu</cite></footer>
-            </blockquote>
+    <section class="bg-white p-4 mb-4">
+
+        <h1 class="display-4  text-center border-bottom">
+            <span class="text-primary">Features</span>
+        </h1>
+    
+        <div class="d-flex flex-row justify-content-around my-5">
+        
+            <div class="info-box bg-primary">
+                <div class="icon">
+                    <i class="fas fa-columns"></i>
+                </div>
+                <div class="content">
+                    <div class="text">DEPARTMENTS</div>
+                    <div class="number count">257</div>
+                </div>
+            </div>  
+
+            <div class="info-box bg-danger">
+                <div class="icon">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                </div>
+                <div class="content">
+                    <div class="text">FACULTIES</div>
+                    <div class="number count">257</div>
+                </div>
+            </div>  
+
+            <div class="info-box bg-success">
+                <div class="icon">
+                    <i class="fas fa-user-graduate"></i>
+                </div>
+                <div class="content">
+                    <div class="text">STUDENTS</div>
+                    <div class="number count">257</div>
+                </div>
+            </div>  
+
         </div>
+    
     </section>
 
-    {% comment %} <section id="about-us" class="bg-info text-light mt-0">
-        <div class="container">
-            <h2 class="font-weight-light">About Us</h2>
-
-            <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-  <li class="nav-item">
-    <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Home</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Profile</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">Contact</a>
-  </li>
-</ul>
-<div class="tab-content" id="pills-tabContent">
-  <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Impedit vitae voluptas natus, ab dolore aperiam sit obcaecati totam soluta delectus, ad quisquam odit est rerum praesentium error minus, sapiente aliquam consectetur sequi velit! Voluptatum vero blanditiis eveniet provident cumque impedit porro sint quod optio soluta minima cum itaque culpa, laborum rerum expedita aut tempore. Illum unde consequuntur laboriosam distinctio consequatur eaque ratione vitae maxime iste facilis eligendi doloribus error sed voluptate nobis ad earum qui fugit reprehenderit quo, soluta recusandae magni. Consectetur facilis fugit aliquid a delectus, cum natus rem culpa laudantium sunt. Expedita modi quas quod aspernatur nulla fugiat.</div>
-  <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Impedit vitae voluptas natus, ab dolore aperiam sit obcaecati totam soluta delectus, ad quisquam odit est rerum praesentium error minus, sapiente aliquam consectetur sequi velit! Voluptatum vero blanditiis eveniet provident cumque impedit porro sint quod optio soluta minima cum itaque culpa, laborum rerum expedita aut tempore. Illum unde consequuntur laboriosam distinctio consequatur eaque ratione vitae maxime iste facilis eligendi doloribus error sed voluptate nobis ad earum qui fugit reprehenderit quo, soluta recusandae magni. Consectetur facilis fugit aliquid a delectus, cum natus rem culpa laudantium sunt. Expedita modi quas quod aspernatur nulla fugiat.</div>
-  <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Impedit vitae voluptas natus, ab dolore aperiam sit obcaecati totam soluta delectus, ad quisquam odit est rerum praesentium error minus, sapiente aliquam consectetur sequi velit! Voluptatum vero blanditiis eveniet provident cumque impedit porro sint quod optio soluta minima cum itaque culpa, laborum rerum expedita aut tempore. Illum unde consequuntur laboriosam distinctio consequatur eaque ratione vitae maxime iste facilis eligendi doloribus error sed voluptate nobis ad earum qui fugit reprehenderit quo, soluta recusandae magni. Consectetur facilis fugit aliquid a delectus, cum natus rem culpa laudantium sunt. Expedita modi quas quod aspernatur nulla fugiat.</div>
-</div>
-        </div>
-        
-    </section> {% endcomment %}
-
     <section id="clg-hello">
-        <div class="container">
+        <div class="mx-4">
             <div class="row">
                 <div class="col-lg-8 mb-3">
                     <div class="card">
-                        <h5 class="card-header">Testing</h5>
+                        <h5 class="card-header bg-dark text-white">Important Peoples</h5>
                         <div class="card-body">
                             <div id="carousel-2" class="carousel slide container" data-ride="carousel">
                                 <ol class="carousel-indicators mb-0 mx-auto">
                                     <li data-target="#carousel-2" data-slide-to="0" class="active bg-dark"><i class="fas fa-minus"></i></li>
-                                    <li data-target="#carousel-2" data-slide-to="1" class="bg-dark"><i class="fas fa-minus"></i></li>
-                                    <li data-target="#carousel-2" data-slide-to="2" class="bg-dark"><i class="fas fa-minus"></i></li>
+                                    {% comment %} <li data-target="#carousel-2" data-slide-to="1" class="bg-dark"><i class="fas fa-minus"></i></li>
+                                    <li data-target="#carousel-2" data-slide-to="2" class="bg-dark"><i class="fas fa-minus"></i></li> {% endcomment %}
                                 </ol>
                                 <div class="carousel-inner">
                                     <div class="carousel-item text-dark active">
-                                        <div class="d-block w-100" style="height: 300px;">
-                                            <div class="mx-5 px-2 py-4">
-                                                {% lorem 40 w random %}
+                                        <div class="d-block w-100 p-4" style="height: 300px;">
+
+                                            <div class="row">
+                                                <div class="col-4">
+                                                    <img class="w-100 shadow-lg rounded-circle" src="{% static 'img/principal.jpg'%}" alt="">
+                                                </div>
+
+                                                <div class="col-8">
+                                                    <h3 class="mx-2 px-2">Principal Speaks</h3>
+                                                    <hr class="mx-2 mt-0">
+                                                    <div class="mx-2 px-2 py-2">
+                                                        {% lorem 40 w random %}
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="text-center mt-5"><button class="btn btn-outline-primary w-50">Test</button></div>
+                                            
+                                            
+                                            {% comment %} <div class="text-center mt-5"><button class="btn btn-outline-primary w-50">Test</button></div> {% endcomment %}
                                             
                                         </div>
                                     </div>
-                                    <div class="carousel-item text-dark">
+                                    {% comment %} <div class="carousel-item text-dark">
                                         <div class="d-block w-100" style="height: 300px;">
                                             <div class="mx-5 px-2 py-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non, deleniti incidunt, odit quidem in Reprehenderit, totam officia aliquam, esse alias earum ullam ratione quas nisi ex dolore? Non dignissimos velit beatae tempore quas repellendus porro soluta exercitationem.</div>
                                         </div>
@@ -154,15 +169,15 @@
                                         <div class="d-block w-100" style="height: 300px;">
                                             <div class="mx-5 px-2 py-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non, deleniti incidunt, odit quidem in amet hic, numquam repellat facere illo magni quas excepturi doloribus soluta illum repellendus? Reprehenderit, totam officia aliquam, esse alias earum ullam ratione quas nisi ex dolore? Non dignissimos velit beatae tempore quas repellendus porro soluta exercitationem.</div>
                                         </div>
-                                    </div>
+                                    </div> {% endcomment %}
                                 </div>
                             </div>
                             <li class="carousel-control-prev" href="#carousel-2" role="button" data-slide="prev">
-                                <i class="fa fa-caret-left text-dark display-5" ></i>
+                                <i class="fas fa-caret-left text-dark" ></i>
                                 <span class="sr-only">Previous</span>
                             </li>
                             <li class="carousel-control-next" href="#carousel-2" role="button" data-slide="next">
-                                <i class="fa fa-caret-right text-dark display-5" ></i>
+                                <i class="fas fa-caret-right text-dark" ></i>
                                 <span class="sr-only">Next</span>
                             </li>
                         </div>
@@ -176,7 +191,6 @@
                             <ul class="list-unstyled marquee">
                                 {% for notice in college.notice.all|dictsort:"pub_date" %}
                                 <li class="shadow-sm rounded py-2 text-center" style="cursor: pointer;">{{ notice.title }}</li>
-                                <hr class="bg-light my-1">
                                 {% endfor %}
                             </ul>
                         </div>
@@ -186,6 +200,8 @@
         </div>
         
     </section>
+
+    
     
 
     <section id="login-modals">
@@ -260,69 +276,42 @@
             </div>
         </div>
 
-    </section>
-
-    {% comment %} {% if not user.is_authenticated %}
-    <!-- STUDENT LOGIN -->
-    <section id="student-login" class="bg-primary text-center text-light py-3">
-        <h1 class="display-4">Student Login</h1>
-        <p class="lead">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Fugiat repellat quos asperiores exercitationem sed!</p>
-
-        <!-- Button trigger modal -->
-        <button type="button" class="btn btn-outline-primary btn-lg bg-white text-secondary py-2 px-4 my-2" data-toggle="modal" data-target="#studentLoginModal">
-            Student Login
-        </button>
-        
-        <!-- Modal -->
-        
-    </section>
-
-    <!-- FACULTY LOGIN -->
-    <section id="faculty-login" class="bg-info text-center text-light py-3">
-        <h1 class="display-4">Faculty Login</h1>
-        <p class="lead">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Fugiat repellat quos asperiores exercitationem sed!</p>
-
-        <!-- Button trigger modal -->
-        <button type="button" class="btn btn-outline-primary btn-lg bg-white text-secondary py-2 px-4 my-2" data-toggle="modal" data-target="#facultyLoginModal">
-            Faculty Login
-        </button>
-        
-        <!-- Modal -->
-        
-    </section>
-    {% endif %} {% endcomment %}
-
-
-    
+    </section>    
 
     <section class="bg-dark text-light">
-        <div class="container py-3">
-            <div class="row">
-                <div class="col-md-8 mb-4">
-                    {% comment %} <h3 class="font-weight-light pb-3 border-bottom">About College</h3>
-                    <p class="lead font-italic border-bottom pb-3">Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem veritatis praesentium corporis molestias, incidunt sapiente iusto odit similique saepe ullam nihil tenetur consequatur eligendi dolorem magni corrupti architecto necessitatibus omnis deleniti repellendus modi nam quasi officiis? Aut ullam laboriosam suscipit eos quis commodi possimus, esse, et obcaecati dolor velit soluta incidunt. Blanditiis, quia deleniti. Iusto dicta ipsam id sunt error?</p> {% endcomment %}
+        <div class="mx-3 py-3">
+            <h3 class="font-weight-light text-center">Contact Us</h3>
+            <hr class="bg-white">
+            <div class="row d-flex flex-row justify-content-around">
+                <div class="d-flex bd-highlight">
+                    <div class="p-2 mx-2 bd-highlight"><i class="fa fa-map-marker"></i></div>
+                    <div class="p-2 flex-grow-1 bd-highlight">{{college.clg_name}}, Mumbai <br>N M Joshi Marg, Nr Police Station, <br>Lower Parel</div>
                 </div>
-                <div class="col-md-4">
-                    <h3 class="font-weight-light pb-3 border-bottom">Contact Us</h3>
-                    <div class="d-flex bd-highlight">
-                        <div class="p-2 mx-2 bd-highlight"><i class="fa fa-map-marker"></i></div>
-                        <div class="p-2 flex-grow-1 bd-highlight">{{college.clg_name}}, Mumbai <br>383 , Pragati Indl Estate, <br>N M Joshi Marg, Nr Police Station, <br>Lower Parel</div>
-                    </div>
-                    <div class="d-flex bd-highlight">
-                        <div class="p-2 mx-2 bd-highlight"><i class="fas fa-phone"></i></div>
-                        <div class="p-2 flex-grow-1 bd-highlight"><a href="tel:02223096012" class="text-light">02223096012</a></div>
-                    </div>
-                    <div class="d-flex bd-highlight">
-                        <div class="p-2 mx-2 bd-highlight"><i class="fas fa-envelope"></i></div>
-                        <div class="p-2 flex-grow-1 bd-highlight"><a href="tel:02223096012" class="text-light"><a href="mailto:disughjsk@hsd.vc" class="text-light">disughjsk@hsd.vc</a></a></div>
-                    </div>
+                <div class="d-flex bd-highlight">
+                    <div class="p-2 mx-2 bd-highlight"><i class="fas fa-phone"></i></div>
+                    <div class="p-2 flex-grow-1 bd-highlight"><a href="tel:02223096012" class="text-light">02223096012</a></div>
+                </div>
+                <div class="d-flex bd-highlight">
+                    <div class="p-2 mx-2 bd-highlight"><i class="fas fa-envelope"></i></div>
+                    <div class="p-2 flex-grow-1 bd-highlight"><a href="tel:02223096012" class="text-light"><a href="mailto:disughjsk@hsd.vc" class="text-light">disughjsk@hsd.vc</a></a></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <footer class="bg-secondary text-light text-center pt-2 pb-1 m-0">
+    {% comment %} <footer class="bg-secondary text-light text-center pt-2 pb-1 m-0">
         <p class="font-weight-light font-italic h5">Developed By MKS</p>
+    </footer> {% endcomment %}
+    <footer id="main-footer" class="bg-secondary">
+        <div class="container">
+            <div class="row">
+                <div class="col text-center text-light">
+                    <div class="py-2">
+                        <h1 class="h3"><strong>Unital</strong>  <span class="small">Copyright &copy; 2019</span></h1>
+                    </div>
+                </div>
+            </div>
+        </div>
     </footer>
 
     <script src="{% static 'js/jquery.min.js' %}"></script>
