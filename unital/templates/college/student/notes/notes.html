@@ -1,0 +1,41 @@
+{% extends 'college/student/base.html' %}
+{% load student_extras %}
+
+{% block title %}{{user.get_full_name}}: {{user.college.clg_name}}: Notes{% endblock title %}
+
+{% block page_content %}
+<h3>Notes</h3>
+<small><b>Semester:</b> {{ request.get_full_path|last }}</small>
+<hr>
+<br>
+
+{% if notes_list %}
+
+{% for notes in notes_list %}
+<div class="card w-100 mb-4">
+    <div class="card-body">
+        <h5 class="card-title d-inline-block">{{ notes.subject.name }}</h5>
+        <small class="text-muted float-right">Uploaded {{ notes.uploaded_on|get_due_date_string }}</small>
+    </div>
+    <div class="card-img-top" style="height:90vh">
+        <embed src="{{request.scheme}}://{{ request.META.HTTP_HOST }}/media/{{ notes.notes }}" class="w-100 h-100" alt="pdf">
+    </div>
+    <div class="card-footer text-muted text-right">
+        By: {{ notes.uploaded_by.get_full_name }}
+    </div>
+</div>
+{% endfor %}
+
+{% else %}
+
+    <div class="alert alert-danger" role="alert">
+        <h3>Sorry!! No notes available...</h3>
+    </div>
+
+{% endif %}
+
+
+
+{% comment %} {{ request.scheme }}/{{ request.get_host }}/media/{{ syllabus.syllabus }} {% endcomment %}
+
+{% endblock page_content %}

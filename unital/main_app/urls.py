@@ -5,6 +5,7 @@ from .views import *
 from . import college_view
 from django.conf.urls import url
 
+# app_name = 'main_app'
 
 urlpatterns = [
     path('', HomePageView.as_view(), name="unital_homepage"),
@@ -12,7 +13,10 @@ urlpatterns = [
     path('admin-dashboard', AdminDashboardView.as_view(), name="admin_dashboard"),
     path('login', user_login, name='login'),
     path('logout', user_logout, name='logout'),
+    path('guest/', include('guest.urls'), name="guest"),
+    path('forum/', include('forum.urls'), name="forum"),
     path('<slug:clg_u_name>/', college_view.CollegeHomepageView.as_view(), name='college-homepage'),
-    path('<slug:clg_u_name>/student', include('student.urls'), name="student")
+    path('<slug:clg_u_name>/<slug:username>/', include('student.urls'), name="student"),
+    path('<slug:clg_u_name>/faculty/<slug:username>/', include('faculty.urls'), name="faculty"),
     
 ]

@@ -1,0 +1,179 @@
+{% extends 'college/student/base.html' %}
+{% comment %} https://dev.to/zxenia/django-inline-formsets-with-class-based-views-and-crispy-forms-14o6 {% endcomment %}
+{% block load_tag %}
+{% load widget_tweaks %}
+{% endblock load_tag %}
+
+{% block title %}{{user.get_full_name}}: {{user.college.clg_name}}: Edit Portfolio{% endblock title %}
+
+{% block page_content %}
+<h3>Update Portfolio</h3>
+<hr>
+<br>
+<form method="POST">
+    {% csrf_token %}
+
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link text-dark active" id="portfolio-main-tab" data-toggle="tab" href="#portfolio-main"
+                role="tab">Main Tab</a>
+            <a class="nav-item nav-link text-dark" id="portfolio-academic-qualification-tab" data-toggle="tab"
+                href="#portfolio-academic-qualification" role="tab">Academic Qualification</a>
+            <a class="nav-item nav-link text-dark" id="portfolio-skill-set-tab" data-toggle="tab" href="#portfolio-skill-set"
+                role="tab">Skill Set</a>
+            <a class="nav-item nav-link text-dark" id="portfolio-technical-skill-tab" data-toggle="tab"
+                href="#portfolio-technical-skill" role="tab">Technical Skills</a>
+        </div>
+    </nav>
+
+    <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="portfolio-main" role="tabpanel">
+            <h3 class="my-4 pb-4 border-bottom">General Details</h3>
+            <div class="portfolio_form">
+                {% for hidden in portfolio_form.hidden_fields %}
+                {{ hidden }}
+                {% endfor %}
+                {% for field in portfolio_form.visible_fields %}
+                <div class="form-group row">
+                    <label for="{{ field.id_for_label }}" class="col-md-2 font-weight-bold">{{ field.label }}</label>
+                    {{ field|add_class:'form-control col-md-10' }}
+                    {% for error in field.errors %}
+                    <span class="help-block">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% endfor %}
+            </div>
+
+        </div>
+        <div class="tab-pane fade" id="portfolio-academic-qualification" role="tabpanel">
+            <h3 class="my-4 pb-4 border-bottom">Academic Qualification</h3>
+            <div class="academic_qualification_form">
+                {% for hidden in academic_qualification_form.hidden_fields %}
+                {{ hidden }}
+                {% endfor %}
+                {% for field in academic_qualification_form.visible_fields %}
+                <div class="form-group row mr-2">
+                    <label for="{{ field.id_for_label }}" class="col-md-2 font-weight-bold">{{ field.label }}</label>
+                    {{ field|add_class:'form-control col-md-10' }}
+                    {% for error in field.errors %}
+                    <span class="help-block">{{ error }}</span>
+                    {% endfor %}
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="tab-pane fade" id="portfolio-skill-set" role="tabpanel">
+            <h3 class="my-4 pb-4 border-bottom">Skill Set</h3>
+            <div class="skillset_formset">
+                {{ skillset_formset.management_form }}
+                {% for form in skillset_formset %}
+                <div class="row skillset_form">
+                    {% for hidden in form.hidden_fields %}
+                    {{ hidden }}
+                    {% endfor %}
+                    {% for field in form.visible_fields %}
+                    <div class="form-group row mr-2 {% cycle 'col-md-9' 'col-md-3'%}">
+                        <label for="{{ field.id_for_label }}"
+                            class="col-md-2 font-weight-bold my-auto">{{ field.label }}</label>
+                        {{ field|add_class:'form-control col-md-10' }}
+                        {% for error in field.errors %}
+                        <span class="help-block">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endfor %}
+            </div>
+            <div id="empty_skillset_form" style="display:none">
+                <div class="row skillset_form">
+                    {% for hidden in skillset_formset.empty_form.hidden_fields %}
+                    {{ hidden }}
+                    {% endfor %}
+                    {% for field in skillset_formset.empty_form.visible_fields %}
+                    <div class="form-group row mr-2 {% cycle 'col-md-9' 'col-md-3'%}">
+                        <label for="{{ field.id_for_label }}"
+                            class="col-md-2 font-weight-bold my-auto">{{ field.label }}</label>
+                        {{ field|add_class:'form-control col-md-10' }}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <button class="btn btn-outline-secondary add-more-skill my-3 d-inline-block">Add More</button>
+        </div>
+
+        <div class="tab-pane fade" id="portfolio-technical-skill" role="tabpanel">
+            <h3 class="my-4 pb-4 border-bottom">Technical Skills</h3>
+
+            <div class="technicalskill_formset">
+                {{ technicalskill_formset.management_form }}
+                {% for form in technicalskill_formset %}
+                <div class="row technicalskill_form">
+                    {% for hidden in form.hidden_fields %}
+                    {{ hidden }}
+                    {% endfor %}
+                    {% for field in form.visible_fields %}
+                    <div class="form-group row mr-2 {% cycle 'col-md-3' 'col-md-3' 'col-md-3' 'col-md-3'%}">
+                        <label for="{{ field.id_for_label }}"
+                            class="col-md-4 font-weight-bold my-auto">{{ field.label }}</label>
+                        {{ field|add_class:"form-control col-md-8 my-auto" }}
+                        {% for error in field.errors %}
+                        <span class="help-block">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endfor %}
+            </div>
+
+            <div id="empty_technicalskill_form" style="display:none">
+                <div class="row technicalskill_form">
+                    {% for hidden in technicalskill_formset.empty_form.hidden_fields %}
+                    {{ hidden }}
+                    {% endfor %}
+                    {% for field in technicalskill_formset.empty_form.visible_fields %}
+                    <div class="form-group row mr-2 {% cycle 'col-md-3' 'col-md-3' 'col-md-3' 'col-md-3'%}">
+                        <label for="{{ field.id_for_label }}"
+                            class="col-md-4 font-weight-bold my-auto">{{ field.label }}</label>
+                        {{ field|add_class:"form-control col-md-8 my-auto" }}
+                        {% for error in field.errors %}
+                        <span class="help-block">{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <button class="btn btn-outline-secondary add-more-technical-skill my-3 d-inline-block">Add More</button>
+        </div>
+    </div>
+    <hr>
+    <input type="submit" class="btn btn-primary d-block w-100 mt-5" value="Update">
+</form>
+
+{% endblock page_content %}
+
+{% block scripts %}
+<script>
+    $(".add-more-skill").on("click", function (e) {
+        e.preventDefault();
+        var form_idx = $('#id_skill_set-TOTAL_FORMS').val();
+        var portfolio_id = parseInt($('#id_skill_set-0-portfolio').val());
+        var current_form = $('#id_skill_set-TOTAL_FORMS').val();
+        $('.skillset_formset').append($('#empty_skillset_form').html().replace(/__prefix__/g, form_idx));
+        $('#id_skill_set-' + current_form + '-portfolio').val(portfolio_id);
+        $('#id_skill_set-TOTAL_FORMS').val(parseInt(form_idx) + 1);
+    });
+
+    $(".add-more-technical-skill").on("click", function (e) {
+        e.preventDefault();
+        var form_idx = $('#id_technical_skill-TOTAL_FORMS').val();
+        var portfolio_id = parseInt($('#id_technical_skill-0-portfolio').val());
+        var current_form = $('#id_technical_skill-TOTAL_FORMS').val();
+        $('.technicalskill_formset').append($('#empty_technicalskill_form').html().replace(/__prefix__/g, form_idx));
+        $('#id_technical_skill-' + current_form + '-portfolio').val(portfolio_id);
+        $('#id_technical_skill-TOTAL_FORMS').val(parseInt(form_idx) + 1);
+    });
+
+</script>
+
+{% endblock scripts %}

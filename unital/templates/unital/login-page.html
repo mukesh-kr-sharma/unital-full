@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ college.clg_name }} Login{% endblock title %}
+
+{% block body %}
+<style>
+    body {
+        background: url("{% static 'img/university.jpg'%}") no-repeat center top fixed;
+        background-size: cover;
+        background-attachment: fixed;
+        min-height: 100vh;
+    }
+
+    body .dark-overlay {
+        background-color: rgba(0, 0, 0, 0.8);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        min-height: 100vh;
+    }
+
+    #login-box {
+        background: rgba(255, 255, 255, .8);
+        max-width: 600px;
+    }
+    
+</style>
+
+<body>
+
+<div class="dark-overlay">
+    <div class='rounded shadow-lg p-4 mx-auto mt-5' id="login-box">
+    <div class="display-4 mb-4 text-center text-info text-style-bold border-bottom border-info pb-3">Unital</div>
+
+    {% if login_error %}
+    <div class="alert alert-danger py-2" role="alert">
+
+        {{login_error}}
+
+    </div>
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+        <div>
+            <div class="form-group row mb-4">
+                <label class="col-md-3">Username</label>
+                <input type="text" class="form-control col mr-3" name="username"
+                    placeholder="Enter username">
+            </div>
+            <div class="form-group row mb-4">
+                <label class="col-md-3">Password</label>
+                <input type="password" class="form-control col mr-3" name="password"
+                    placeholder="Password">
+            </div>
+            <div class="form-group row mb-4">
+                <label class="col-md-3">User Type</label>
+                <select name="user_type" class="form-control col mr-3">
+                    <option value="student">Student</option>
+                    <option value="guest">Guest</option>
+                    <option value="faculty">Faculty</option>
+                    <option value="admin">Admin</option>
+                </select>
+            </div>
+            <div class="form-group row mb-4">
+                <label class="col-md-3">College</label>
+                <select name="college" class="form-control col mr-3">
+                    <option value="">---------</option>
+                    {% for college in college_list %}
+                    <option value="{{college.pk}}">{{college.clg_name}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-info btn-block btn-lg mt-2">Login</button>
+        </div>
+        
+    </form>
+    </div>
+    
+</div>
+</body>
+{% endblock body %}

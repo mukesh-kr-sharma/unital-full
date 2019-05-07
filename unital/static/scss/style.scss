@@ -4,6 +4,86 @@ $color-2: rgb(58, 74, 178);
 $color-3:#343a40;
 $color-4: #dadada;
 $home-height: 768px;
+
+select.form-control {
+    -webkit-appearance: none;
+}
+
+pre {
+    white-space: pre-wrap;
+    /* Since CSS 2.1 */
+    white-space: -moz-pre-wrap;
+    /* Mozilla, since 1999 */
+    white-space: -pre-wrap;
+    /* Opera 4-6 */
+    white-space: -o-pre-wrap;
+    /* Opera 7 */
+    word-wrap: break-word;
+    /* Internet Explorer 5.5+ */
+    font-family: "Times New Roman",
+    Times,
+    serif;
+}
+
+.info-box {
+    display: inline-flex;
+    position: relative;
+    margin: 0.4em;
+    padding: 5px 0;
+    cursor: pointer;
+    z-index: 0;
+
+    // @extend .d-flex;
+    @extend .flex-row;
+    @extend .rounded;
+    @extend .shadow;
+
+    .icon {
+        i {
+            @extend .p-3;
+            color: white;
+            vertical-align: middle;
+            font-size: 4rem;
+            text-shadow: 0px 0px 5px rgba(0, 0, 0, 0.3);
+        }
+    }
+
+    .content {
+        @extend .flex-fill;
+        @extend .p-2;
+        @extend .text-white;
+        @extend .d-block;
+        @extend .my-auto;
+        font-weight: 400;
+        padding-right: 16px!important;
+
+        .number {
+            font-size: 200%;
+        }
+    }
+
+    &:before {
+        content: "";
+        position: absolute;
+        z-index: -1;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        //background: #2098d1;
+        background-color: rgba(#000, 0.1);
+        transform: scaleX(0);
+        transform-origin: 0 50%;
+        transition: transform .3s ease-out;
+    }
+
+    &:hover:before {
+        transform: scaleX(1);
+    }
+
+}
+
+
 body {
     min-width: 496px;
 }
@@ -125,23 +205,52 @@ body {
             overflow: hidden;
         }
     }
-
-    // #contents {
-    //     background-image: url("../../static/img/homepage.jpeg");
-    //     min-height: 100%;
-    //     background-size: cover;
-    //     background-attachment: fixed;
-
-    //     #dark-overlay {
-    //         background-color: rgba(0, 0, 0, 0.7);
-    //         position: relative;
-    //         top: 0;
-    //         left: 0;
-    //         width: 100%;
-    //         min-height: 100%;
-    //     }
-    // }
-
-
 }
+
+// #student-body {
+//         fieldset {
+//             legend {
+//                 @extend .pt-4;
+//                 @extend .pl-4;
+//             }
+//             table {
+//                 width: 100%;
+//                 tr {
+//                     @extend .row;
+
+//                     td {
+//                         div {
+//                             @extend .row;
+//                             label {
+//                                 @extend .col-md-3;
+//                                 font-weight: 500;
+//                             }
+//                             div {
+//                                 @extend .col-md-9;
+//                             }
+//                         }
+//                     }
+
+//                     td:nth-child(1) {
+//                         @extend .col-md-10;
+//                     }
+//                     td:nth-child(2) {
+//                         @extend .col-md-2;
+//                     }
+//                 }
+
+//                 .delete-row {
+//                     @extend .p-0;
+//                     @extend .text-primary;
+//                     text-transform: capitalize;
+//                 }
+
+//                 .delete-row ~ div {
+//                     visibility: hidden;
+//                 }
+//             }
+//         }
+// }
+
+
 

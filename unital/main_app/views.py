@@ -13,9 +13,11 @@ def redirect_view(request):
         if request.user.user_type=='admin':
             return redirect('admin_dashboard')
         elif request.user.user_type=='student':
-            return redirect('student:homepage',request.user.college.clg_u_name)
-        else:
-            return redirect('unital_homepage')
+            return redirect('student:homepage',request.user.college.clg_u_name, request.user.username)
+        elif request.user.user_type=='faculty':
+            return redirect('faculty:homepage',request.user.college.clg_u_name, request.user.username)
+        elif request.user.user_type == 'guest':
+            return redirect('guest:homepage')
     # else:
     #     print(kwargs)
     #     if kwargs and kwargs['college']:
@@ -23,22 +25,40 @@ def redirect_view(request):
     return redirect('unital_homepage')
 
 def user_login(request):
-    username = request.POST.get('username')
-    password = request.POST.get('password')
-    user_type = request.POST.get('user_type')
-    college = request.POST.get('college')
-    
-    user = authenticate(request, username=username, password=password)
+    context = {}
+    if request.POST:
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user_type = request.POST.get('user_type')
+        college = request.POST.get('college')
 
-    if (user is not None) and (user.user_type == user_type):
-        login(request, user)
-        return redirect('redirect')
-    else:
-        if request.POST:
-            context = {'login-error': 'Invalid Credentials'}
+        user = authenticate(request, username=username, password=password)
+        print(user)
+        if user is not None:
+            if user.user_type == user_type:
+                if user_type == 'student':
+                    if (str(user.college.pk) == str(college)):
+                        login(request, user)
+                    else:
+                        print(user.college.pk)
+                        print(college)
+                elif user_type == 'faculty':
+                    if (str(user.college.pk) == str(college)):
+                        login(request, user)
+                    else:
+                        print(user.college.pk)
+                        print(college)
+                else:
+                    login(request, user)
+                
+                return redirect('redirect')
+            else:
+                print(user.user_type, user_type)
         else:
-            context = {}
-        return render(request, template_name='unital/unital-homepage.html', context=context)
+            context = {'login_error': 'Invalid Credentials!! Please try again...'}
+    else:
+        context['college_list'] = College.objects.all()
+    return render(request, template_name='unital/login-page.html', context=context)
 
 def user_logout(request):
     college = False
@@ -49,13 +69,19 @@ def user_logout(request):
         return redirect('/%s/' % college)
     return redirect(reverse_lazy('redirect'))
 
-class HomePageView(TemplateView):
+class HomePageView(TemplateView):        
     template_name = 'unital/unital-homepage.html'
+    def dispatch(self, request, *args, **kwargs):
+        if self.request and self.request.user.is_authenticated:
+            return redirect('redirect')
+        return super(HomePageView, self).dispatch(request, *args, **kwargs)
     def get_context_data(self, **kwargs):
         context = super(HomePageView, self).get_context_data(**kwargs)
         context['notice_list'] = Notice.objects.order_by('-pub_date', '-id')[0:10]
         context['college_list'] = College.objects.all()
+        
         return context
 
 class AdminDashboardView(TemplateView):
     template_name = 'unital/admin_dashboard.html'
+
