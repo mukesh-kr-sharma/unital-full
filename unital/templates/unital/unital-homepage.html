@@ -41,6 +41,9 @@ University Portal
                         <a class="nav-link h5 mx-3" href="#guest-login">Guest Login</a>
                         {% endif %}
                     </li>
+                    <li class="nav-item">
+                        <a href="{% url 'login'%}" class="nav-link h5 mx-3">Login</a>
+                    </li>
                 </ul>
             </div>
 
@@ -51,7 +54,7 @@ University Portal
         <div id="dark-overlay">
             <div class="container">
                 <div class="row">
-                    <div class="col-xl-8">
+                    <div class="col-xl-7">
                         <h1 class="display-4 font-weight-bold border-bottom font-quicksand"><span class="text-primary">Unital</span><span class="h1"> : Single portal for every colleges in <strong>ABC University</strong></span></h1>
                         <p class="lead py-3 font-italic">
                             UNITAL, can be explained as a university portal, for ABC University. Under this Website, all the colleges registered under ABC University can have access to the portal and can send and receive the information and resources among each other. It is a way to provide a single platform to all the colleges under ABC University to share resources and have a communication link among them.
@@ -61,9 +64,9 @@ University Portal
                             I would help to maintain a uniformity among all the colleges regarding the news updation, sharing of data, etc. We can also define it as a centralized way of sharing and accessing of data and resources.
                         </p>
                     </div>
-                    <div class="col-xl-4 d-none d-xl-block">
+                    <div class="col-xl-5 d-none d-xl-block">
                         <div>
-                            <img src="{% static 'img/university.jpg'%}" class="img-thumbnail mt-3 ml-4">
+                            <img src="{% static 'img/uc-campus-main.jpg'%}" class="img-thumbnail mt-3 ml-4">
                         </div>
                     </div>
                 </div>
@@ -72,14 +75,14 @@ University Portal
     </header>
 
     <!-- COLLEGES HEADER -->
-    <section id="collegesHeader" class="bg-dark text-light text-center py-4">
+    <section id="collegesHeader" class="bg-dark text-light text-center py-4 border-top border-white">
         <h1 class="display-4">Colleges Under ABC University</h1>
     </section>
 
     <!-- COLLEGES BODY -->
     <section id="colleges" class="my-5 pb-5 bg-faded">
         <div class="container">
-            <h1 class="text-primary mb-4 font-weight-light">These are the colleges -</h1>
+            {% comment %} <h1 class="text-primary mb-4 font-weight-light">These are the colleges -</h1> {% endcomment %}
             <div id="accordion">
 
                 {% for college in college_list %}
@@ -139,7 +142,7 @@ University Portal
     <!-- GUEST LOGIN -->
     <section id="guest-login" class="bg-info text-center text-light py-3">
         <h1 class="display-4">Guest Login</h1>
-        <p class="lead">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Fugiat repellat quos asperiores exercitationem sed!</p>
+        <p class="lead">Unregistered person can login here...</p>
 
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-outline-primary btn-lg bg-white text-secondary py-2 px-4 my-2" data-toggle="modal" data-target="#guestLoginModal">
@@ -178,7 +181,7 @@ University Portal
                         <div class="modal-footer bg-light">
                             <div class="list-group d-block w-100">
                                 <a href="#" class="list-group-item list-group-item-action bg-light">Forgot password? Reset here...</a>
-                                <a href="#" class="list-group-item list-group-item-action bg-info text-light">New User? Register here...</a>
+                                <a href="{% url 'guest:sign-up'%}" class="list-group-item list-group-item-action bg-info text-light">New User? Register here...</a>
                             </div>
                         </div>
                         
