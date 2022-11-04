@@ -104,7 +104,7 @@ sorl-thumbnail==12.5.0
 sqlparse==0.2.4
 text-unidecode==1.2
 tqdm==4.31.1
-Twisted==20.3.0
+Twisted==22.10.0
 txaio==18.8.1
 Unidecode==0.4.21
 urllib3==1.26.5
