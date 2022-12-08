@@ -13,7 +13,7 @@ awesome-slugify==1.6.5
 bcrypt==3.1.6
 boto3==1.9.106
 botocore==1.12.106
-certifi==2018.11.29
+certifi==2022.12.7
 cffi==1.12.1
 channels==2.1.7
 channels-redis==2.3.3
